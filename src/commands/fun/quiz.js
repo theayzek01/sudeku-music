@@ -83,7 +83,7 @@ async function runQuiz(ctx, isSlash) {
   const row = new ActionRowBuilder().addComponents(buttons);
 
   const embed = {
-    title: `${EMOJIS.star || '⭐'} Sudeku Quiz!`,
+    title: `${EMOJIS.star} Sudeku Quiz!`,
     description: `### ${q.q}\n\nDoğru yanıtı bulmak için 15 saniyeniz var!`,
     color: 0x8b5cf6,
     footer: { text: `Soruya cevap verecek kişi: ${isSlash ? ctx.user.username : ctx.author.username}` }
@@ -127,7 +127,7 @@ async function runQuiz(ctx, isSlash) {
     const updatedRow = new ActionRowBuilder().addComponents(disabledButtons);
 
     const resultEmbed = {
-      title: isCorrect ? `${EMOJIS.tick || '✅'} Tebrikler, Doğru!` : `${EMOJIS.cross || '❌'} Hatalı Cevap!`,
+      title: isCorrect ? `${EMOJIS.tick} Tebrikler, Doğru!` : `${EMOJIS.cross} Hatalı Cevap!`,
       description: `### ${q.q}\n\n${isCorrect ? 'Doğru cevabı verdiniz!' : `Yanlış cevap! Doğru cevap: **${q.a[q.correct]}** idi.`}`,
       color: isCorrect ? 0x22c55e : 0xef4444,
       footer: { text: `Süreç tamamlandı.` }
@@ -143,7 +143,7 @@ async function runQuiz(ctx, isSlash) {
       const updatedRow = new ActionRowBuilder().addComponents(disabledButtons);
 
       const timeoutEmbed = {
-        title: `${EMOJIS.cross || '❌'} Süre Doldu!`,
+        title: `${EMOJIS.cross} Süre Doldu!`,
         description: `### ${q.q}\n\n15 saniye içinde cevap verilmedi. Doğru cevap: **${q.a[q.correct]}** idi.`,
         color: 0xef4444
       };

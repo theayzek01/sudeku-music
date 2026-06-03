@@ -8,6 +8,7 @@ const DashboardServer = require('./dashboard/server');
 const Database = require('./database');
 const { commands } = require('./commands');
 const EMOJIS = require('./utils/emojis');
+const chatEngine = require('./ai/services/chatEngine');
 
 const TOKEN = process.env.Token || process.env.TOKEN;
 const PORT = process.env.PORT || 3000;
@@ -249,6 +250,43 @@ const xpCooldowns = new Set();
 client.on(Events.MessageCreate, async (message) => {
   if (message.author.bot || !message.guild) return;
 
+  // AI Direct Mention / Reply Trigger
+  const botMentioned = message.mentions.has(client.user.id) && !message.mentions.everyone;
+  const isReplyToBot = message.reference && await message.channel.messages.fetch(message.reference.messageId)
+    .then(m => m.author.id === client.user.id)
+    .catch(() => false);
+
+  if (botMentioned || isReplyToBot) {
+    const rawContent = message.content.replace(new RegExp(`<@!?${client.user.id}>`, 'g'), '').trim();
+
+    await message.channel.sendTyping().catch(() => null);
+
+    const result = await chatEngine.replyRich({
+      userId: message.author.id,
+      userName: message.author.username,
+      channelId: message.channelId,
+      guildId: message.guildId,
+      guild: message.guild,
+      content: rawContent || "merhaba",
+    });
+
+    const typingDelay = Math.min(1600, Math.max(450, (result.content || '').length * 12));
+    await new Promise(resolve => setTimeout(resolve, typingDelay));
+
+    const sent = await message.reply({
+      content: result.content,
+      allowedMentions: { repliedUser: false }
+    }).catch(() => null);
+
+    if (sent && result.actions?.react) {
+      const reacts = Array.isArray(result.actions.react) ? result.actions.react : [result.actions.react];
+      for (const r of reacts) {
+        await sent.react(r).catch(() => null);
+      }
+    }
+    return;
+  }
+
   // 1. AFK CHECK (Welcoming back the AFK user)
   const userAfk = Database.getAfk(message.guildId, message.author.id);
   if (userAfk) {
@@ -362,7 +400,7 @@ client.on(Events.MessageCreate, async (message) => {
 
     if (newLevel > dbUser.level) {
       message.channel.send({
-        content: `🎉 Tebrikler ${message.author}! Seviye atladın! Yeni seviyen: **${newLevel}** ${EMOJIS.star}`
+        content: `${EMOJIS.giveaway} Tebrikler ${message.author}! Seviye atladın! Yeni seviyen: **${newLevel}** ${EMOJIS.star}`
       }).then(msg => {
         setTimeout(() => msg.delete().catch(() => {}), 10000);
       }).catch(() => {});

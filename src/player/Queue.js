@@ -122,6 +122,7 @@ class Queue {
     this.currentStream = null;
     this.playbackTimeMs = 0;
     this.playbackInterval = null;
+    this.disconnectTimeout = null;
     this.nowPlayingMessage = null;
 
     this.initVoice();
@@ -499,7 +500,7 @@ class Queue {
       this.broadcastState();
 
       // Auto-disconnect timeout of 3 minutes
-      this.playbackInterval = setTimeout(() => {
+      this.disconnectTimeout = setTimeout(() => {
         if (!this.currentTrack && this.tracks.length === 0) {
           if (this.textChannel) {
             this.textChannel.send({
@@ -595,6 +596,10 @@ class Queue {
 
   startPlaybackTicker() {
     this.stopPlaybackTicker();
+    if (this.disconnectTimeout) {
+      clearTimeout(this.disconnectTimeout);
+      this.disconnectTimeout = null;
+    }
     let tickCount = 0;
     this.playbackInterval = setInterval(async () => {
       if (this.resource && !this.paused) {
@@ -613,7 +618,6 @@ class Queue {
   stopPlaybackTicker() {
     if (this.playbackInterval) {
       clearInterval(this.playbackInterval);
-      clearTimeout(this.playbackInterval);
       this.playbackInterval = null;
     }
   }

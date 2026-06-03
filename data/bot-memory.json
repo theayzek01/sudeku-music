@@ -7080,8 +7080,8 @@
         }
       ],
       "profile": {
-        "affinity": 32.1,
-        "messagesSeen": 2,
+        "affinity": 34.75,
+        "messagesSeen": 3,
         "level": "Yabancı",
         "coreBeliefs": [
           {
@@ -74196,5 +74196,5 @@
     }
   },
   "global": [],
-  "updatedAt": "2026-05-20T13:06:40.777Z"
+  "updatedAt": "2026-06-03T21:41:22.106Z"
 }

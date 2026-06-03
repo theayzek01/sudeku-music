@@ -1,7 +1,18 @@
 const { SlashCommandBuilder } = require('discord.js');
 const EMOJIS = require('../../utils/emojis');
 
-const NUMBER_EMOJIS = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
+const NUMBER_EMOJIS = [
+  '<:kanser1:1473975135575871590>',
+  '<:kanser2:1473975109663461522>',
+  '<:kanser3:1473975104395411502>',
+  '<:kanser4:1473975100759081086>',
+  '<:kanser5:1473975096279302194>',
+  '<:kanser6:1473975127166156861>',
+  '<:kanser7:1473975089186869342>',
+  '<:kanser8:1473975092366278677>',
+  '<:kanser9:1473975118693929010>',
+  '<:kanser0:1473975122485448887>'
+];
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -34,16 +45,16 @@ module.exports = {
       return interaction.reply({ content: `${EMOJIS.cross} En fazla 10 seçenek belirtebilirsiniz!`, ephemeral: true });
     }
 
-    let description = '';
     const reacts = [];
-    options.forEach((opt, idx) => {
-      description += `${NUMBER_EMOJIS[idx]} | **${opt}**\n\n`;
-      reacts.push(NUMBER_EMOJIS[idx]);
-    });
+  options.forEach((opt, idx) => {
+    description += `${NUMBER_EMOJIS[idx]} | **${opt}**\n\n`;
+    const match = NUMBER_EMOJIS[idx].match(/:(\d+)>/);
+    reacts.push(match ? match[1] : NUMBER_EMOJIS[idx]);
+  });
 
     const reply = await interaction.reply({
       embeds: [{
-        title: `📊 Anket: ${question}`,
+        title: `${EMOJIS.info} Anket: ${question}`,
         description: description,
         color: 0x8b5cf6,
         footer: { text: `${interaction.user.tag} tarafından başlatıldı.` }
@@ -73,16 +84,16 @@ module.exports = {
       return message.reply(`${EMOJIS.cross} En fazla 10 seçenek belirtebilirsiniz!`);
     }
 
-    let description = '';
     const reacts = [];
-    options.forEach((opt, idx) => {
-      description += `${NUMBER_EMOJIS[idx]} | **${opt}**\n\n`;
-      reacts.push(NUMBER_EMOJIS[idx]);
-    });
+  options.forEach((opt, idx) => {
+    description += `${NUMBER_EMOJIS[idx]} | **${opt}**\n\n`;
+    const match = NUMBER_EMOJIS[idx].match(/:(\d+)>/);
+    reacts.push(match ? match[1] : NUMBER_EMOJIS[idx]);
+  });
 
     const reply = await message.reply({
       embeds: [{
-        title: `📊 Anket: ${question}`,
+        title: `${EMOJIS.info} Anket: ${question}`,
         description: description,
         color: 0x8b5cf6,
         footer: { text: `${message.author.tag} tarafından başlatıldı.` }

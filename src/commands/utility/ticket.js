@@ -31,7 +31,7 @@ module.exports = {
       const channel = interaction.channel;
 
       const embed = {
-        title: `${EMOJIS.star || '⭐'} Sudeku Destek Sistemi`,
+        title: `${EMOJIS.star} Sudeku Destek Sistemi`,
         description: 'Yetkili ekibimizle iletişime geçmek, şikayetlerinizi bildirmek veya yardım almak için aşağıdaki butona basarak yeni bir destek talebi (bilet) oluşturabilirsiniz.',
         color: 0x8b5cf6,
         footer: { text: 'Sudeku Destek Sistemi' },
@@ -91,7 +91,7 @@ module.exports = {
       }
 
       const embed = {
-        title: `${EMOJIS.star || '⭐'} Sudeku Destek Sistemi`,
+        title: `${EMOJIS.star} Sudeku Destek Sistemi`,
         description: 'Yetkili ekibimizle iletişime geçmek, şikayetlerinizi bildirmek veya yardım almak için aşağıdaki butona basarak yeni bir bilet oluşturabilirsiniz.',
         color: 0x8b5cf6,
         footer: { text: 'Sudeku Destek Sistemi' },

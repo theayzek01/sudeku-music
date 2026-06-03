@@ -1,14 +1,14 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 const EMOJIS = require('../../utils/emojis');
-const { formatMs } = require('../../player/search');
+const { generateNowPlayingCard } = require('../../player/canvasGenerator');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('nowplaying')
-    .setDescription('Şu an çalan şarkıyı gösterir.'),
+    .setDescription('Şu an çalan şarkıyı görsel kart ile gösterir.'),
   aliases: ['np', 'calan'],
   category: 'music',
-  
+
   async execute(interaction, playerManager) {
     const queue = playerManager.getQueue(interaction.guildId);
     if (!queue || !queue.currentTrack) {
@@ -21,18 +21,28 @@ module.exports = {
       });
     }
 
+    await interaction.deferReply();
     const track = queue.currentTrack;
-    const pb = queue.getProgressBar(15);
-    const ct = queue.playbackTimeMs;
+    const ct = queue.playbackTimeMs || 0;
 
-    return interaction.reply({
-      embeds: [{
-        title: `${EMOJIS.note} Şu An Çalıyor`,
-        description: `[**${track.title}**](${track.url || track.spotifyUrl})\n\n${pb} \`[${formatMs(ct)} / ${track.duration}]\`\n\n**İsteyen:** <@${track.requester.id}>`,
-        thumbnail: { url: track.thumbnail },
-        color: 0x8b5cf6
-      }]
-    });
+    try {
+      const canvasBuffer = await generateNowPlayingCard(track, track.requester.username, ct);
+      const attachment = new AttachmentBuilder(canvasBuffer, { name: 'nowplaying.png' });
+      return interaction.editReply({
+        files: [attachment]
+      });
+    } catch (err) {
+      console.error('[Nowplaying Command Canvas Error]', err);
+      // Fallback to text embed if canvas fails
+      return interaction.editReply({
+        embeds: [{
+          title: `Şu An Çalıyor`,
+          description: `${EMOJIS.note} [**${track.title}**](${track.url || track.spotifyUrl})\n\n**İsteyen:** <@${track.requester.id}>`,
+          thumbnail: { url: track.thumbnail },
+          color: 0x8b5cf6
+        }]
+      });
+    }
   },
 
   async run(message, args, client, prefix, playerManager) {
@@ -47,16 +57,24 @@ module.exports = {
     }
 
     const track = queue.currentTrack;
-    const pb = queue.getProgressBar(15);
-    const ct = queue.playbackTimeMs;
+    const ct = queue.playbackTimeMs || 0;
 
-    return message.reply({
-      embeds: [{
-        title: `${EMOJIS.note} Şu An Çalıyor`,
-        description: `[**${track.title}**](${track.url || track.spotifyUrl})\n\n${pb} \`[${formatMs(ct)} / ${track.duration}]\`\n\n**İsteyen:** <@${track.requester.id}>`,
-        thumbnail: { url: track.thumbnail },
-        color: 0x8b5cf6
-      }]
-    });
+    try {
+      const canvasBuffer = await generateNowPlayingCard(track, track.requester.username, ct);
+      const attachment = new AttachmentBuilder(canvasBuffer, { name: 'nowplaying.png' });
+      return message.reply({
+        files: [attachment]
+      });
+    } catch (err) {
+      console.error('[Nowplaying Command Canvas Error]', err);
+      return message.reply({
+        embeds: [{
+          title: `Şu An Çalıyor`,
+          description: `${EMOJIS.note} [**${track.title}**](${track.url || track.spotifyUrl})\n\n**İsteyen:** <@${track.requester.id}>`,
+          thumbnail: { url: track.thumbnail },
+          color: 0x8b5cf6
+        }]
+      });
+    }
   }
 };

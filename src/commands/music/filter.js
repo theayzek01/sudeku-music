@@ -70,7 +70,7 @@ module.exports = {
     if (!filterVal || !valid.includes(filterVal)) {
       return message.reply({
         embeds: [{
-          title: `🎵 Ses Filtreleri`,
+          title: `${EMOJIS.note} Ses Filtreleri`,
           description: `Kullanabileceğin filtreler:\n` +
             `• \`${prefix}filter bassboost\`\n` +
             `• \`${prefix}filter nightcore\`\n` +

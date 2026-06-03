@@ -50,7 +50,7 @@ module.exports = {
         embeds: [buildGiveawayEmbed(prize, winnerCount, endsAtSec, interaction.user)]
       });
 
-      await msg.react('🎉').catch(() => null);
+      await msg.react('1473947509733855344').catch(() => null);
 
       const gData = { prize, winnerCount, endsAt, hostId: interaction.user.id, channelId: interaction.channelId, guildId: interaction.guildId };
       activeGiveaways.set(msg.id, gData);
@@ -81,8 +81,8 @@ module.exports = {
       const msg = await interaction.channel.messages.fetch(msgId).catch(() => null);
       if (!msg) return interaction.reply({ content: `${EMOJIS.cross} Mesaj bulunamadı!`, ephemeral: true });
 
-      const reaction = msg.reactions.cache.get('🎉');
-      if (!reaction) return interaction.reply({ content: `${EMOJIS.cross} Çekiliş mesajında 🎉 reaksiyonu bulunamadı!`, ephemeral: true });
+      const reaction = msg.reactions.cache.get('1473947509733855344');
+      if (!reaction) return interaction.reply({ content: `${EMOJIS.cross} Çekiliş mesajında ${EMOJIS.giveaway} reaksiyonu bulunamadı!`, ephemeral: true });
 
       const users = await reaction.users.fetch();
       const eligible = users.filter(u => !u.bot);
@@ -94,7 +94,7 @@ module.exports = {
       const winner = arr[Math.floor(Math.random() * arr.length)];
 
       await interaction.channel.send({
-        content: `🎉 Yeni kazanan: <@${winner.id}>! Tebrikler!`
+        content: `${EMOJIS.giveaway} Yeni kazanan: <@${winner.id}>! Tebrikler!`
       });
 
       return interaction.reply({ content: `${EMOJIS.tick} Çekiliş yenilendi.`, ephemeral: true });
@@ -108,8 +108,8 @@ module.exports = {
 
 function buildGiveawayEmbed(prize, winnerCount, endsAtSec, host) {
   return {
-    title: '🎉 ÇEKİLİŞ BAŞLADI!',
-    description: `**Ödül:** ${prize}\n\n🎉 Katılmak için reaksiyon bırakın!\n\n**Kazanan Sayısı:** ${winnerCount}\n**Bitiş:** <t:${endsAtSec}:R> (<t:${endsAtSec}:f>)\n**Düzenleyen:** ${host}`,
+    title: '${EMOJIS.giveaway} ÇEKİLİŞ BAŞLADI!',
+    description: `**Ödül:** ${prize}\n\n${EMOJIS.giveaway} Katılmak için reaksiyon bırakın!\n\n**Kazanan Sayısı:** ${winnerCount}\n**Bitiş:** <t:${endsAtSec}:R> (<t:${endsAtSec}:f>)\n**Düzenleyen:** ${host}`,
     color: 0x8b5cf6,
     footer: { text: `${winnerCount} kazanan • Bitiş zamanı` },
     timestamp: new Date(endsAtSec * 1000).toISOString()
@@ -117,7 +117,7 @@ function buildGiveawayEmbed(prize, winnerCount, endsAtSec, host) {
 }
 
 async function endGiveaway(msg, gData) {
-  const reaction = msg.reactions.cache.get('🎉') || (await msg.fetch().then(m => m.reactions.cache.get('🎉')).catch(() => null));
+  const reaction = msg.reactions.cache.get('1473947509733855344') || (await msg.fetch().then(m => m.reactions.cache.get('1473947509733855344')).catch(() => null));
 
   let winners = [];
   if (reaction) {
@@ -132,8 +132,8 @@ async function endGiveaway(msg, gData) {
   if (winners.length === 0) {
     await msg.edit({
       embeds: [{
-        title: '🎉 ÇEKİLİŞ BİTTİ',
-        description: `**Ödül:** ${gData.prize}\n\n❌ Yeterli katılımcı olmadığı için kazanan belirlenemedi.`,
+        title: '${EMOJIS.giveaway} ÇEKİLİŞ BİTTİ',
+        description: `**Ödül:** ${gData.prize}\n\n${EMOJIS.cross} Yeterli katılımcı olmadığı için kazanan belirlenemedi.`,
         color: 0x5a189a
       }]
     }).catch(() => null);
@@ -146,14 +146,14 @@ async function endGiveaway(msg, gData) {
 
   await msg.edit({
     embeds: [{
-      title: '🎉 ÇEKİLİŞ BİTTİ!',
-      description: `**Ödül:** ${gData.prize}\n\n🏆 **Kazanan(lar):** ${winnerMentions}\n\n*Tebrikler!*`,
+      title: '${EMOJIS.giveaway} ÇEKİLİŞ BİTTİ!',
+      description: `**Ödül:** ${gData.prize}\n\n${EMOJIS.crownGold} **Kazanan(lar):** ${winnerMentions}\n\n*Tebrikler!*`,
       color: 0x7c3aed
     }]
   }).catch(() => null);
 
   await msg.channel.send({
-    content: `🎉 Tebrikler ${winnerMentions}! **${gData.prize}** çekilişini kazandınız!\n📌 [Çekiliş Mesajı](${msg.url})`
+    content: `${EMOJIS.giveaway} Tebrikler ${winnerMentions}! **${gData.prize}** çekilişini kazandınız!\n${EMOJIS.arrowss} [Çekiliş Mesajı](${msg.url})`
   }).catch(() => null);
 }
 

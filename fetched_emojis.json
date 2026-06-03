@@ -1,0 +1,4218 @@
+{
+  "1342984750347845652": {
+    "guildName": "Anicafe・Anime & Public #Yetkili Alım",
+    "emojis": [
+      {
+        "id": "1460518214130860175",
+        "name": "cigara",
+        "animated": true,
+        "identifier": "<a:cigara:1460518214130860175>"
+      },
+      {
+        "id": "1460518279671058494",
+        "name": "cay",
+        "animated": true,
+        "identifier": "<a:cay:1460518279671058494>"
+      },
+      {
+        "id": "1460518327851028725",
+        "name": "yiyor",
+        "animated": true,
+        "identifier": "<a:yiyor:1460518327851028725>"
+      },
+      {
+        "id": "1460518360637767750",
+        "name": "sapsal",
+        "animated": true,
+        "identifier": "<a:sapsal:1460518360637767750>"
+      },
+      {
+        "id": "1460518408398569483",
+        "name": "bearcoffe",
+        "animated": true,
+        "identifier": "<a:bearcoffe:1460518408398569483>"
+      },
+      {
+        "id": "1460518435611082981",
+        "name": "melek",
+        "animated": false,
+        "identifier": "<:melek:1460518435611082981>"
+      },
+      {
+        "id": "1460518581237190698",
+        "name": "ranayinselami",
+        "animated": false,
+        "identifier": "<:ranayinselami:1460518581237190698>"
+      },
+      {
+        "id": "1460518655585550520",
+        "name": "Baby_kac",
+        "animated": true,
+        "identifier": "<a:Baby_kac:1460518655585550520>"
+      },
+      {
+        "id": "1460518700850479393",
+        "name": "ortaparmak",
+        "animated": true,
+        "identifier": "<a:ortaparmak:1460518700850479393>"
+      },
+      {
+        "id": "1460518730701344798",
+        "name": "Bear_cry",
+        "animated": true,
+        "identifier": "<a:Bear_cry:1460518730701344798>"
+      },
+      {
+        "id": "1460518755325968448",
+        "name": "Bear_hihih",
+        "animated": true,
+        "identifier": "<a:Bear_hihih:1460518755325968448>"
+      },
+      {
+        "id": "1460518828768235595",
+        "name": "Cat_sevimli",
+        "animated": true,
+        "identifier": "<a:Cat_sevimli:1460518828768235595>"
+      },
+      {
+        "id": "1460518835256823983",
+        "name": "Cat_sisko",
+        "animated": true,
+        "identifier": "<a:Cat_sisko:1460518835256823983>"
+      },
+      {
+        "id": "1460518837387526258",
+        "name": "Cat_sus",
+        "animated": true,
+        "identifier": "<a:Cat_sus:1460518837387526258>"
+      },
+      {
+        "id": "1460518840612950047",
+        "name": "kediok",
+        "animated": false,
+        "identifier": "<:kediok:1460518840612950047>"
+      },
+      {
+        "id": "1460518842500518024",
+        "name": "Cat_uyuo",
+        "animated": true,
+        "identifier": "<a:Cat_uyuo:1460518842500518024>"
+      },
+      {
+        "id": "1460518844392145071",
+        "name": "Cat_V8",
+        "animated": true,
+        "identifier": "<a:Cat_V8:1460518844392145071>"
+      },
+      {
+        "id": "1460518847713902643",
+        "name": "Baby_",
+        "animated": true,
+        "identifier": "<a:Baby_:1460518847713902643>"
+      },
+      {
+        "id": "1460518850826211368",
+        "name": "Baby_ham",
+        "animated": true,
+        "identifier": "<a:Baby_ham:1460518850826211368>"
+      },
+      {
+        "id": "1460518853346852977",
+        "name": "Baby_hawli1",
+        "animated": false,
+        "identifier": "<:Baby_hawli1:1460518853346852977>"
+      },
+      {
+        "id": "1460518857448886313",
+        "name": "Baby_ortaparmak",
+        "animated": true,
+        "identifier": "<a:Baby_ortaparmak:1460518857448886313>"
+      },
+      {
+        "id": "1460518858417901610",
+        "name": "Baby_pitircik",
+        "animated": true,
+        "identifier": "<a:Baby_pitircik:1460518858417901610>"
+      },
+      {
+        "id": "1460518863027572736",
+        "name": "Baby_puu",
+        "animated": true,
+        "identifier": "<a:Baby_puu:1460518863027572736>"
+      },
+      {
+        "id": "1460518867125272784",
+        "name": "Baby_uzgunn",
+        "animated": false,
+        "identifier": "<:Baby_uzgunn:1460518867125272784>"
+      },
+      {
+        "id": "1460518868840873995",
+        "name": "Baby_yalyor",
+        "animated": true,
+        "identifier": "<a:Baby_yalyor:1460518868840873995>"
+      },
+      {
+        "id": "1460518873609801771",
+        "name": "Bear_buradans",
+        "animated": true,
+        "identifier": "<a:Bear_buradans:1460518873609801771>"
+      },
+      {
+        "id": "1460518884162404425",
+        "name": "Bear_dance",
+        "animated": true,
+        "identifier": "<a:Bear_dance:1460518884162404425>"
+      },
+      {
+        "id": "1460518889493626962",
+        "name": "Bear_danceee",
+        "animated": true,
+        "identifier": "<a:Bear_danceee:1460518889493626962>"
+      },
+      {
+        "id": "1460518892551012528",
+        "name": "Bear_digidik",
+        "animated": true,
+        "identifier": "<a:Bear_digidik:1460518892551012528>"
+      },
+      {
+        "id": "1460518896250650695",
+        "name": "Bear_dus",
+        "animated": true,
+        "identifier": "<a:Bear_dus:1460518896250650695>"
+      },
+      {
+        "id": "1460518899069095936",
+        "name": "Bear_eylldgdk",
+        "animated": true,
+        "identifier": "<a:Bear_eylldgdk:1460518899069095936>"
+      },
+      {
+        "id": "1460518902667677894",
+        "name": "Bear_hihih",
+        "animated": true,
+        "identifier": "<a:Bear_hihih:1460518902667677894>"
+      },
+      {
+        "id": "1460518905729519656",
+        "name": "Bear_karpuz",
+        "animated": true,
+        "identifier": "<a:Bear_karpuz:1460518905729519656>"
+      },
+      {
+        "id": "1460518911752671377",
+        "name": "Bear_koss",
+        "animated": true,
+        "identifier": "<a:Bear_koss:1460518911752671377>"
+      },
+      {
+        "id": "1460518917893259304",
+        "name": "Bear_love",
+        "animated": true,
+        "identifier": "<a:Bear_love:1460518917893259304>"
+      },
+      {
+        "id": "1460518922057945283",
+        "name": "Bear_music",
+        "animated": true,
+        "identifier": "<a:Bear_music:1460518922057945283>"
+      },
+      {
+        "id": "1460518926659354706",
+        "name": "Bear_sevio",
+        "animated": true,
+        "identifier": "<a:Bear_sevio:1460518926659354706>"
+      },
+      {
+        "id": "1460518932602556570",
+        "name": "Bear_sklms",
+        "animated": true,
+        "identifier": "<a:Bear_sklms:1460518932602556570>"
+      },
+      {
+        "id": "1460518935198957702",
+        "name": "Bear_stalker",
+        "animated": true,
+        "identifier": "<a:Bear_stalker:1460518935198957702>"
+      },
+      {
+        "id": "1460533314799796286",
+        "name": "Bear_trip",
+        "animated": true,
+        "identifier": "<a:Bear_trip:1460533314799796286>"
+      },
+      {
+        "id": "1460539822564311104",
+        "name": "Bear_uykulu",
+        "animated": true,
+        "identifier": "<a:Bear_uykulu:1460539822564311104>"
+      },
+      {
+        "id": "1460539824493559901",
+        "name": "Bear_vurusu",
+        "animated": true,
+        "identifier": "<a:Bear_vurusu:1460539824493559901>"
+      },
+      {
+        "id": "1460539829560545392",
+        "name": "Frog_acilgin",
+        "animated": true,
+        "identifier": "<a:Frog_acilgin:1460539829560545392>"
+      },
+      {
+        "id": "1460539833553256489",
+        "name": "Bunny_kiss",
+        "animated": true,
+        "identifier": "<a:Bunny_kiss:1460539833553256489>"
+      },
+      {
+        "id": "1460539837483581472",
+        "name": "Frog_bb",
+        "animated": true,
+        "identifier": "<a:Frog_bb:1460539837483581472>"
+      },
+      {
+        "id": "1460539841262649525",
+        "name": "Frog_braci",
+        "animated": true,
+        "identifier": "<a:Frog_braci:1460539841262649525>"
+      },
+      {
+        "id": "1460539845272272942",
+        "name": "Bunny_sicak",
+        "animated": true,
+        "identifier": "<a:Bunny_sicak:1460539845272272942>"
+      },
+      {
+        "id": "1460539847193264179",
+        "name": "Frog_kill",
+        "animated": true,
+        "identifier": "<a:Frog_kill:1460539847193264179>"
+      },
+      {
+        "id": "1460539851651940393",
+        "name": "Bunny_sklm",
+        "animated": true,
+        "identifier": "<a:Bunny_sklm:1460539851651940393>"
+      },
+      {
+        "id": "1460539858391928854",
+        "name": "Bunny_sleep",
+        "animated": true,
+        "identifier": "<a:Bunny_sleep:1460539858391928854>"
+      },
+      {
+        "id": "1460539863202791552",
+        "name": "Frog_ortaparmak",
+        "animated": true,
+        "identifier": "<a:Frog_ortaparmak:1460539863202791552>"
+      },
+      {
+        "id": "1460539864993759352",
+        "name": "Bunny_sleep1",
+        "animated": true,
+        "identifier": "<a:Bunny_sleep1:1460539864993759352>"
+      },
+      {
+        "id": "1460539869490184292",
+        "name": "Frog_piuww",
+        "animated": true,
+        "identifier": "<a:Frog_piuww:1460539869490184292>"
+      },
+      {
+        "id": "1460539879703318630",
+        "name": "hehe",
+        "animated": true,
+        "identifier": "<a:hehe:1460539879703318630>"
+      },
+      {
+        "id": "1460539886867185705",
+        "name": "afern",
+        "animated": true,
+        "identifier": "<a:afern:1460539886867185705>"
+      },
+      {
+        "id": "1460539891589841039",
+        "name": "afern2",
+        "animated": true,
+        "identifier": "<a:afern2:1460539891589841039>"
+      },
+      {
+        "id": "1460539898694991893",
+        "name": "agliyor",
+        "animated": true,
+        "identifier": "<a:agliyor:1460539898694991893>"
+      },
+      {
+        "id": "1460539902759534737",
+        "name": "calio",
+        "animated": true,
+        "identifier": "<a:calio:1460539902759534737>"
+      },
+      {
+        "id": "1460539906873884702",
+        "name": "ajan",
+        "animated": false,
+        "identifier": "<:ajan:1460539906873884702>"
+      },
+      {
+        "id": "1460539924045496432",
+        "name": "dedektif",
+        "animated": true,
+        "identifier": "<a:dedektif:1460539924045496432>"
+      },
+      {
+        "id": "1460539927883415634",
+        "name": "hehe",
+        "animated": false,
+        "identifier": "<:hehe:1460539927883415634>"
+      },
+      {
+        "id": "1460539931570213036",
+        "name": "kahve",
+        "animated": true,
+        "identifier": "<a:kahve:1460539931570213036>"
+      },
+      {
+        "id": "1460539935848140972",
+        "name": "kaptani",
+        "animated": false,
+        "identifier": "<:kaptani:1460539935848140972>"
+      },
+      {
+        "id": "1460539942848561316",
+        "name": "kzgn",
+        "animated": true,
+        "identifier": "<a:kzgn:1460539942848561316>"
+      },
+      {
+        "id": "1460539949068849287",
+        "name": "masum",
+        "animated": false,
+        "identifier": "<:masum:1460539949068849287>"
+      },
+      {
+        "id": "1460539953984307335",
+        "name": "mhh",
+        "animated": true,
+        "identifier": "<a:mhh:1460539953984307335>"
+      },
+      {
+        "id": "1460539960317968405",
+        "name": "muahh",
+        "animated": false,
+        "identifier": "<:muahh:1460539960317968405>"
+      },
+      {
+        "id": "1460539966542315615",
+        "name": "oha",
+        "animated": false,
+        "identifier": "<:oha:1460539966542315615>"
+      },
+      {
+        "id": "1460548419461316663",
+        "name": "Cat_mh",
+        "animated": true,
+        "identifier": "<a:Cat_mh:1460548419461316663>"
+      },
+      {
+        "id": "1460548422028492987",
+        "name": "olleey",
+        "animated": false,
+        "identifier": "<:olleey:1460548422028492987>"
+      },
+      {
+        "id": "1460548426117939271",
+        "name": "Cat_nanik",
+        "animated": true,
+        "identifier": "<a:Cat_nanik:1460548426117939271>"
+      },
+      {
+        "id": "1460548429934628934",
+        "name": "owshittt",
+        "animated": true,
+        "identifier": "<a:owshittt:1460548429934628934>"
+      },
+      {
+        "id": "1460548437874315284",
+        "name": "Cat_patik",
+        "animated": true,
+        "identifier": "<a:Cat_patik:1460548437874315284>"
+      },
+      {
+        "id": "1460548442391580831",
+        "name": "paimon",
+        "animated": false,
+        "identifier": "<:paimon:1460548442391580831>"
+      },
+      {
+        "id": "1460548443859849277",
+        "name": "sadmood",
+        "animated": false,
+        "identifier": "<:sadmood:1460548443859849277>"
+      },
+      {
+        "id": "1460548447542186047",
+        "name": "partiliyor",
+        "animated": true,
+        "identifier": "<a:partiliyor:1460548447542186047>"
+      },
+      {
+        "id": "1460548449291206777",
+        "name": "Cat_saplak",
+        "animated": true,
+        "identifier": "<a:Cat_saplak:1460548449291206777>"
+      },
+      {
+        "id": "1460548454982877226",
+        "name": "Cat_saskin",
+        "animated": true,
+        "identifier": "<a:Cat_saskin:1460548454982877226>"
+      },
+      {
+        "id": "1460548459496083591",
+        "name": "popcornYiyo",
+        "animated": true,
+        "identifier": "<a:popcornYiyo:1460548459496083591>"
+      },
+      {
+        "id": "1460548461643694122",
+        "name": "puff",
+        "animated": false,
+        "identifier": "<:puff:1460548461643694122>"
+      },
+      {
+        "id": "1460548465368236075",
+        "name": "saril",
+        "animated": true,
+        "identifier": "<a:saril:1460548465368236075>"
+      },
+      {
+        "id": "1460548470271115335",
+        "name": "silam",
+        "animated": true,
+        "identifier": "<a:silam:1460548470271115335>"
+      },
+      {
+        "id": "1460548476705308713",
+        "name": "sinirli2",
+        "animated": true,
+        "identifier": "<a:sinirli2:1460548476705308713>"
+      },
+      {
+        "id": "1460548479293063381",
+        "name": "sirin",
+        "animated": false,
+        "identifier": "<:sirin:1460548479293063381>"
+      },
+      {
+        "id": "1460548483135176798",
+        "name": "utandmm",
+        "animated": true,
+        "identifier": "<a:utandmm:1460548483135176798>"
+      },
+      {
+        "id": "1460548489640542250",
+        "name": "uwu",
+        "animated": false,
+        "identifier": "<:uwu:1460548489640542250>"
+      },
+      {
+        "id": "1460548499744493733",
+        "name": "uykulu",
+        "animated": false,
+        "identifier": "<:uykulu:1460548499744493733>"
+      },
+      {
+        "id": "1460548508015661066",
+        "name": "woah",
+        "animated": true,
+        "identifier": "<a:woah:1460548508015661066>"
+      },
+      {
+        "id": "1460548510582571169",
+        "name": "yazmak",
+        "animated": true,
+        "identifier": "<a:yazmak:1460548510582571169>"
+      },
+      {
+        "id": "1460548521919910035",
+        "name": "uyanmis",
+        "animated": true,
+        "identifier": "<a:uyanmis:1460548521919910035>"
+      },
+      {
+        "id": "1460548525782728714",
+        "name": "yeyy",
+        "animated": true,
+        "identifier": "<a:yeyy:1460548525782728714>"
+      },
+      {
+        "id": "1460548527573962866",
+        "name": "helele",
+        "animated": true,
+        "identifier": "<a:helele:1460548527573962866>"
+      },
+      {
+        "id": "1460548531952554060",
+        "name": "aglyor",
+        "animated": true,
+        "identifier": "<a:aglyor:1460548531952554060>"
+      },
+      {
+        "id": "1460548542895755338",
+        "name": "utandmm2",
+        "animated": true,
+        "identifier": "<a:utandmm2:1460548542895755338>"
+      },
+      {
+        "id": "1460548571106381995",
+        "name": "twerk",
+        "animated": true,
+        "identifier": "<a:twerk:1460548571106381995>"
+      },
+      {
+        "id": "1460563516648853618",
+        "name": "uzgun",
+        "animated": true,
+        "identifier": "<a:uzgun:1460563516648853618>"
+      },
+      {
+        "id": "1460563517928112199",
+        "name": "imam",
+        "animated": false,
+        "identifier": "<:imam:1460563517928112199>"
+      },
+      {
+        "id": "1460563520428052644",
+        "name": "izliyor",
+        "animated": true,
+        "identifier": "<a:izliyor:1460563520428052644>"
+      },
+      {
+        "id": "1460563522118352907",
+        "name": "utangac",
+        "animated": false,
+        "identifier": "<:utangac:1460563522118352907>"
+      },
+      {
+        "id": "1460563524580278417",
+        "name": "kangal",
+        "animated": false,
+        "identifier": "<:kangal:1460563524580278417>"
+      },
+      {
+        "id": "1460563529865101447",
+        "name": "dombik",
+        "animated": true,
+        "identifier": "<a:dombik:1460563529865101447>"
+      },
+      {
+        "id": "1460563532646056027",
+        "name": "selam",
+        "animated": true,
+        "identifier": "<a:selam:1460563532646056027>"
+      },
+      {
+        "id": "1460563535208644843",
+        "name": "ciddi",
+        "animated": false,
+        "identifier": "<:ciddi:1460563535208644843>"
+      },
+      {
+        "id": "1460563539768115336",
+        "name": "dans",
+        "animated": true,
+        "identifier": "<a:dans:1460563539768115336>"
+      },
+      {
+        "id": "1460563542326513809",
+        "name": "sevmek",
+        "animated": true,
+        "identifier": "<a:sevmek:1460563542326513809>"
+      },
+      {
+        "id": "1460563548760703073",
+        "name": "focus",
+        "animated": true,
+        "identifier": "<a:focus:1460563548760703073>"
+      },
+      {
+        "id": "1460563554360098962",
+        "name": "biberon",
+        "animated": true,
+        "identifier": "<a:biberon:1460563554360098962>"
+      },
+      {
+        "id": "1460563561507065952",
+        "name": "zplayankedy",
+        "animated": true,
+        "identifier": "<a:zplayankedy:1460563561507065952>"
+      },
+      {
+        "id": "1460563569329442945",
+        "name": "alks",
+        "animated": true,
+        "identifier": "<a:alks:1460563569329442945>"
+      },
+      {
+        "id": "1460563576619008032",
+        "name": "aglyom",
+        "animated": true,
+        "identifier": "<a:aglyom:1460563576619008032>"
+      },
+      {
+        "id": "1460563581669212305",
+        "name": "heyecanl",
+        "animated": true,
+        "identifier": "<a:heyecanl:1460563581669212305>"
+      },
+      {
+        "id": "1460563585389428788",
+        "name": "salak",
+        "animated": true,
+        "identifier": "<a:salak:1460563585389428788>"
+      },
+      {
+        "id": "1460563588304343092",
+        "name": "doverim",
+        "animated": true,
+        "identifier": "<a:doverim:1460563588304343092>"
+      },
+      {
+        "id": "1460563591441944618",
+        "name": "hm",
+        "animated": false,
+        "identifier": "<:hm:1460563591441944618>"
+      },
+      {
+        "id": "1460563593459138590",
+        "name": "kedioha",
+        "animated": false,
+        "identifier": "<:kedioha:1460563593459138590>"
+      },
+      {
+        "id": "1460563599591477383",
+        "name": "aferin",
+        "animated": true,
+        "identifier": "<a:aferin:1460563599591477383>"
+      },
+      {
+        "id": "1460563603462815866",
+        "name": "salak",
+        "animated": true,
+        "identifier": "<a:salak:1460563603462815866>"
+      },
+      {
+        "id": "1460563615760257024",
+        "name": "pu",
+        "animated": true,
+        "identifier": "<a:pu:1460563615760257024>"
+      },
+      {
+        "id": "1460563619799634063",
+        "name": "gelbura",
+        "animated": true,
+        "identifier": "<a:gelbura:1460563619799634063>"
+      },
+      {
+        "id": "1460563628351819820",
+        "name": "kediuykumvar",
+        "animated": false,
+        "identifier": "<:kediuykumvar:1460563628351819820>"
+      },
+      {
+        "id": "1460563640196534272",
+        "name": "olley",
+        "animated": true,
+        "identifier": "<a:olley:1460563640196534272>"
+      },
+      {
+        "id": "1460563648635211921",
+        "name": "yuyuyom",
+        "animated": true,
+        "identifier": "<a:yuyuyom:1460563648635211921>"
+      },
+      {
+        "id": "1460563652284383263",
+        "name": "dance",
+        "animated": true,
+        "identifier": "<a:dance:1460563652284383263>"
+      },
+      {
+        "id": "1460563656042483712",
+        "name": "oy",
+        "animated": true,
+        "identifier": "<a:oy:1460563656042483712>"
+      },
+      {
+        "id": "1460563657221214394",
+        "name": "hihi",
+        "animated": true,
+        "identifier": "<a:hihi:1460563657221214394>"
+      },
+      {
+        "id": "1460563660605886585",
+        "name": "ham",
+        "animated": true,
+        "identifier": "<a:ham:1460563660605886585>"
+      },
+      {
+        "id": "1474887528765980745",
+        "name": "alkis",
+        "animated": true,
+        "identifier": "<a:alkis:1474887528765980745>"
+      },
+      {
+        "id": "1474887649050234940",
+        "name": "epilepsi",
+        "animated": true,
+        "identifier": "<a:epilepsi:1474887649050234940>"
+      },
+      {
+        "id": "1474887812573823109",
+        "name": "gem",
+        "animated": true,
+        "identifier": "<a:gem:1474887812573823109>"
+      },
+      {
+        "id": "1474887920702853170",
+        "name": "dans",
+        "animated": true,
+        "identifier": "<a:dans:1474887920702853170>"
+      },
+      {
+        "id": "1474887968656457893",
+        "name": "anime",
+        "animated": true,
+        "identifier": "<a:anime:1474887968656457893>"
+      },
+      {
+        "id": "1474888131504377876",
+        "name": "animeop1",
+        "animated": true,
+        "identifier": "<a:animeop1:1474888131504377876>"
+      },
+      {
+        "id": "1474888154791284958",
+        "name": "animeop2",
+        "animated": true,
+        "identifier": "<a:animeop2:1474888154791284958>"
+      },
+      {
+        "id": "1474888188639318126",
+        "name": "ates",
+        "animated": true,
+        "identifier": "<a:ates:1474888188639318126>"
+      },
+      {
+        "id": "1474888219865780246",
+        "name": "ates2",
+        "animated": true,
+        "identifier": "<a:ates2:1474888219865780246>"
+      },
+      {
+        "id": "1474888273259270258",
+        "name": "copkovasi",
+        "animated": true,
+        "identifier": "<a:copkovasi:1474888273259270258>"
+      },
+      {
+        "id": "1474888560334213332",
+        "name": "beynimyandi",
+        "animated": true,
+        "identifier": "<a:beynimyandi:1474888560334213332>"
+      },
+      {
+        "id": "1474888598825468179",
+        "name": "benkacar",
+        "animated": true,
+        "identifier": "<a:benkacar:1474888598825468179>"
+      },
+      {
+        "id": "1474888729746210936",
+        "name": "boost",
+        "animated": true,
+        "identifier": "<a:boost:1474888729746210936>"
+      },
+      {
+        "id": "1474888773832675359",
+        "name": "carpi",
+        "animated": true,
+        "identifier": "<a:carpi:1474888773832675359>"
+      },
+      {
+        "id": "1474888906322346075",
+        "name": "crown",
+        "animated": true,
+        "identifier": "<a:crown:1474888906322346075>"
+      },
+      {
+        "id": "1474888971162226951",
+        "name": "anime2",
+        "animated": true,
+        "identifier": "<a:anime2:1474888971162226951>"
+      },
+      {
+        "id": "1474889015550546083",
+        "name": "dans",
+        "animated": true,
+        "identifier": "<a:dans:1474889015550546083>"
+      },
+      {
+        "id": "1474889161554002016",
+        "name": "opucuk2",
+        "animated": true,
+        "identifier": "<a:opucuk2:1474889161554002016>"
+      },
+      {
+        "id": "1474889212468920463",
+        "name": "uno",
+        "animated": true,
+        "identifier": "<a:uno:1474889212468920463>"
+      },
+      {
+        "id": "1474889309856206939",
+        "name": "kovboy",
+        "animated": true,
+        "identifier": "<a:kovboy:1474889309856206939>"
+      },
+      {
+        "id": "1474889347181318174",
+        "name": "hayir",
+        "animated": true,
+        "identifier": "<a:hayir:1474889347181318174>"
+      },
+      {
+        "id": "1474889375899848968",
+        "name": "hayir",
+        "animated": true,
+        "identifier": "<a:hayir:1474889375899848968>"
+      },
+      {
+        "id": "1474889428467191960",
+        "name": "kedi8",
+        "animated": true,
+        "identifier": "<a:kedi8:1474889428467191960>"
+      },
+      {
+        "id": "1474889467675545714",
+        "name": "havali1",
+        "animated": true,
+        "identifier": "<a:havali1:1474889467675545714>"
+      },
+      {
+        "id": "1474889554367611033",
+        "name": "spiderman",
+        "animated": true,
+        "identifier": "<a:spiderman:1474889554367611033>"
+      },
+      {
+        "id": "1474889586248257796",
+        "name": "yanak",
+        "animated": true,
+        "identifier": "<a:yanak:1474889586248257796>"
+      },
+      {
+        "id": "1474889652967051315",
+        "name": "utangac",
+        "animated": true,
+        "identifier": "<a:utangac:1474889652967051315>"
+      },
+      {
+        "id": "1474889740552507482",
+        "name": "yrmzkdi2",
+        "animated": true,
+        "identifier": "<a:yrmzkdi2:1474889740552507482>"
+      },
+      {
+        "id": "1474889901659918537",
+        "name": "unlem2",
+        "animated": true,
+        "identifier": "<a:unlem2:1474889901659918537>"
+      },
+      {
+        "id": "1474889990080168148",
+        "name": "sigara2",
+        "animated": true,
+        "identifier": "<a:sigara2:1474889990080168148>"
+      },
+      {
+        "id": "1474890053565026508",
+        "name": "sevincli2",
+        "animated": true,
+        "identifier": "<a:sevincli2:1474890053565026508>"
+      },
+      {
+        "id": "1474890082610712676",
+        "name": "sevincli",
+        "animated": true,
+        "identifier": "<a:sevincli:1474890082610712676>"
+      },
+      {
+        "id": "1474890135408476351",
+        "name": "oldururum",
+        "animated": true,
+        "identifier": "<a:oldururum:1474890135408476351>"
+      },
+      {
+        "id": "1474890177112571924",
+        "name": "selam4",
+        "animated": true,
+        "identifier": "<a:selam4:1474890177112571924>"
+      },
+      {
+        "id": "1474890261602762784",
+        "name": "sarilanayicik2",
+        "animated": true,
+        "identifier": "<a:sarilanayicik2:1474890261602762784>"
+      },
+      {
+        "id": "1474890290358652949",
+        "name": "sarilanayicik",
+        "animated": true,
+        "identifier": "<a:sarilanayicik:1474890290358652949>"
+      },
+      {
+        "id": "1474890321211953293",
+        "name": "saplak",
+        "animated": true,
+        "identifier": "<a:saplak:1474890321211953293>"
+      },
+      {
+        "id": "1474890394893287505",
+        "name": "rayman",
+        "animated": true,
+        "identifier": "<a:rayman:1474890394893287505>"
+      },
+      {
+        "id": "1474890456855744748",
+        "name": "prizma",
+        "animated": true,
+        "identifier": "<a:prizma:1474890456855744748>"
+      },
+      {
+        "id": "1474890495128899845",
+        "name": "popcat",
+        "animated": true,
+        "identifier": "<a:popcat:1474890495128899845>"
+      },
+      {
+        "id": "1474890529748680724",
+        "name": "pikacu2",
+        "animated": true,
+        "identifier": "<a:pikacu2:1474890529748680724>"
+      },
+      {
+        "id": "1474890574191657213",
+        "name": "partner",
+        "animated": true,
+        "identifier": "<a:partner:1474890574191657213>"
+      },
+      {
+        "id": "1474890650741637344",
+        "name": "para",
+        "animated": true,
+        "identifier": "<a:para:1474890650741637344>"
+      },
+      {
+        "id": "1474902630517182525",
+        "name": "okisareti",
+        "animated": true,
+        "identifier": "<a:okisareti:1474902630517182525>"
+      },
+      {
+        "id": "1474902632978972753",
+        "name": "okisareti",
+        "animated": true,
+        "identifier": "<a:okisareti:1474902632978972753>"
+      },
+      {
+        "id": "1474906155468984553",
+        "name": "okisareti",
+        "animated": true,
+        "identifier": "<a:okisareti:1474906155468984553>"
+      },
+      {
+        "id": "1474906229523480646",
+        "name": "nah4",
+        "animated": true,
+        "identifier": "<a:nah4:1474906229523480646>"
+      },
+      {
+        "id": "1474906269570568447",
+        "name": "nah1",
+        "animated": true,
+        "identifier": "<a:nah1:1474906269570568447>"
+      },
+      {
+        "id": "1474906340035133583",
+        "name": "mg1",
+        "animated": true,
+        "identifier": "<a:mg1:1474906340035133583>"
+      },
+      {
+        "id": "1474906372129685504",
+        "name": "mg2",
+        "animated": true,
+        "identifier": "<a:mg2:1474906372129685504>"
+      },
+      {
+        "id": "1474906403272396932",
+        "name": "mg3",
+        "animated": true,
+        "identifier": "<a:mg3:1474906403272396932>"
+      },
+      {
+        "id": "1474906534088675491",
+        "name": "mg4",
+        "animated": true,
+        "identifier": "<a:mg4:1474906534088675491>"
+      },
+      {
+        "id": "1474906569765425313",
+        "name": "mg5",
+        "animated": true,
+        "identifier": "<a:mg5:1474906569765425313>"
+      },
+      {
+        "id": "1474906605278724167",
+        "name": "mg6",
+        "animated": true,
+        "identifier": "<a:mg6:1474906605278724167>"
+      },
+      {
+        "id": "1474907020707758081",
+        "name": "kosankus",
+        "animated": true,
+        "identifier": "<a:kosankus:1474907020707758081>"
+      },
+      {
+        "id": "1474907091876581487",
+        "name": "kedi9",
+        "animated": true,
+        "identifier": "<a:kedi9:1474907091876581487>"
+      },
+      {
+        "id": "1474907156372521042",
+        "name": "kalp6",
+        "animated": true,
+        "identifier": "<a:kalp6:1474907156372521042>"
+      },
+      {
+        "id": "1474907201502969949",
+        "name": "kahkaha",
+        "animated": true,
+        "identifier": "<a:kahkaha:1474907201502969949>"
+      },
+      {
+        "id": "1474907243471306832",
+        "name": "kafadansi1",
+        "animated": true,
+        "identifier": "<a:kafadansi1:1474907243471306832>"
+      },
+      {
+        "id": "1474907455484858609",
+        "name": "kadeh",
+        "animated": true,
+        "identifier": "<a:kadeh:1474907455484858609>"
+      },
+      {
+        "id": "1474907493057560627",
+        "name": "kirmizikalpler",
+        "animated": true,
+        "identifier": "<a:kirmizikalpler:1474907493057560627>"
+      },
+      {
+        "id": "1474907548409790504",
+        "name": "kalp5",
+        "animated": true,
+        "identifier": "<a:kalp5:1474907548409790504>"
+      },
+      {
+        "id": "1474907603959025714",
+        "name": "kirmizikalp",
+        "animated": true,
+        "identifier": "<a:kirmizikalp:1474907603959025714>"
+      },
+      {
+        "id": "1474907660355633354",
+        "name": "hediyepaketi",
+        "animated": true,
+        "identifier": "<a:hediyepaketi:1474907660355633354>"
+      },
+      {
+        "id": "1474907702357393508",
+        "name": "insta",
+        "animated": true,
+        "identifier": "<a:insta:1474907702357393508>"
+      },
+      {
+        "id": "1474907786537205802",
+        "name": "dansedenkedi",
+        "animated": true,
+        "identifier": "<a:dansedenkedi:1474907786537205802>"
+      },
+      {
+        "id": "1474907823719579648",
+        "name": "dans5",
+        "animated": true,
+        "identifier": "<a:dans5:1474907823719579648>"
+      },
+      {
+        "id": "1474907862613622937",
+        "name": "dansedenkopek",
+        "animated": true,
+        "identifier": "<a:dansedenkopek:1474907862613622937>"
+      },
+      {
+        "id": "1474907971137044741",
+        "name": "discord",
+        "animated": true,
+        "identifier": "<a:discord:1474907971137044741>"
+      },
+      {
+        "id": "1474908030444503101",
+        "name": "dudakisir",
+        "animated": true,
+        "identifier": "<a:dudakisir:1474908030444503101>"
+      },
+      {
+        "id": "1474908076686446683",
+        "name": "dans",
+        "animated": true,
+        "identifier": "<a:dans:1474908076686446683>"
+      },
+      {
+        "id": "1474908298443489412",
+        "name": "uuu",
+        "animated": true,
+        "identifier": "<a:uuu:1474908298443489412>"
+      },
+      {
+        "id": "1474908823251583016",
+        "name": "benimleilgilen",
+        "animated": true,
+        "identifier": "<a:benimleilgilen:1474908823251583016>"
+      },
+      {
+        "id": "1474908969712750683",
+        "name": "ask",
+        "animated": true,
+        "identifier": "<a:ask:1474908969712750683>"
+      },
+      {
+        "id": "1474912473571393546",
+        "name": "mutlu",
+        "animated": false,
+        "identifier": "<:mutlu:1474912473571393546>"
+      },
+      {
+        "id": "1474915512768139374",
+        "name": "agliyorum",
+        "animated": false,
+        "identifier": "<:agliyorum:1474915512768139374>"
+      },
+      {
+        "id": "1474915810177712229",
+        "name": "anime1",
+        "animated": false,
+        "identifier": "<:anime1:1474915810177712229>"
+      },
+      {
+        "id": "1474915848136425638",
+        "name": "anime2",
+        "animated": false,
+        "identifier": "<:anime2:1474915848136425638>"
+      },
+      {
+        "id": "1474915929228841082",
+        "name": "anime4",
+        "animated": false,
+        "identifier": "<:anime4:1474915929228841082>"
+      },
+      {
+        "id": "1474915961042899096",
+        "name": "animeop1",
+        "animated": false,
+        "identifier": "<:animeop1:1474915961042899096>"
+      },
+      {
+        "id": "1474915990201700502",
+        "name": "animeop2",
+        "animated": false,
+        "identifier": "<:animeop2:1474915990201700502>"
+      },
+      {
+        "id": "1474917733090197615",
+        "name": "anime5",
+        "animated": false,
+        "identifier": "<:anime5:1474917733090197615>"
+      },
+      {
+        "id": "1474918021930815558",
+        "name": "bruh",
+        "animated": false,
+        "identifier": "<:bruh:1474918021930815558>"
+      },
+      {
+        "id": "1474918621758230600",
+        "name": "kedi3",
+        "animated": false,
+        "identifier": "<:kedi3:1474918621758230600>"
+      },
+      {
+        "id": "1474918722085982380",
+        "name": "kekw",
+        "animated": false,
+        "identifier": "<:kekw:1474918722085982380>"
+      },
+      {
+        "id": "1474918758052003963",
+        "name": "kopek3",
+        "animated": false,
+        "identifier": "<:kopek3:1474918758052003963>"
+      },
+      {
+        "id": "1476725322241147072",
+        "name": "mokokoSakin",
+        "animated": false,
+        "identifier": "<:mokokoSakin:1476725322241147072>"
+      },
+      {
+        "id": "1476725686940078231",
+        "name": "mokokoKasli",
+        "animated": false,
+        "identifier": "<:mokokoKasli:1476725686940078231>"
+      },
+      {
+        "id": "1476725729902334075",
+        "name": "mokokoKalp",
+        "animated": false,
+        "identifier": "<:mokokoKalp:1476725729902334075>"
+      },
+      {
+        "id": "1476725798080876565",
+        "name": "mokokoUzgun",
+        "animated": false,
+        "identifier": "<:mokokoUzgun:1476725798080876565>"
+      },
+      {
+        "id": "1476725842741694604",
+        "name": "mokokoBurger",
+        "animated": false,
+        "identifier": "<:mokokoBurger:1476725842741694604>"
+      },
+      {
+        "id": "1476725915097759774",
+        "name": "mokokoCips",
+        "animated": false,
+        "identifier": "<:mokokoCips:1476725915097759774>"
+      },
+      {
+        "id": "1476725957019697192",
+        "name": "mokokoKahve",
+        "animated": false,
+        "identifier": "<:mokokoKahve:1476725957019697192>"
+      },
+      {
+        "id": "1476726012070068234",
+        "name": "mokokoKonfor",
+        "animated": false,
+        "identifier": "<:mokokoKonfor:1476726012070068234>"
+      },
+      {
+        "id": "1476726066654613506",
+        "name": "mokokoInek",
+        "animated": false,
+        "identifier": "<:mokokoInek:1476726066654613506>"
+      },
+      {
+        "id": "1476726121310453800",
+        "name": "mokokoOrtaParmak",
+        "animated": false,
+        "identifier": "<:mokokoOrtaParmak:1476726121310453800>"
+      },
+      {
+        "id": "1476726174666326168",
+        "name": "mokokoHediye",
+        "animated": false,
+        "identifier": "<:mokokoHediye:1476726174666326168>"
+      },
+      {
+        "id": "1476726228542030054",
+        "name": "mokokoBicak",
+        "animated": false,
+        "identifier": "<:mokokoBicak:1476726228542030054>"
+      },
+      {
+        "id": "1476726273547178024",
+        "name": "mokokoSut",
+        "animated": false,
+        "identifier": "<:mokokoSut:1476726273547178024>"
+      },
+      {
+        "id": "1476726701261066282",
+        "name": "mokokoAferin",
+        "animated": false,
+        "identifier": "<:mokokoAferin:1476726701261066282>"
+      },
+      {
+        "id": "1476726805531463690",
+        "name": "mokokoPizza",
+        "animated": false,
+        "identifier": "<:mokokoPizza:1476726805531463690>"
+      },
+      {
+        "id": "1476726843448098897",
+        "name": "mokokoPolis",
+        "animated": false,
+        "identifier": "<:mokokoPolis:1476726843448098897>"
+      },
+      {
+        "id": "1476726892852941013",
+        "name": "mokokoGul",
+        "animated": false,
+        "identifier": "<:mokokoGul:1476726892852941013>"
+      },
+      {
+        "id": "1476726965061943356",
+        "name": "mokokoNoel",
+        "animated": false,
+        "identifier": "<:mokokoNoel:1476726965061943356>"
+      },
+      {
+        "id": "1476727008582176769",
+        "name": "mokokoKorkmus",
+        "animated": false,
+        "identifier": "<:mokokoKorkmus:1476727008582176769>"
+      },
+      {
+        "id": "1476727062675984414",
+        "name": "mokokoShake",
+        "animated": false,
+        "identifier": "<:mokokoShake:1476727062675984414>"
+      },
+      {
+        "id": "1476727106649198737",
+        "name": "mokokoOturmus",
+        "animated": false,
+        "identifier": "<:mokokoOturmus:1476727106649198737>"
+      },
+      {
+        "id": "1476727182800978084",
+        "name": "mokokoGulumseme",
+        "animated": false,
+        "identifier": "<:mokokoGulumseme:1476727182800978084>"
+      },
+      {
+        "id": "1476727219807064136",
+        "name": "mokokoKar",
+        "animated": false,
+        "identifier": "<:mokokoKar:1476727219807064136>"
+      },
+      {
+        "id": "1476727263406985408",
+        "name": "mokokoAglamak",
+        "animated": false,
+        "identifier": "<:mokokoAglamak:1476727263406985408>"
+      },
+      {
+        "id": "1476727316158877796",
+        "name": "mokokoGazoz",
+        "animated": false,
+        "identifier": "<:mokokoGazoz:1476727316158877796>"
+      },
+      {
+        "id": "1476727377273819269",
+        "name": "mokokoAsik",
+        "animated": false,
+        "identifier": "<:mokokoAsik:1476727377273819269>"
+      },
+      {
+        "id": "1476727417904300247",
+        "name": "mokokoCay",
+        "animated": false,
+        "identifier": "<:mokokoCay:1476727417904300247>"
+      },
+      {
+        "id": "1476727459675242506",
+        "name": "mokokoAgac",
+        "animated": false,
+        "identifier": "<:mokokoAgac:1476727459675242506>"
+      },
+      {
+        "id": "1476727543750070363",
+        "name": "mokokoKirgin",
+        "animated": false,
+        "identifier": "<:mokokoKirgin:1476727543750070363>"
+      },
+      {
+        "id": "1476727616928088207",
+        "name": "mokokoYorgun",
+        "animated": false,
+        "identifier": "<:mokokoYorgun:1476727616928088207>"
+      },
+      {
+        "id": "1476727740160802967",
+        "name": "uzgunranay",
+        "animated": false,
+        "identifier": "<:uzgunranay:1476727740160802967>"
+      },
+      {
+        "id": "1476727761702879284",
+        "name": "obezranay",
+        "animated": false,
+        "identifier": "<:obezranay:1476727761702879284>"
+      },
+      {
+        "id": "1476727787703238666",
+        "name": "ekranciranay",
+        "animated": false,
+        "identifier": "<:ekranciranay:1476727787703238666>"
+      },
+      {
+        "id": "1476727815285112902",
+        "name": "ranaydonerham",
+        "animated": false,
+        "identifier": "<:ranaydonerham:1476727815285112902>"
+      },
+      {
+        "id": "1479379307997564968",
+        "name": "evasaskin",
+        "animated": false,
+        "identifier": "<:evasaskin:1479379307997564968>"
+      },
+      {
+        "id": "1483828783105441884",
+        "name": "evet",
+        "animated": false,
+        "identifier": "<:evet:1483828783105441884>"
+      },
+      {
+        "id": "1483835135781507082",
+        "name": "uzgunkedi",
+        "animated": false,
+        "identifier": "<:uzgunkedi:1483835135781507082>"
+      },
+      {
+        "id": "1485249077447753738",
+        "name": "frog",
+        "animated": false,
+        "identifier": "<:frog:1485249077447753738>"
+      },
+      {
+        "id": "1485257894726205581",
+        "name": "1398080469073002536",
+        "animated": false,
+        "identifier": "<:1398080469073002536:1485257894726205581>"
+      },
+      {
+        "id": "1485257917656469504",
+        "name": "1100920151240618056",
+        "animated": false,
+        "identifier": "<:1100920151240618056:1485257917656469504>"
+      },
+      {
+        "id": "1485257941392035980",
+        "name": "1100920024526495804",
+        "animated": false,
+        "identifier": "<:1100920024526495804:1485257941392035980>"
+      },
+      {
+        "id": "1485258027358621910",
+        "name": "hamsteruzgun",
+        "animated": false,
+        "identifier": "<:hamsteruzgun:1485258027358621910>"
+      },
+      {
+        "id": "1485258098896666874",
+        "name": "1370463504662007908",
+        "animated": false,
+        "identifier": "<:1370463504662007908:1485258098896666874>"
+      },
+      {
+        "id": "1485258159714205767",
+        "name": "1370463499020537927",
+        "animated": false,
+        "identifier": "<:1370463499020537927:1485258159714205767>"
+      },
+      {
+        "id": "1485258185408512090",
+        "name": "871883406076674099",
+        "animated": true,
+        "identifier": "<a:871883406076674099:1485258185408512090>"
+      },
+      {
+        "id": "1485258255813841090",
+        "name": "881989994506498128",
+        "animated": true,
+        "identifier": "<a:881989994506498128:1485258255813841090>"
+      },
+      {
+        "id": "1485258320427221092",
+        "name": "871879558545174559",
+        "animated": true,
+        "identifier": "<a:871879558545174559:1485258320427221092>"
+      },
+      {
+        "id": "1485258375930449931",
+        "name": "855956177749540884",
+        "animated": true,
+        "identifier": "<a:855956177749540884:1485258375930449931>"
+      },
+      {
+        "id": "1485258400647348335",
+        "name": "871883755323801690",
+        "animated": true,
+        "identifier": "<a:871883755323801690:1485258400647348335>"
+      },
+      {
+        "id": "1485258421660811325",
+        "name": "861189058121302036",
+        "animated": true,
+        "identifier": "<a:861189058121302036:1485258421660811325>"
+      },
+      {
+        "id": "1485258468150743091",
+        "name": "871883631021420555",
+        "animated": true,
+        "identifier": "<a:871883631021420555:1485258468150743091>"
+      },
+      {
+        "id": "1485258548178063580",
+        "name": "871883572900946011",
+        "animated": true,
+        "identifier": "<a:871883572900946011:1485258548178063580>"
+      },
+      {
+        "id": "1485258617413439558",
+        "name": "861189096806678558",
+        "animated": true,
+        "identifier": "<a:861189096806678558:1485258617413439558>"
+      },
+      {
+        "id": "1485258640742158518",
+        "name": "871879460285198337",
+        "animated": true,
+        "identifier": "<a:871879460285198337:1485258640742158518>"
+      },
+      {
+        "id": "1485258727845134357",
+        "name": "942339706274865162",
+        "animated": false,
+        "identifier": "<:942339706274865162:1485258727845134357>"
+      },
+      {
+        "id": "1485258759793147954",
+        "name": "862472665071747092",
+        "animated": false,
+        "identifier": "<:862472665071747092:1485258759793147954>"
+      },
+      {
+        "id": "1485258850956214513",
+        "name": "1107294248895774841",
+        "animated": true,
+        "identifier": "<a:1107294248895774841:1485258850956214513>"
+      },
+      {
+        "id": "1485258871684730962",
+        "name": "animeintihar",
+        "animated": false,
+        "identifier": "<:animeintihar:1485258871684730962>"
+      },
+      {
+        "id": "1485258918291705856",
+        "name": "874373519125905448",
+        "animated": false,
+        "identifier": "<:874373519125905448:1485258918291705856>"
+      },
+      {
+        "id": "1485258995097796821",
+        "name": "960084863715794965",
+        "animated": true,
+        "identifier": "<a:960084863715794965:1485258995097796821>"
+      },
+      {
+        "id": "1485259047153434734",
+        "name": "942459182081277964",
+        "animated": true,
+        "identifier": "<a:942459182081277964:1485259047153434734>"
+      },
+      {
+        "id": "1485259092695191712",
+        "name": "1074749029864439949",
+        "animated": false,
+        "identifier": "<:1074749029864439949:1485259092695191712>"
+      },
+      {
+        "id": "1485259114304245863",
+        "name": "kalp",
+        "animated": false,
+        "identifier": "<:kalp:1485259114304245863>"
+      },
+      {
+        "id": "1485266661018959902",
+        "name": "gayranay",
+        "animated": false,
+        "identifier": "<:gayranay:1485266661018959902>"
+      },
+      {
+        "id": "1485267908165767178",
+        "name": "1297718634785017976",
+        "animated": true,
+        "identifier": "<a:1297718634785017976:1485267908165767178>"
+      },
+      {
+        "id": "1485268007067320493",
+        "name": "1114648514287382558",
+        "animated": true,
+        "identifier": "<a:1114648514287382558:1485268007067320493>"
+      },
+      {
+        "id": "1485268029305786599",
+        "name": "1067806078181584997",
+        "animated": true,
+        "identifier": "<a:1067806078181584997:1485268029305786599>"
+      },
+      {
+        "id": "1485268084494172201",
+        "name": "11009189330553611341",
+        "animated": true,
+        "identifier": "<a:11009189330553611341:1485268084494172201>"
+      },
+      {
+        "id": "1485268108858884268",
+        "name": "kediha",
+        "animated": false,
+        "identifier": "<:kediha:1485268108858884268>"
+      },
+      {
+        "id": "1485268137070035066",
+        "name": "1073729356075122698",
+        "animated": true,
+        "identifier": "<a:1073729356075122698:1485268137070035066>"
+      },
+      {
+        "id": "1485268217587962038",
+        "name": "734741402403078244",
+        "animated": false,
+        "identifier": "<:734741402403078244:1485268217587962038>"
+      },
+      {
+        "id": "1485268245618626701",
+        "name": "1472317751543599340",
+        "animated": true,
+        "identifier": "<a:1472317751543599340:1485268245618626701>"
+      },
+      {
+        "id": "1485268268418863226",
+        "name": "sarilalim",
+        "animated": false,
+        "identifier": "<:sarilalim:1485268268418863226>"
+      },
+      {
+        "id": "1485268290598207528",
+        "name": "1184676196634595350",
+        "animated": true,
+        "identifier": "<a:1184676196634595350:1485268290598207528>"
+      },
+      {
+        "id": "1485268318926409738",
+        "name": "1222979173157572829",
+        "animated": true,
+        "identifier": "<a:1222979173157572829:1485268318926409738>"
+      },
+      {
+        "id": "1485268351805558875",
+        "name": "1472318412524097741",
+        "animated": true,
+        "identifier": "<a:1472318412524097741:1485268351805558875>"
+      },
+      {
+        "id": "1485268375792783420",
+        "name": "1472629564239909005",
+        "animated": true,
+        "identifier": "<a:1472629564239909005:1485268375792783420>"
+      },
+      {
+        "id": "1485268400342302741",
+        "name": "1472292721262727179",
+        "animated": true,
+        "identifier": "<a:1472292721262727179:1485268400342302741>"
+      },
+      {
+        "id": "1485268453899239514",
+        "name": "1472626766798655529",
+        "animated": true,
+        "identifier": "<a:1472626766798655529:1485268453899239514>"
+      },
+      {
+        "id": "1485268504302325830",
+        "name": "1235014154113519677",
+        "animated": true,
+        "identifier": "<a:1235014154113519677:1485268504302325830>"
+      },
+      {
+        "id": "1489009207209496686",
+        "name": "flowie",
+        "animated": false,
+        "identifier": "<:flowie:1489009207209496686>"
+      },
+      {
+        "id": "1491160547859763240",
+        "name": "anime",
+        "animated": false,
+        "identifier": "<:anime:1491160547859763240>"
+      },
+      {
+        "id": "1491171066696044544",
+        "name": "animeyorgun",
+        "animated": false,
+        "identifier": "<:animeyorgun:1491171066696044544>"
+      },
+      {
+        "id": "1491171308220977253",
+        "name": "anime2",
+        "animated": false,
+        "identifier": "<:anime2:1491171308220977253>"
+      },
+      {
+        "id": "1491173272002236416",
+        "name": "soruisareti",
+        "animated": false,
+        "identifier": "<:soruisareti:1491173272002236416>"
+      },
+      {
+        "id": "1491173624244207657",
+        "name": "a1",
+        "animated": false,
+        "identifier": "<:a1:1491173624244207657>"
+      },
+      {
+        "id": "1491174367319687269",
+        "name": "a4",
+        "animated": false,
+        "identifier": "<:a4:1491174367319687269>"
+      },
+      {
+        "id": "1491176633070256199",
+        "name": "a7",
+        "animated": false,
+        "identifier": "<:a7:1491176633070256199>"
+      },
+      {
+        "id": "1491181502866657290",
+        "name": "a9",
+        "animated": false,
+        "identifier": "<:a9:1491181502866657290>"
+      },
+      {
+        "id": "1491184028852682873",
+        "name": "a11",
+        "animated": false,
+        "identifier": "<:a11:1491184028852682873>"
+      },
+      {
+        "id": "1491184470718545921",
+        "name": "a10",
+        "animated": false,
+        "identifier": "<:a10:1491184470718545921>"
+      },
+      {
+        "id": "1491184694044266598",
+        "name": "a12",
+        "animated": false,
+        "identifier": "<:a12:1491184694044266598>"
+      },
+      {
+        "id": "1491185832785084617",
+        "name": "a13",
+        "animated": true,
+        "identifier": "<a:a13:1491185832785084617>"
+      },
+      {
+        "id": "1491185862447333650",
+        "name": "a14",
+        "animated": true,
+        "identifier": "<a:a14:1491185862447333650>"
+      },
+      {
+        "id": "1491201600528580752",
+        "name": "1081276843895824456",
+        "animated": true,
+        "identifier": "<a:1081276843895824456:1491201600528580752>"
+      },
+      {
+        "id": "1491201622993539234",
+        "name": "1096079924298793072",
+        "animated": true,
+        "identifier": "<a:1096079924298793072:1491201622993539234>"
+      },
+      {
+        "id": "1491201644677828669",
+        "name": "1481108338338037780",
+        "animated": false,
+        "identifier": "<:1481108338338037780:1491201644677828669>"
+      },
+      {
+        "id": "1491201668199747735",
+        "name": "1460563548760703073",
+        "animated": true,
+        "identifier": "<a:1460563548760703073:1491201668199747735>"
+      },
+      {
+        "id": "1491201689234047236",
+        "name": "1096079992569479249",
+        "animated": true,
+        "identifier": "<a:1096079992569479249:1491201689234047236>"
+      },
+      {
+        "id": "1491201724176662738",
+        "name": "1096078188276371496",
+        "animated": true,
+        "identifier": "<a:1096078188276371496:1491201724176662738>"
+      },
+      {
+        "id": "1491201815197253762",
+        "name": "1454548953998561414",
+        "animated": true,
+        "identifier": "<a:1454548953998561414:1491201815197253762>"
+      },
+      {
+        "id": "1491201865835347988",
+        "name": "1455174076367769600",
+        "animated": false,
+        "identifier": "<:1455174076367769600:1491201865835347988>"
+      },
+      {
+        "id": "1491201893609771308",
+        "name": "1454520034759278673",
+        "animated": false,
+        "identifier": "<:1454520034759278673:1491201893609771308>"
+      },
+      {
+        "id": "1491201925918625893",
+        "name": "1454518050035470336",
+        "animated": false,
+        "identifier": "<:1454518050035470336:1491201925918625893>"
+      },
+      {
+        "id": "1491201953227870429",
+        "name": "1454518791626035382",
+        "animated": true,
+        "identifier": "<a:1454518791626035382:1491201953227870429>"
+      },
+      {
+        "id": "1491202094928101508",
+        "name": "1468954103848898591",
+        "animated": true,
+        "identifier": "<a:1468954103848898591:1491202094928101508>"
+      },
+      {
+        "id": "1491202122585477302",
+        "name": "1454519503965917184",
+        "animated": true,
+        "identifier": "<a:1454519503965917184:1491202122585477302>"
+      },
+      {
+        "id": "1491202191938158712",
+        "name": "1454520068863037461",
+        "animated": true,
+        "identifier": "<a:1454520068863037461:1491202191938158712>"
+      },
+      {
+        "id": "1491202215065419918",
+        "name": "1450496209025368106",
+        "animated": true,
+        "identifier": "<a:1450496209025368106:1491202215065419918>"
+      },
+      {
+        "id": "1491202237911928952",
+        "name": "1454549306877935666",
+        "animated": false,
+        "identifier": "<:1454549306877935666:1491202237911928952>"
+      },
+      {
+        "id": "1491202267796209716",
+        "name": "1454549891010527414",
+        "animated": true,
+        "identifier": "<a:1454549891010527414:1491202267796209716>"
+      },
+      {
+        "id": "1491202313589756075",
+        "name": "1454518657014304881",
+        "animated": true,
+        "identifier": "<a:1454518657014304881:1491202313589756075>"
+      },
+      {
+        "id": "1491202337660862594",
+        "name": "1454518315967058031",
+        "animated": true,
+        "identifier": "<a:1454518315967058031:1491202337660862594>"
+      },
+      {
+        "id": "1491202371177414676",
+        "name": "1454519555056468093",
+        "animated": true,
+        "identifier": "<a:1454519555056468093:1491202371177414676>"
+      },
+      {
+        "id": "1491202443806249112",
+        "name": "1454518430999908517",
+        "animated": true,
+        "identifier": "<a:1454518430999908517:1491202443806249112>"
+      },
+      {
+        "id": "1491202469428989992",
+        "name": "1389960740450078760",
+        "animated": true,
+        "identifier": "<a:1389960740450078760:1491202469428989992>"
+      },
+      {
+        "id": "1491203156821016636",
+        "name": "uzgunum",
+        "animated": false,
+        "identifier": "<:uzgunum:1491203156821016636>"
+      },
+      {
+        "id": "1492269427863847043",
+        "name": "dua",
+        "animated": false,
+        "identifier": "<:dua:1492269427863847043>"
+      },
+      {
+        "id": "1494095353665028280",
+        "name": "ardalebegete",
+        "animated": true,
+        "identifier": "<a:ardalebegete:1494095353665028280>"
+      },
+      {
+        "id": "1496898562230063295",
+        "name": "flowie2",
+        "animated": false,
+        "identifier": "<:flowie2:1496898562230063295>"
+      },
+      {
+        "id": "1496900659616677959",
+        "name": "kustum",
+        "animated": false,
+        "identifier": "<:kustum:1496900659616677959>"
+      },
+      {
+        "id": "1496901252779610204",
+        "name": "dilcikarankedi",
+        "animated": false,
+        "identifier": "<:dilcikarankedi:1496901252779610204>"
+      },
+      {
+        "id": "1497971919721463838",
+        "name": "dans",
+        "animated": true,
+        "identifier": "<a:dans:1497971919721463838>"
+      },
+      {
+        "id": "1497972538402144386",
+        "name": "agliyom",
+        "animated": false,
+        "identifier": "<:agliyom:1497972538402144386>"
+      },
+      {
+        "id": "1497972729146638569",
+        "name": "uzgunum",
+        "animated": false,
+        "identifier": "<:uzgunum:1497972729146638569>"
+      },
+      {
+        "id": "1497974452187562004",
+        "name": "dezzy",
+        "animated": false,
+        "identifier": "<:dezzy:1497974452187562004>"
+      },
+      {
+        "id": "1497976872015892620",
+        "name": "dilcikarankedi",
+        "animated": false,
+        "identifier": "<:dilcikarankedi:1497976872015892620>"
+      },
+      {
+        "id": "1497982290549149941",
+        "name": "hmm",
+        "animated": false,
+        "identifier": "<:hmm:1497982290549149941>"
+      },
+      {
+        "id": "1497984658015650013",
+        "name": "poco",
+        "animated": false,
+        "identifier": "<:poco:1497984658015650013>"
+      },
+      {
+        "id": "1497985435362787468",
+        "name": "patric",
+        "animated": false,
+        "identifier": "<:patric:1497985435362787468>"
+      },
+      {
+        "id": "1497985613071257720",
+        "name": "plankton",
+        "animated": false,
+        "identifier": "<:plankton:1497985613071257720>"
+      },
+      {
+        "id": "1497986788365566013",
+        "name": "dilcikarankedi",
+        "animated": false,
+        "identifier": "<:dilcikarankedi:1497986788365566013>"
+      },
+      {
+        "id": "1497987086530383962",
+        "name": "ozur",
+        "animated": false,
+        "identifier": "<:ozur:1497987086530383962>"
+      },
+      {
+        "id": "1497989555100454932",
+        "name": "ortaparmak",
+        "animated": false,
+        "identifier": "<:ortaparmak:1497989555100454932>"
+      },
+      {
+        "id": "1497992471496360096",
+        "name": "huzur",
+        "animated": false,
+        "identifier": "<:huzur:1497992471496360096>"
+      },
+      {
+        "id": "1497993385674543284",
+        "name": "flowie3",
+        "animated": false,
+        "identifier": "<:flowie3:1497993385674543284>"
+      },
+      {
+        "id": "1497995495002607742",
+        "name": "aa",
+        "animated": false,
+        "identifier": "<:aa:1497995495002607742>"
+      },
+      {
+        "id": "1497996397453250824",
+        "name": "shrek",
+        "animated": false,
+        "identifier": "<:shrek:1497996397453250824>"
+      },
+      {
+        "id": "1497997794169061547",
+        "name": "mahcupkedi",
+        "animated": false,
+        "identifier": "<:mahcupkedi:1497997794169061547>"
+      },
+      {
+        "id": "1498005896960278658",
+        "name": "ordek",
+        "animated": false,
+        "identifier": "<:ordek:1498005896960278658>"
+      },
+      {
+        "id": "1498009293050347520",
+        "name": "muzzy",
+        "animated": false,
+        "identifier": "<:muzzy:1498009293050347520>"
+      },
+      {
+        "id": "1498011181883986102",
+        "name": "civciv",
+        "animated": false,
+        "identifier": "<:civciv:1498011181883986102>"
+      },
+      {
+        "id": "1498011861147193415",
+        "name": "bicak",
+        "animated": false,
+        "identifier": "<:bicak:1498011861147193415>"
+      },
+      {
+        "id": "1498012125849714820",
+        "name": "utangackeddy",
+        "animated": false,
+        "identifier": "<:utangackeddy:1498012125849714820>"
+      },
+      {
+        "id": "1498017370017628160",
+        "name": "anlasma",
+        "animated": false,
+        "identifier": "<:anlasma:1498017370017628160>"
+      },
+      {
+        "id": "1498018582989242489",
+        "name": "kedi",
+        "animated": false,
+        "identifier": "<:kedi:1498018582989242489>"
+      },
+      {
+        "id": "1498018930466361515",
+        "name": "ha2",
+        "animated": false,
+        "identifier": "<:ha2:1498018930466361515>"
+      },
+      {
+        "id": "1498019964836249620",
+        "name": "alcicek",
+        "animated": false,
+        "identifier": "<:alcicek:1498019964836249620>"
+      },
+      {
+        "id": "1498020596074807297",
+        "name": "nasilya",
+        "animated": false,
+        "identifier": "<:nasilya:1498020596074807297>"
+      },
+      {
+        "id": "1498020957162443015",
+        "name": "saskin",
+        "animated": false,
+        "identifier": "<:saskin:1498020957162443015>"
+      },
+      {
+        "id": "1498021030654902332",
+        "name": "mutlukedy",
+        "animated": false,
+        "identifier": "<:mutlukedy:1498021030654902332>"
+      },
+      {
+        "id": "1498021442128843025",
+        "name": "olayibilenler",
+        "animated": false,
+        "identifier": "<:olayibilenler:1498021442128843025>"
+      },
+      {
+        "id": "1498021749051232486",
+        "name": "uzgunkedi2",
+        "animated": false,
+        "identifier": "<:uzgunkedi2:1498021749051232486>"
+      },
+      {
+        "id": "1498021841472585958",
+        "name": "uzgunkedi3",
+        "animated": false,
+        "identifier": "<:uzgunkedi3:1498021841472585958>"
+      },
+      {
+        "id": "1498021968136634419",
+        "name": "nasilyani",
+        "animated": false,
+        "identifier": "<:nasilyani:1498021968136634419>"
+      },
+      {
+        "id": "1498023567344926860",
+        "name": "yumruk",
+        "animated": false,
+        "identifier": "<:yumruk:1498023567344926860>"
+      },
+      {
+        "id": "1498024973275500826",
+        "name": "kediokey",
+        "animated": false,
+        "identifier": "<:kediokey:1498024973275500826>"
+      },
+      {
+        "id": "1498025147808878826",
+        "name": "beyefendikedi",
+        "animated": false,
+        "identifier": "<:beyefendikedi:1498025147808878826>"
+      },
+      {
+        "id": "1498025229665042452",
+        "name": "pozverenkedi",
+        "animated": false,
+        "identifier": "<:pozverenkedi:1498025229665042452>"
+      },
+      {
+        "id": "1498025293405884549",
+        "name": "oylemi",
+        "animated": false,
+        "identifier": "<:oylemi:1498025293405884549>"
+      },
+      {
+        "id": "1498029243358253126",
+        "name": "saskinkedi",
+        "animated": false,
+        "identifier": "<:saskinkedi:1498029243358253126>"
+      },
+      {
+        "id": "1498029725866786938",
+        "name": "sinirlikedi",
+        "animated": false,
+        "identifier": "<:sinirlikedi:1498029725866786938>"
+      },
+      {
+        "id": "1498029853734080585",
+        "name": "ooooo",
+        "animated": false,
+        "identifier": "<:ooooo:1498029853734080585>"
+      },
+      {
+        "id": "1498036712016973825",
+        "name": "hihihi",
+        "animated": false,
+        "identifier": "<:hihihi:1498036712016973825>"
+      },
+      {
+        "id": "1498036907932778577",
+        "name": "ekraniyaladim",
+        "animated": false,
+        "identifier": "<:ekraniyaladim:1498036907932778577>"
+      },
+      {
+        "id": "1498040951015211038",
+        "name": "sinirlitavsan",
+        "animated": false,
+        "identifier": "<:sinirlitavsan:1498040951015211038>"
+      },
+      {
+        "id": "1498041070024397011",
+        "name": "kopke",
+        "animated": false,
+        "identifier": "<:kopke:1498041070024397011>"
+      },
+      {
+        "id": "1498048442075709460",
+        "name": "aaaa",
+        "animated": false,
+        "identifier": "<:aaaa:1498048442075709460>"
+      },
+      {
+        "id": "1498072112286404668",
+        "name": "uykucu",
+        "animated": false,
+        "identifier": "<:uykucu:1498072112286404668>"
+      },
+      {
+        "id": "1498074101456175186",
+        "name": "kustum2",
+        "animated": false,
+        "identifier": "<:kustum2:1498074101456175186>"
+      },
+      {
+        "id": "1498082969842094080",
+        "name": "tamamdir",
+        "animated": false,
+        "identifier": "<:tamamdir:1498082969842094080>"
+      },
+      {
+        "id": "1498083556239474740",
+        "name": "uzgun",
+        "animated": false,
+        "identifier": "<:uzgun:1498083556239474740>"
+      },
+      {
+        "id": "1498085710295470100",
+        "name": "kaslikedi",
+        "animated": false,
+        "identifier": "<:kaslikedi:1498085710295470100>"
+      },
+      {
+        "id": "1498085760744816713",
+        "name": "kurbaga",
+        "animated": false,
+        "identifier": "<:kurbaga:1498085760744816713>"
+      },
+      {
+        "id": "1498085817879630015",
+        "name": "minecraftkedi",
+        "animated": false,
+        "identifier": "<:minecraftkedi:1498085817879630015>"
+      },
+      {
+        "id": "1498085912008065105",
+        "name": "minecrafthamster",
+        "animated": false,
+        "identifier": "<:minecrafthamster:1498085912008065105>"
+      },
+      {
+        "id": "1498086007638065294",
+        "name": "saskinkedi2",
+        "animated": false,
+        "identifier": "<:saskinkedi2:1498086007638065294>"
+      },
+      {
+        "id": "1498086123799576776",
+        "name": "hocam",
+        "animated": false,
+        "identifier": "<:hocam:1498086123799576776>"
+      },
+      {
+        "id": "1498413707557081178",
+        "name": "mutlukedi",
+        "animated": false,
+        "identifier": "<:mutlukedi:1498413707557081178>"
+      },
+      {
+        "id": "1498413937580970195",
+        "name": "kedikalp",
+        "animated": false,
+        "identifier": "<:kedikalp:1498413937580970195>"
+      },
+      {
+        "id": "1498414306273005738",
+        "name": "kediintihar",
+        "animated": false,
+        "identifier": "<:kediintihar:1498414306273005738>"
+      },
+      {
+        "id": "1498414716694036580",
+        "name": "kedietkilenmis",
+        "animated": false,
+        "identifier": "<:kedietkilenmis:1498414716694036580>"
+      },
+      {
+        "id": "1498432559376502938",
+        "name": "kedianlamadim",
+        "animated": false,
+        "identifier": "<:kedianlamadim:1498432559376502938>"
+      },
+      {
+        "id": "1498432961991806976",
+        "name": "kedihabibi",
+        "animated": false,
+        "identifier": "<:kedihabibi:1498432961991806976>"
+      },
+      {
+        "id": "1498606070996668538",
+        "name": "kedimasum",
+        "animated": false,
+        "identifier": "<:kedimasum:1498606070996668538>"
+      },
+      {
+        "id": "1498606155478466610",
+        "name": "kediselfie",
+        "animated": false,
+        "identifier": "<:kediselfie:1498606155478466610>"
+      },
+      {
+        "id": "1498606229692354641",
+        "name": "kedikorkmus",
+        "animated": false,
+        "identifier": "<:kedikorkmus:1498606229692354641>"
+      },
+      {
+        "id": "1498607774647582740",
+        "name": "oha",
+        "animated": false,
+        "identifier": "<:oha:1498607774647582740>"
+      },
+      {
+        "id": "1498616483457269841",
+        "name": "kediresmi",
+        "animated": false,
+        "identifier": "<:kediresmi:1498616483457269841>"
+      },
+      {
+        "id": "1498616656862122035",
+        "name": "kedibeyaz",
+        "animated": false,
+        "identifier": "<:kedibeyaz:1498616656862122035>"
+      },
+      {
+        "id": "1498616831953604718",
+        "name": "kedibum",
+        "animated": false,
+        "identifier": "<:kedibum:1498616831953604718>"
+      },
+      {
+        "id": "1498617005060915200",
+        "name": "oha4",
+        "animated": false,
+        "identifier": "<:oha4:1498617005060915200>"
+      },
+      {
+        "id": "1498617255146029198",
+        "name": "kedihihi",
+        "animated": false,
+        "identifier": "<:kedihihi:1498617255146029198>"
+      },
+      {
+        "id": "1498617654573797457",
+        "name": "kopekhihi",
+        "animated": false,
+        "identifier": "<:kopekhihi:1498617654573797457>"
+      },
+      {
+        "id": "1498618129692098642",
+        "name": "hamstir",
+        "animated": false,
+        "identifier": "<:hamstir:1498618129692098642>"
+      },
+      {
+        "id": "1498621294722285588",
+        "name": "sakinolun",
+        "animated": false,
+        "identifier": "<:sakinolun:1498621294722285588>"
+      },
+      {
+        "id": "1498621452369399828",
+        "name": "yuzuom",
+        "animated": false,
+        "identifier": "<:yuzuom:1498621452369399828>"
+      },
+      {
+        "id": "1498622166743384064",
+        "name": "nasilyani",
+        "animated": false,
+        "identifier": "<:nasilyani:1498622166743384064>"
+      },
+      {
+        "id": "1498622995848101969",
+        "name": "maymun1",
+        "animated": false,
+        "identifier": "<:maymun1:1498622995848101969>"
+      },
+      {
+        "id": "1498623703334785055",
+        "name": "uzaklas",
+        "animated": false,
+        "identifier": "<:uzaklas:1498623703334785055>"
+      },
+      {
+        "id": "1498626092322525195",
+        "name": "algul",
+        "animated": false,
+        "identifier": "<:algul:1498626092322525195>"
+      },
+      {
+        "id": "1498627152470609930",
+        "name": "kediselam",
+        "animated": false,
+        "identifier": "<:kediselam:1498627152470609930>"
+      },
+      {
+        "id": "1498627501109280798",
+        "name": "kedisus",
+        "animated": false,
+        "identifier": "<:kedisus:1498627501109280798>"
+      },
+      {
+        "id": "1498627753531015289",
+        "name": "kirpisinirli",
+        "animated": false,
+        "identifier": "<:kirpisinirli:1498627753531015289>"
+      },
+      {
+        "id": "1498628196118040648",
+        "name": "kirpisirin",
+        "animated": false,
+        "identifier": "<:kirpisirin:1498628196118040648>"
+      },
+      {
+        "id": "1498628346085511188",
+        "name": "kedihorcus",
+        "animated": false,
+        "identifier": "<:kedihorcus:1498628346085511188>"
+      },
+      {
+        "id": "1498628629670920292",
+        "name": "kedihayran",
+        "animated": false,
+        "identifier": "<:kedihayran:1498628629670920292>"
+      },
+      {
+        "id": "1498629302697197618",
+        "name": "kedisisman",
+        "animated": false,
+        "identifier": "<:kedisisman:1498629302697197618>"
+      },
+      {
+        "id": "1498630490070978620",
+        "name": "kediyangoz",
+        "animated": false,
+        "identifier": "<:kediyangoz:1498630490070978620>"
+      },
+      {
+        "id": "1498630776021979247",
+        "name": "hamstermuz",
+        "animated": false,
+        "identifier": "<:hamstermuz:1498630776021979247>"
+      },
+      {
+        "id": "1498630942913466560",
+        "name": "keddi",
+        "animated": false,
+        "identifier": "<:keddi:1498630942913466560>"
+      },
+      {
+        "id": "1498631957846692071",
+        "name": "kedibowling",
+        "animated": false,
+        "identifier": "<:kedibowling:1498631957846692071>"
+      },
+      {
+        "id": "1498632669322547281",
+        "name": "kediaaa",
+        "animated": false,
+        "identifier": "<:kediaaa:1498632669322547281>"
+      },
+      {
+        "id": "1498633110794010705",
+        "name": "tarik",
+        "animated": false,
+        "identifier": "<:tarik:1498633110794010705>"
+      },
+      {
+        "id": "1498635203919482930",
+        "name": "kedisey",
+        "animated": false,
+        "identifier": "<:kedisey:1498635203919482930>"
+      },
+      {
+        "id": "1498638259171889243",
+        "name": "kedialo",
+        "animated": false,
+        "identifier": "<:kedialo:1498638259171889243>"
+      },
+      {
+        "id": "1498643855904608357",
+        "name": "kopke2",
+        "animated": false,
+        "identifier": "<:kopke2:1498643855904608357>"
+      },
+      {
+        "id": "1498645741428670555",
+        "name": "kediterlik",
+        "animated": false,
+        "identifier": "<:kediterlik:1498645741428670555>"
+      },
+      {
+        "id": "1498670782015078480",
+        "name": "leziz",
+        "animated": false,
+        "identifier": "<:leziz:1498670782015078480>"
+      },
+      {
+        "id": "1498799256780275712",
+        "name": "kopekmasum",
+        "animated": false,
+        "identifier": "<:kopekmasum:1498799256780275712>"
+      },
+      {
+        "id": "1498800184249946184",
+        "name": "kopekgulucuk",
+        "animated": false,
+        "identifier": "<:kopekgulucuk:1498800184249946184>"
+      },
+      {
+        "id": "1498801280238489730",
+        "name": "kedislm",
+        "animated": false,
+        "identifier": "<:kedislm:1498801280238489730>"
+      },
+      {
+        "id": "1498812673175982140",
+        "name": "kedikalp",
+        "animated": false,
+        "identifier": "<:kedikalp:1498812673175982140>"
+      },
+      {
+        "id": "1498812853509951488",
+        "name": "kedikustum",
+        "animated": false,
+        "identifier": "<:kedikustum:1498812853509951488>"
+      },
+      {
+        "id": "1498813544035127367",
+        "name": "kedintihr",
+        "animated": false,
+        "identifier": "<:kedintihr:1498813544035127367>"
+      },
+      {
+        "id": "1498813730320810025",
+        "name": "kopekk",
+        "animated": false,
+        "identifier": "<:kopekk:1498813730320810025>"
+      },
+      {
+        "id": "1498815479735648276",
+        "name": "kopek2",
+        "animated": false,
+        "identifier": "<:kopek2:1498815479735648276>"
+      },
+      {
+        "id": "1498820140014370956",
+        "name": "kopek4",
+        "animated": false,
+        "identifier": "<:kopek4:1498820140014370956>"
+      },
+      {
+        "id": "1498822328052879494",
+        "name": "kopek5",
+        "animated": false,
+        "identifier": "<:kopek5:1498822328052879494>"
+      },
+      {
+        "id": "1498823413915979828",
+        "name": "kalp",
+        "animated": false,
+        "identifier": "<:kalp:1498823413915979828>"
+      },
+      {
+        "id": "1498824703190765649",
+        "name": "sapik",
+        "animated": false,
+        "identifier": "<:sapik:1498824703190765649>"
+      },
+      {
+        "id": "1498930249310802020",
+        "name": "tiksindim",
+        "animated": false,
+        "identifier": "<:tiksindim:1498930249310802020>"
+      },
+      {
+        "id": "1498930322807718030",
+        "name": "kas",
+        "animated": false,
+        "identifier": "<:kas:1498930322807718030>"
+      },
+      {
+        "id": "1498930485399650415",
+        "name": "asci",
+        "animated": false,
+        "identifier": "<:asci:1498930485399650415>"
+      },
+      {
+        "id": "1498930696121614498",
+        "name": "kardesler",
+        "animated": false,
+        "identifier": "<:kardesler:1498930696121614498>"
+      },
+      {
+        "id": "1498932468735021167",
+        "name": "hani",
+        "animated": false,
+        "identifier": "<:hani:1498932468735021167>"
+      },
+      {
+        "id": "1498932534849830973",
+        "name": "cinli",
+        "animated": false,
+        "identifier": "<:cinli:1498932534849830973>"
+      },
+      {
+        "id": "1498932636905898054",
+        "name": "kefi20",
+        "animated": false,
+        "identifier": "<:kefi20:1498932636905898054>"
+      },
+      {
+        "id": "1498932751729033216",
+        "name": "fare",
+        "animated": false,
+        "identifier": "<:fare:1498932751729033216>"
+      },
+      {
+        "id": "1499027056917483693",
+        "name": "kedii",
+        "animated": false,
+        "identifier": "<:kedii:1499027056917483693>"
+      },
+      {
+        "id": "1499027254003499159",
+        "name": "kanimdondu",
+        "animated": false,
+        "identifier": "<:kanimdondu:1499027254003499159>"
+      },
+      {
+        "id": "1499027835069792276",
+        "name": "nbr",
+        "animated": false,
+        "identifier": "<:nbr:1499027835069792276>"
+      },
+      {
+        "id": "1499028221537026190",
+        "name": "olamaz",
+        "animated": false,
+        "identifier": "<:olamaz:1499028221537026190>"
+      },
+      {
+        "id": "1499028726955118662",
+        "name": "kedijoker",
+        "animated": false,
+        "identifier": "<:kedijoker:1499028726955118662>"
+      },
+      {
+        "id": "1499029141192704051",
+        "name": "sinirli",
+        "animated": false,
+        "identifier": "<:sinirli:1499029141192704051>"
+      },
+      {
+        "id": "1499030990981562408",
+        "name": "sus",
+        "animated": false,
+        "identifier": "<:sus:1499030990981562408>"
+      },
+      {
+        "id": "1499161847826481222",
+        "name": "syron",
+        "animated": false,
+        "identifier": "<:syron:1499161847826481222>"
+      },
+      {
+        "id": "1499168035204894752",
+        "name": "kizgin",
+        "animated": false,
+        "identifier": "<:kizgin:1499168035204894752>"
+      },
+      {
+        "id": "1499359686397399110",
+        "name": "abicim",
+        "animated": false,
+        "identifier": "<:abicim:1499359686397399110>"
+      },
+      {
+        "id": "1499359751702839337",
+        "name": "vururum",
+        "animated": false,
+        "identifier": "<:vururum:1499359751702839337>"
+      },
+      {
+        "id": "1499359802646728804",
+        "name": "hehe",
+        "animated": false,
+        "identifier": "<:hehe:1499359802646728804>"
+      },
+      {
+        "id": "1499360020347883600",
+        "name": "tatli",
+        "animated": false,
+        "identifier": "<:tatli:1499360020347883600>"
+      },
+      {
+        "id": "1499360378084134972",
+        "name": "cokkizdim",
+        "animated": false,
+        "identifier": "<:cokkizdim:1499360378084134972>"
+      },
+      {
+        "id": "1499361933365743687",
+        "name": "olayibilmeyenler",
+        "animated": false,
+        "identifier": "<:olayibilmeyenler:1499361933365743687>"
+      },
+      {
+        "id": "1499362138064687155",
+        "name": "olayibilmekisteyenler",
+        "animated": false,
+        "identifier": "<:olayibilmekisteyenler:1499362138064687155>"
+      },
+      {
+        "id": "1499369220645851229",
+        "name": "yukleniyor",
+        "animated": false,
+        "identifier": "<:yukleniyor:1499369220645851229>"
+      },
+      {
+        "id": "1501641803835772928",
+        "name": "ranaykustum",
+        "animated": false,
+        "identifier": "<:ranaykustum:1501641803835772928>"
+      },
+      {
+        "id": "1502280285062959265",
+        "name": "oldum",
+        "animated": false,
+        "identifier": "<:oldum:1502280285062959265>"
+      },
+      {
+        "id": "1502282242272133211",
+        "name": "amin",
+        "animated": false,
+        "identifier": "<:amin:1502282242272133211>"
+      },
+      {
+        "id": "1503839382480617502",
+        "name": "silah",
+        "animated": false,
+        "identifier": "<:silah:1503839382480617502>"
+      },
+      {
+        "id": "1508761157660315718",
+        "name": "apeepoWine",
+        "animated": true,
+        "identifier": "<a:apeepoWine:1508761157660315718>"
+      }
+    ]
+  },
+  "1442997310735913053": {
+    "guildName": "K A N S E R#YETKİLİ ALIM",
+    "emojis": [
+      {
+        "id": "1446306001333784688",
+        "name": "kansergcrwn",
+        "animated": true,
+        "identifier": "<a:kansergcrwn:1446306001333784688>"
+      },
+      {
+        "id": "1446310441721532516",
+        "name": "kanserbaldwin",
+        "animated": false,
+        "identifier": "<:kanserbaldwin:1446310441721532516>"
+      },
+      {
+        "id": "1448802002359287808",
+        "name": "kanserboost",
+        "animated": true,
+        "identifier": "<a:kanserboost:1448802002359287808>"
+      },
+      {
+        "id": "1448806754640068710",
+        "name": "kanservips",
+        "animated": true,
+        "identifier": "<a:kanservips:1448806754640068710>"
+      },
+      {
+        "id": "1453039161132060695",
+        "name": "kanserbatw",
+        "animated": true,
+        "identifier": "<a:kanserbatw:1453039161132060695>"
+      },
+      {
+        "id": "1453211707563446345",
+        "name": "kanserhellosurf",
+        "animated": true,
+        "identifier": "<a:kanserhellosurf:1453211707563446345>"
+      },
+      {
+        "id": "1453211730787172404",
+        "name": "kanserelfpad",
+        "animated": true,
+        "identifier": "<a:kanserelfpad:1453211730787172404>"
+      },
+      {
+        "id": "1453211783182684291",
+        "name": "kansersnwfall",
+        "animated": true,
+        "identifier": "<a:kansersnwfall:1453211783182684291>"
+      },
+      {
+        "id": "1453211803697025114",
+        "name": "kansersnowgft",
+        "animated": true,
+        "identifier": "<a:kansersnowgft:1453211803697025114>"
+      },
+      {
+        "id": "1453211822806274269",
+        "name": "kansergift",
+        "animated": true,
+        "identifier": "<a:kansergift:1453211822806274269>"
+      },
+      {
+        "id": "1459458305259737098",
+        "name": "kanserpin",
+        "animated": true,
+        "identifier": "<a:kanserpin:1459458305259737098>"
+      },
+      {
+        "id": "1459461708039852187",
+        "name": "kanserystar",
+        "animated": true,
+        "identifier": "<a:kanserystar:1459461708039852187>"
+      },
+      {
+        "id": "1459461866056319019",
+        "name": "kanserlovehii",
+        "animated": true,
+        "identifier": "<a:kanserlovehii:1459461866056319019>"
+      },
+      {
+        "id": "1459461939569627180",
+        "name": "kanserloadin",
+        "animated": true,
+        "identifier": "<a:kanserloadin:1459461939569627180>"
+      },
+      {
+        "id": "1459462023690588221",
+        "name": "kansergreystar",
+        "animated": true,
+        "identifier": "<a:kansergreystar:1459462023690588221>"
+      },
+      {
+        "id": "1459462278842679350",
+        "name": "kanserspheart",
+        "animated": true,
+        "identifier": "<a:kanserspheart:1459462278842679350>"
+      },
+      {
+        "id": "1459462343514914920",
+        "name": "kanserpheart",
+        "animated": true,
+        "identifier": "<a:kanserpheart:1459462343514914920>"
+      },
+      {
+        "id": "1459462600848052254",
+        "name": "kansercat",
+        "animated": true,
+        "identifier": "<a:kansercat:1459462600848052254>"
+      },
+      {
+        "id": "1459462696243036366",
+        "name": "kanserwarrow",
+        "animated": true,
+        "identifier": "<a:kanserwarrow:1459462696243036366>"
+      },
+      {
+        "id": "1459462866771116125",
+        "name": "kanserwhearts",
+        "animated": true,
+        "identifier": "<a:kanserwhearts:1459462866771116125>"
+      },
+      {
+        "id": "1459463041065156672",
+        "name": "kansersparklesqw",
+        "animated": true,
+        "identifier": "<a:kansersparklesqw:1459463041065156672>"
+      },
+      {
+        "id": "1459463528531366039",
+        "name": "kanserwflame",
+        "animated": true,
+        "identifier": "<a:kanserwflame:1459463528531366039>"
+      },
+      {
+        "id": "1459463599545385189",
+        "name": "kansercloudss",
+        "animated": true,
+        "identifier": "<a:kansercloudss:1459463599545385189>"
+      },
+      {
+        "id": "1459463735620927665",
+        "name": "kanserheartsb",
+        "animated": true,
+        "identifier": "<a:kanserheartsb:1459463735620927665>"
+      },
+      {
+        "id": "1459463813706420398",
+        "name": "kanserinfinity",
+        "animated": true,
+        "identifier": "<a:kanserinfinity:1459463813706420398>"
+      },
+      {
+        "id": "1459463864730259517",
+        "name": "kanserbheart5",
+        "animated": true,
+        "identifier": "<a:kanserbheart5:1459463864730259517>"
+      },
+      {
+        "id": "1459463940915331103",
+        "name": "kanserbheart1",
+        "animated": true,
+        "identifier": "<a:kanserbheart1:1459463940915331103>"
+      },
+      {
+        "id": "1459464025141280892",
+        "name": "kanserbflame",
+        "animated": true,
+        "identifier": "<a:kanserbflame:1459464025141280892>"
+      },
+      {
+        "id": "1459735376242409555",
+        "name": "kanserbheart3",
+        "animated": true,
+        "identifier": "<a:kanserbheart3:1459735376242409555>"
+      },
+      {
+        "id": "1459735492034826392",
+        "name": "kanserwarningb",
+        "animated": true,
+        "identifier": "<a:kanserwarningb:1459735492034826392>"
+      },
+      {
+        "id": "1459735548586360864",
+        "name": "kanserbhearts",
+        "animated": true,
+        "identifier": "<a:kanserbhearts:1459735548586360864>"
+      },
+      {
+        "id": "1459735658313809961",
+        "name": "kanserbfly",
+        "animated": true,
+        "identifier": "<a:kanserbfly:1459735658313809961>"
+      },
+      {
+        "id": "1459735721098346618",
+        "name": "kanserruels",
+        "animated": false,
+        "identifier": "<:kanserruels:1459735721098346618>"
+      },
+      {
+        "id": "1459735763171410095",
+        "name": "kanserbspark",
+        "animated": true,
+        "identifier": "<a:kanserbspark:1459735763171410095>"
+      },
+      {
+        "id": "1459735887972667473",
+        "name": "kanserbarrow",
+        "animated": true,
+        "identifier": "<a:kanserbarrow:1459735887972667473>"
+      },
+      {
+        "id": "1459735951633940561",
+        "name": "kanserbstar",
+        "animated": true,
+        "identifier": "<a:kanserbstar:1459735951633940561>"
+      },
+      {
+        "id": "1459736228667723912",
+        "name": "kansergreyFlame",
+        "animated": true,
+        "identifier": "<a:kansergreyFlame:1459736228667723912>"
+      },
+      {
+        "id": "1459736359437598741",
+        "name": "kansermoon",
+        "animated": true,
+        "identifier": "<a:kansermoon:1459736359437598741>"
+      },
+      {
+        "id": "1468583489334153293",
+        "name": "kansercooking",
+        "animated": false,
+        "identifier": "<:kansercooking:1468583489334153293>"
+      },
+      {
+        "id": "1473947440553136178",
+        "name": "kanserVerify",
+        "animated": true,
+        "identifier": "<a:kanserVerify:1473947440553136178>"
+      },
+      {
+        "id": "1473947453471457483",
+        "name": "kanserred",
+        "animated": false,
+        "identifier": "<:kanserred:1473947453471457483>"
+      },
+      {
+        "id": "1473947458932445256",
+        "name": "kanserE",
+        "animated": true,
+        "identifier": "<a:kanserE:1473947458932445256>"
+      },
+      {
+        "id": "1473947466238787746",
+        "name": "kanserK",
+        "animated": true,
+        "identifier": "<a:kanserK:1473947466238787746>"
+      },
+      {
+        "id": "1473947469657280596",
+        "name": "kansernokta",
+        "animated": false,
+        "identifier": "<:kansernokta:1473947469657280596>"
+      },
+      {
+        "id": "1473947473197269084",
+        "name": "kanservcb",
+        "animated": false,
+        "identifier": "<:kanservcb:1473947473197269084>"
+      },
+      {
+        "id": "1473947476904906803",
+        "name": "kansercmuted",
+        "animated": false,
+        "identifier": "<:kansercmuted:1473947476904906803>"
+      },
+      {
+        "id": "1473947480977838161",
+        "name": "kanserpc",
+        "animated": false,
+        "identifier": "<:kanserpc:1473947480977838161>"
+      },
+      {
+        "id": "1473947485985570816",
+        "name": "kansernomessgae",
+        "animated": false,
+        "identifier": "<:kansernomessgae:1473947485985570816>"
+      },
+      {
+        "id": "1473947489056063498",
+        "name": "kanserinfo",
+        "animated": false,
+        "identifier": "<:kanserinfo:1473947489056063498>"
+      },
+      {
+        "id": "1473947492210053261",
+        "name": "kansercikis",
+        "animated": false,
+        "identifier": "<:kansercikis:1473947492210053261>"
+      },
+      {
+        "id": "1473947496127533159",
+        "name": "kansergiris",
+        "animated": false,
+        "identifier": "<:kansergiris:1473947496127533159>"
+      },
+      {
+        "id": "1473947501274071040",
+        "name": "kanserstts",
+        "animated": false,
+        "identifier": "<:kanserstts:1473947501274071040>"
+      },
+      {
+        "id": "1473947505640083497",
+        "name": "kanserban",
+        "animated": true,
+        "identifier": "<a:kanserban:1473947505640083497>"
+      },
+      {
+        "id": "1473947509733855344",
+        "name": "kansercekilis",
+        "animated": true,
+        "identifier": "<a:kansercekilis:1473947509733855344>"
+      },
+      {
+        "id": "1473947514494255158",
+        "name": "kanserso",
+        "animated": false,
+        "identifier": "<:kanserso:1473947514494255158>"
+      },
+      {
+        "id": "1473947518638358663",
+        "name": "kanseryt",
+        "animated": false,
+        "identifier": "<:kanseryt:1473947518638358663>"
+      },
+      {
+        "id": "1473947522207715452",
+        "name": "kanserpersonas",
+        "animated": false,
+        "identifier": "<:kanserpersonas:1473947522207715452>"
+      },
+      {
+        "id": "1473947527970820140",
+        "name": "kanserperson",
+        "animated": false,
+        "identifier": "<:kanserperson:1473947527970820140>"
+      },
+      {
+        "id": "1473947534291501077",
+        "name": "kansertacd",
+        "animated": false,
+        "identifier": "<:kansertacd:1473947534291501077>"
+      },
+      {
+        "id": "1473947538670354462",
+        "name": "kansertac4",
+        "animated": true,
+        "identifier": "<a:kansertac4:1473947538670354462>"
+      },
+      {
+        "id": "1473947542663200829",
+        "name": "kanservipp",
+        "animated": true,
+        "identifier": "<a:kanservipp:1473947542663200829>"
+      },
+      {
+        "id": "1473947547667271885",
+        "name": "kanserheartb",
+        "animated": false,
+        "identifier": "<:kanserheartb:1473947547667271885>"
+      },
+      {
+        "id": "1473947551676760217",
+        "name": "kanserhelo",
+        "animated": true,
+        "identifier": "<a:kanserhelo:1473947551676760217>"
+      },
+      {
+        "id": "1473947555283865765",
+        "name": "kanserload",
+        "animated": true,
+        "identifier": "<a:kanserload:1473947555283865765>"
+      },
+      {
+        "id": "1473947558991892601",
+        "name": "kansertac",
+        "animated": true,
+        "identifier": "<a:kansertac:1473947558991892601>"
+      },
+      {
+        "id": "1473947563593044008",
+        "name": "kanserjail",
+        "animated": false,
+        "identifier": "<:kanserjail:1473947563593044008>"
+      },
+      {
+        "id": "1473947567443410974",
+        "name": "kanserempty",
+        "animated": false,
+        "identifier": "<:kanserempty:1473947567443410974>"
+      },
+      {
+        "id": "1473947571226677288",
+        "name": "kanseremptyend",
+        "animated": false,
+        "identifier": "<:kanseremptyend:1473947571226677288>"
+      },
+      {
+        "id": "1473947575014002728",
+        "name": "kanserfill",
+        "animated": true,
+        "identifier": "<a:kanserfill:1473947575014002728>"
+      },
+      {
+        "id": "1473947578478362656",
+        "name": "kanserfillend",
+        "animated": true,
+        "identifier": "<a:kanserfillend:1473947578478362656>"
+      },
+      {
+        "id": "1473947582991564800",
+        "name": "kanserfillstart",
+        "animated": true,
+        "identifier": "<a:kanserfillstart:1473947582991564800>"
+      },
+      {
+        "id": "1473947586267185154",
+        "name": "kansercoin",
+        "animated": true,
+        "identifier": "<a:kansercoin:1473947586267185154>"
+      },
+      {
+        "id": "1473947590205636720",
+        "name": "kanserexxen",
+        "animated": false,
+        "identifier": "<:kanserexxen:1473947590205636720>"
+      },
+      {
+        "id": "1473947595025027124",
+        "name": "kansernetflix",
+        "animated": false,
+        "identifier": "<:kansernetflix:1473947595025027124>"
+      },
+      {
+        "id": "1473947599256944751",
+        "name": "kanserspotify",
+        "animated": false,
+        "identifier": "<:kanserspotify:1473947599256944751>"
+      },
+      {
+        "id": "1473947604432977941",
+        "name": "kanseryoutube",
+        "animated": true,
+        "identifier": "<a:kanseryoutube:1473947604432977941>"
+      },
+      {
+        "id": "1473947609201905725",
+        "name": "kansergnitro",
+        "animated": true,
+        "identifier": "<a:kansergnitro:1473947609201905725>"
+      },
+      {
+        "id": "1473947612687110237",
+        "name": "kanserhac",
+        "animated": true,
+        "identifier": "<a:kanserhac:1473947612687110237>"
+      },
+      {
+        "id": "1473947616273498214",
+        "name": "kanseroff",
+        "animated": true,
+        "identifier": "<a:kanseroff:1473947616273498214>"
+      },
+      {
+        "id": "1473947620132130826",
+        "name": "kanseron",
+        "animated": true,
+        "identifier": "<a:kanseron:1473947620132130826>"
+      },
+      {
+        "id": "1473947624234025012",
+        "name": "kanseradmn",
+        "animated": false,
+        "identifier": "<:kanseradmn:1473947624234025012>"
+      },
+      {
+        "id": "1473947629443612672",
+        "name": "kanserayar",
+        "animated": true,
+        "identifier": "<a:kanserayar:1473947629443612672>"
+      },
+      {
+        "id": "1473962541859209328",
+        "name": "kanseroky",
+        "animated": true,
+        "identifier": "<a:kanseroky:1473962541859209328>"
+      },
+      {
+        "id": "1473975089186869342",
+        "name": "kanser7",
+        "animated": true,
+        "identifier": "<a:kanser7:1473975089186869342>"
+      },
+      {
+        "id": "1473975092366278677",
+        "name": "kanser8",
+        "animated": true,
+        "identifier": "<a:kanser8:1473975092366278677>"
+      },
+      {
+        "id": "1473975096279302194",
+        "name": "kanser5",
+        "animated": true,
+        "identifier": "<a:kanser5:1473975096279302194>"
+      },
+      {
+        "id": "1473975100759081086",
+        "name": "kanser4",
+        "animated": true,
+        "identifier": "<a:kanser4:1473975100759081086>"
+      },
+      {
+        "id": "1473975104395411502",
+        "name": "kanser3",
+        "animated": true,
+        "identifier": "<a:kanser3:1473975104395411502>"
+      },
+      {
+        "id": "1473975109663461522",
+        "name": "kanser2",
+        "animated": true,
+        "identifier": "<a:kanser2:1473975109663461522>"
+      },
+      {
+        "id": "1473975113639526430",
+        "name": "kanserbro",
+        "animated": false,
+        "identifier": "<:kanserbro:1473975113639526430>"
+      },
+      {
+        "id": "1473975118693929010",
+        "name": "kanser9",
+        "animated": true,
+        "identifier": "<a:kanser9:1473975118693929010>"
+      },
+      {
+        "id": "1473975122485448887",
+        "name": "kanser0",
+        "animated": true,
+        "identifier": "<a:kanser0:1473975122485448887>"
+      },
+      {
+        "id": "1473975127166156861",
+        "name": "kanser6",
+        "animated": true,
+        "identifier": "<a:kanser6:1473975127166156861>"
+      },
+      {
+        "id": "1473975132123824266",
+        "name": "kanserreze",
+        "animated": true,
+        "identifier": "<a:kanserreze:1473975132123824266>"
+      },
+      {
+        "id": "1473975135575871590",
+        "name": "kanser1",
+        "animated": true,
+        "identifier": "<a:kanser1:1473975135575871590>"
+      },
+      {
+        "id": "1474184202084946084",
+        "name": "kansererk",
+        "animated": true,
+        "identifier": "<a:kansererk:1474184202084946084>"
+      },
+      {
+        "id": "1474184230954336276",
+        "name": "kanserkz",
+        "animated": true,
+        "identifier": "<a:kanserkz:1474184230954336276>"
+      },
+      {
+        "id": "1475363594932719657",
+        "name": "kanserblox",
+        "animated": false,
+        "identifier": "<:kanserblox:1475363594932719657>"
+      },
+      {
+        "id": "1479126940148306033",
+        "name": "kanserboga",
+        "animated": false,
+        "identifier": "<:kanserboga:1479126940148306033>"
+      },
+      {
+        "id": "1479127172303032411",
+        "name": "kanserikizler",
+        "animated": false,
+        "identifier": "<:kanserikizler:1479127172303032411>"
+      },
+      {
+        "id": "1479127356986622132",
+        "name": "kanseryengec",
+        "animated": false,
+        "identifier": "<:kanseryengec:1479127356986622132>"
+      },
+      {
+        "id": "1479127403199463557",
+        "name": "kanseraslan",
+        "animated": false,
+        "identifier": "<:kanseraslan:1479127403199463557>"
+      },
+      {
+        "id": "1479127459659120700",
+        "name": "kanserbasak",
+        "animated": false,
+        "identifier": "<:kanserbasak:1479127459659120700>"
+      },
+      {
+        "id": "1479127746318958632",
+        "name": "kanserterazi",
+        "animated": false,
+        "identifier": "<:kanserterazi:1479127746318958632>"
+      },
+      {
+        "id": "1479127788673040454",
+        "name": "kanserakrep",
+        "animated": false,
+        "identifier": "<:kanserakrep:1479127788673040454>"
+      },
+      {
+        "id": "1479127844595564776",
+        "name": "kanseryay",
+        "animated": false,
+        "identifier": "<:kanseryay:1479127844595564776>"
+      },
+      {
+        "id": "1479127899217858742",
+        "name": "kanseroglak",
+        "animated": false,
+        "identifier": "<:kanseroglak:1479127899217858742>"
+      },
+      {
+        "id": "1479127941664215171",
+        "name": "kanserkova",
+        "animated": false,
+        "identifier": "<:kanserkova:1479127941664215171>"
+      },
+      {
+        "id": "1479127980168052766",
+        "name": "kanserbalik",
+        "animated": false,
+        "identifier": "<:kanserbalik:1479127980168052766>"
+      },
+      {
+        "id": "1479129446257791087",
+        "name": "kanserkoc",
+        "animated": false,
+        "identifier": "<:kanserkoc:1479129446257791087>"
+      },
+      {
+        "id": "1479137023423156276",
+        "name": "kanserFortnite",
+        "animated": false,
+        "identifier": "<:kanserFortnite:1479137023423156276>"
+      },
+      {
+        "id": "1479137051902214174",
+        "name": "kanserPubg",
+        "animated": false,
+        "identifier": "<:kanserPubg:1479137051902214174>"
+      },
+      {
+        "id": "1479137212909228115",
+        "name": "kanserRoblox",
+        "animated": false,
+        "identifier": "<:kanserRoblox:1479137212909228115>"
+      },
+      {
+        "id": "1479137240872517652",
+        "name": "kanserGTA5",
+        "animated": false,
+        "identifier": "<:kanserGTA5:1479137240872517652>"
+      },
+      {
+        "id": "1479137326327271475",
+        "name": "kanserMinecraft",
+        "animated": false,
+        "identifier": "<:kanserMinecraft:1479137326327271475>"
+      },
+      {
+        "id": "1479137355624480960",
+        "name": "kanserValorant",
+        "animated": false,
+        "identifier": "<:kanserValorant:1479137355624480960>"
+      },
+      {
+        "id": "1479137397621919905",
+        "name": "kanserLoL",
+        "animated": false,
+        "identifier": "<:kanserLoL:1479137397621919905>"
+      },
+      {
+        "id": "1479137428769083402",
+        "name": "kansercs2",
+        "animated": false,
+        "identifier": "<:kansercs2:1479137428769083402>"
+      },
+      {
+        "id": "1484959057361240095",
+        "name": "kansersiradan",
+        "animated": false,
+        "identifier": "<:kansersiradan:1484959057361240095>"
+      },
+      {
+        "id": "1484959291759919294",
+        "name": "kanserender",
+        "animated": false,
+        "identifier": "<:kanserender:1484959291759919294>"
+      },
+      {
+        "id": "1484959340422234383",
+        "name": "kanserdestansi",
+        "animated": false,
+        "identifier": "<:kanserdestansi:1484959340422234383>"
+      },
+      {
+        "id": "1484959428649287760",
+        "name": "kanserefsanevi",
+        "animated": false,
+        "identifier": "<:kanserefsanevi:1484959428649287760>"
+      },
+      {
+        "id": "1484959490515407068",
+        "name": "kansergizemli",
+        "animated": false,
+        "identifier": "<:kansergizemli:1484959490515407068>"
+      },
+      {
+        "id": "1488644120678371378",
+        "name": "kanserangpun",
+        "animated": false,
+        "identifier": "<:kanserangpun:1488644120678371378>"
+      },
+      {
+        "id": "1490417727473451281",
+        "name": "kansersoru",
+        "animated": false,
+        "identifier": "<:kansersoru:1490417727473451281>"
+      },
+      {
+        "id": "1490417777046061240",
+        "name": "kansermoneyy",
+        "animated": true,
+        "identifier": "<a:kansermoneyy:1490417777046061240>"
+      },
+      {
+        "id": "1490417945258758186",
+        "name": "kanserdia",
+        "animated": true,
+        "identifier": "<a:kanserdia:1490417945258758186>"
+      },
+      {
+        "id": "1490418035742216323",
+        "name": "kanserwrong",
+        "animated": true,
+        "identifier": "<a:kanserwrong:1490418035742216323>"
+      },
+      {
+        "id": "1491075521486786763",
+        "name": "kanserariz",
+        "animated": false,
+        "identifier": "<:kanserariz:1491075521486786763>"
+      },
+      {
+        "id": "1491156225696469002",
+        "name": "kanserroll",
+        "animated": true,
+        "identifier": "<a:kanserroll:1491156225696469002>"
+      },
+      {
+        "id": "1491157119553114293",
+        "name": "kansergbutterflyb",
+        "animated": false,
+        "identifier": "<:kansergbutterflyb:1491157119553114293>"
+      },
+      {
+        "id": "1491157137550872686",
+        "name": "kansergcrownb",
+        "animated": false,
+        "identifier": "<:kansergcrownb:1491157137550872686>"
+      },
+      {
+        "id": "1491157153954791576",
+        "name": "kansergdolarb",
+        "animated": false,
+        "identifier": "<:kansergdolarb:1491157153954791576>"
+      },
+      {
+        "id": "1491162757582688337",
+        "name": "kanserbutterfly",
+        "animated": false,
+        "identifier": "<:kanserbutterfly:1491162757582688337>"
+      },
+      {
+        "id": "1491163186831818903",
+        "name": "kansergdolar",
+        "animated": false,
+        "identifier": "<:kansergdolar:1491163186831818903>"
+      },
+      {
+        "id": "1491163262589341856",
+        "name": "kansergcrown",
+        "animated": false,
+        "identifier": "<:kansergcrown:1491163262589341856>"
+      },
+      {
+        "id": "1494827710122561716",
+        "name": "kanserdm",
+        "animated": true,
+        "identifier": "<a:kanserdm:1494827710122561716>"
+      },
+      {
+        "id": "1494999944627622009",
+        "name": "kanserlebek",
+        "animated": true,
+        "identifier": "<a:kanserlebek:1494999944627622009>"
+      },
+      {
+        "id": "1496303922531405854",
+        "name": "kanserdesg",
+        "animated": false,
+        "identifier": "<:kanserdesg:1496303922531405854>"
+      },
+      {
+        "id": "1499064823055650896",
+        "name": "kanserguitar",
+        "animated": false,
+        "identifier": "<:kanserguitar:1499064823055650896>"
+      },
+      {
+        "id": "1499711044761944074",
+        "name": "kanservd",
+        "animated": false,
+        "identifier": "<:kanservd:1499711044761944074>"
+      },
+      {
+        "id": "1499711185522524180",
+        "name": "kanservc",
+        "animated": false,
+        "identifier": "<:kanservc:1499711185522524180>"
+      },
+      {
+        "id": "1499711212684836986",
+        "name": "kanserselfm",
+        "animated": false,
+        "identifier": "<:kanserselfm:1499711212684836986>"
+      },
+      {
+        "id": "1499711238731468972",
+        "name": "kansertext",
+        "animated": false,
+        "identifier": "<:kansertext:1499711238731468972>"
+      },
+      {
+        "id": "1499712262557143060",
+        "name": "kansermt",
+        "animated": false,
+        "identifier": "<:kansermt:1499712262557143060>"
+      },
+      {
+        "id": "1499712284577235064",
+        "name": "kanserswm",
+        "animated": false,
+        "identifier": "<:kanserswm:1499712284577235064>"
+      },
+      {
+        "id": "1499712844076154940",
+        "name": "kansersheart",
+        "animated": true,
+        "identifier": "<a:kansersheart:1499712844076154940>"
+      },
+      {
+        "id": "1499714153261043732",
+        "name": "kanserstfw",
+        "animated": false,
+        "identifier": "<:kanserstfw:1499714153261043732>"
+      },
+      {
+        "id": "1499714397340176515",
+        "name": "kansertaff",
+        "animated": true,
+        "identifier": "<a:kansertaff:1499714397340176515>"
+      },
+      {
+        "id": "1499715440287547513",
+        "name": "kansersupport",
+        "animated": false,
+        "identifier": "<:kansersupport:1499715440287547513>"
+      },
+      {
+        "id": "1499715967586926662",
+        "name": "kanserjailed",
+        "animated": true,
+        "identifier": "<a:kanserjailed:1499715967586926662>"
+      },
+      {
+        "id": "1500086885903503410",
+        "name": "kanserBrawlhalla",
+        "animated": false,
+        "identifier": "<:kanserBrawlhalla:1500086885903503410>"
+      },
+      {
+        "id": "1500086963946918029",
+        "name": "kanserdbd",
+        "animated": false,
+        "identifier": "<:kanserdbd:1500086963946918029>"
+      },
+      {
+        "id": "1500087009954365541",
+        "name": "kanserLogoBS",
+        "animated": false,
+        "identifier": "<:kanserLogoBS:1500087009954365541>"
+      },
+      {
+        "id": "1500087038811308062",
+        "name": "kanserMinecraft",
+        "animated": false,
+        "identifier": "<:kanserMinecraft:1500087038811308062>"
+      },
+      {
+        "id": "1500087064606281878",
+        "name": "kanserphasmo",
+        "animated": false,
+        "identifier": "<:kanserphasmo:1500087064606281878>"
+      },
+      {
+        "id": "1500128927014850600",
+        "name": "jojogolden",
+        "animated": false,
+        "identifier": "<:jojogolden:1500128927014850600>"
+      },
+      {
+        "id": "1500128963438186648",
+        "name": "jojopale",
+        "animated": false,
+        "identifier": "<:jojopale:1500128963438186648>"
+      },
+      {
+        "id": "1500129000092340374",
+        "name": "jojoearth",
+        "animated": false,
+        "identifier": "<:jojoearth:1500129000092340374>"
+      },
+      {
+        "id": "1500129036116951150",
+        "name": "jojoOcean",
+        "animated": false,
+        "identifier": "<:jojoOcean:1500129036116951150>"
+      },
+      {
+        "id": "1500129071546237040",
+        "name": "jojoecilapse",
+        "animated": false,
+        "identifier": "<:jojoecilapse:1500129071546237040>"
+      },
+      {
+        "id": "1500129117188657275",
+        "name": "jojodiamond",
+        "animated": false,
+        "identifier": "<:jojodiamond:1500129117188657275>"
+      },
+      {
+        "id": "1500129156577366188",
+        "name": "jojosolar",
+        "animated": false,
+        "identifier": "<:jojosolar:1500129156577366188>"
+      },
+      {
+        "id": "1500129187971727521",
+        "name": "jojolove",
+        "animated": false,
+        "identifier": "<:jojolove:1500129187971727521>"
+      },
+      {
+        "id": "1500129217990623343",
+        "name": "jojocrimson",
+        "animated": false,
+        "identifier": "<:jojocrimson:1500129217990623343>"
+      },
+      {
+        "id": "1500387152763293746",
+        "name": "kanserrdr",
+        "animated": false,
+        "identifier": "<:kanserrdr:1500387152763293746>"
+      },
+      {
+        "id": "1500939716961505372",
+        "name": "kansertik",
+        "animated": false,
+        "identifier": "<:kansertik:1500939716961505372>"
+      },
+      {
+        "id": "1500941245826994337",
+        "name": "kanserari",
+        "animated": true,
+        "identifier": "<a:kanserari:1500941245826994337>"
+      },
+      {
+        "id": "1500941934858866858",
+        "name": "kanservmute",
+        "animated": false,
+        "identifier": "<:kanservmute:1500941934858866858>"
+      },
+      {
+        "id": "1500943517864951950",
+        "name": "kansercmute",
+        "animated": false,
+        "identifier": "<:kansercmute:1500943517864951950>"
+      },
+      {
+        "id": "1500943928478924860",
+        "name": "kansermsg",
+        "animated": true,
+        "identifier": "<a:kansermsg:1500943928478924860>"
+      },
+      {
+        "id": "1500944875720409139",
+        "name": "kanserpartner",
+        "animated": false,
+        "identifier": "<:kanserpartner:1500944875720409139>"
+      },
+      {
+        "id": "1500944903482638547",
+        "name": "kanserdlopment",
+        "animated": false,
+        "identifier": "<:kanserdlopment:1500944903482638547>"
+      },
+      {
+        "id": "1500944928203870379",
+        "name": "kanserreels",
+        "animated": false,
+        "identifier": "<:kanserreels:1500944928203870379>"
+      },
+      {
+        "id": "1500944953487134801",
+        "name": "kanserhunter",
+        "animated": false,
+        "identifier": "<:kanserhunter:1500944953487134801>"
+      },
+      {
+        "id": "1500944977373429992",
+        "name": "kansevip",
+        "animated": true,
+        "identifier": "<a:kansevip:1500944977373429992>"
+      },
+      {
+        "id": "1500945002442920046",
+        "name": "kanserown",
+        "animated": false,
+        "identifier": "<:kanserown:1500945002442920046>"
+      },
+      {
+        "id": "1500945025692078131",
+        "name": "kanserstf",
+        "animated": false,
+        "identifier": "<:kanserstf:1500945025692078131>"
+      },
+      {
+        "id": "1500945048509091930",
+        "name": "kanseryt",
+        "animated": false,
+        "identifier": "<:kanseryt:1500945048509091930>"
+      },
+      {
+        "id": "1500945073427451984",
+        "name": "kanserdev",
+        "animated": false,
+        "identifier": "<:kanserdev:1500945073427451984>"
+      },
+      {
+        "id": "1500945099016765471",
+        "name": "kanserAdev",
+        "animated": false,
+        "identifier": "<:kanserAdev:1500945099016765471>"
+      },
+      {
+        "id": "1500945122634760273",
+        "name": "kanserwmoney",
+        "animated": true,
+        "identifier": "<a:kanserwmoney:1500945122634760273>"
+      },
+      {
+        "id": "1500946084749381663",
+        "name": "kanserstatus",
+        "animated": false,
+        "identifier": "<:kanserstatus:1500946084749381663>"
+      },
+      {
+        "id": "1501156802895679558",
+        "name": "kansegvc",
+        "animated": false,
+        "identifier": "<:kansegvc:1501156802895679558>"
+      },
+      {
+        "id": "1501158726814666893",
+        "name": "kanserstream",
+        "animated": false,
+        "identifier": "<:kanserstream:1501158726814666893>"
+      },
+      {
+        "id": "1501158823984107651",
+        "name": "kanserwifi",
+        "animated": false,
+        "identifier": "<:kanserwifi:1501158823984107651>"
+      },
+      {
+        "id": "1501319425931083996",
+        "name": "kansercoin",
+        "animated": false,
+        "identifier": "<:kansercoin:1501319425931083996>"
+      },
+      {
+        "id": "1501320123120877799",
+        "name": "kanserinvttt",
+        "animated": false,
+        "identifier": "<:kanserinvttt:1501320123120877799>"
+      },
+      {
+        "id": "1501340640297095228",
+        "name": "kanservocc",
+        "animated": false,
+        "identifier": "<:kanservocc:1501340640297095228>"
+      },
+      {
+        "id": "1501341767436472401",
+        "name": "kanserlivett",
+        "animated": false,
+        "identifier": "<:kanserlivett:1501341767436472401>"
+      },
+      {
+        "id": "1501346199570087987",
+        "name": "kanserkese",
+        "animated": false,
+        "identifier": "<:kanserkese:1501346199570087987>"
+      },
+      {
+        "id": "1501349311806701798",
+        "name": "kansergvc",
+        "animated": false,
+        "identifier": "<:kansergvc:1501349311806701798>"
+      },
+      {
+        "id": "1501368719660683315",
+        "name": "kansertcrtown",
+        "animated": false,
+        "identifier": "<:kansertcrtown:1501368719660683315>"
+      },
+      {
+        "id": "1505954883231289394",
+        "name": "kanserzula",
+        "animated": false,
+        "identifier": "<:kanserzula:1505954883231289394>"
+      },
+      {
+        "id": "1506802373018914947",
+        "name": "Kanser",
+        "animated": true,
+        "identifier": "<a:Kanser:1506802373018914947>"
+      },
+      {
+        "id": "1506802450794021014",
+        "name": "KanserWhiteTag",
+        "animated": true,
+        "identifier": "<a:KanserWhiteTag:1506802450794021014>"
+      },
+      {
+        "id": "1506802533023223878",
+        "name": "KanserKadin",
+        "animated": true,
+        "identifier": "<a:KanserKadin:1506802533023223878>"
+      },
+      {
+        "id": "1506802611431673938",
+        "name": "KanserErkek",
+        "animated": false,
+        "identifier": "<:KanserErkek:1506802611431673938>"
+      },
+      {
+        "id": "1508118595220017273",
+        "name": "fd0b2483b18a42e0a843490f22241f3f",
+        "animated": false,
+        "identifier": "<:fd0b2483b18a42e0a843490f22241f3f:1508118595220017273>"
+      },
+      {
+        "id": "1509346863034400920",
+        "name": "313131",
+        "animated": true,
+        "identifier": "<a:313131:1509346863034400920>"
+      },
+      {
+        "id": "1509346938254917706",
+        "name": "GADIN",
+        "animated": true,
+        "identifier": "<a:GADIN:1509346938254917706>"
+      },
+      {
+        "id": "1511135212761780255",
+        "name": "founder",
+        "animated": false,
+        "identifier": "<:founder:1511135212761780255>"
+      },
+      {
+        "id": "1511141862231113738",
+        "name": "owner",
+        "animated": false,
+        "identifier": "<:owner:1511141862231113738>"
+      },
+      {
+        "id": "1511143945684390070",
+        "name": "velaris",
+        "animated": false,
+        "identifier": "<:velaris:1511143945684390070>"
+      },
+      {
+        "id": "1511161559949377678",
+        "name": "seymaninrol",
+        "animated": false,
+        "identifier": "<:seymaninrol:1511161559949377678>"
+      },
+      {
+        "id": "1511316654720684213",
+        "name": "vv",
+        "animated": false,
+        "identifier": "<:vv:1511316654720684213>"
+      },
+      {
+        "id": "1511317351059165254",
+        "name": "33",
+        "animated": false,
+        "identifier": "<:33:1511317351059165254>"
+      },
+      {
+        "id": "1511318285730316359",
+        "name": "77",
+        "animated": false,
+        "identifier": "<:77:1511318285730316359>"
+      },
+      {
+        "id": "1511318727356977233",
+        "name": "14",
+        "animated": false,
+        "identifier": "<:14:1511318727356977233>"
+      },
+      {
+        "id": "1511319595624042527",
+        "name": "44",
+        "animated": false,
+        "identifier": "<:44:1511319595624042527>"
+      },
+      {
+        "id": "1511425312884260925",
+        "name": "55",
+        "animated": false,
+        "identifier": "<:55:1511425312884260925>"
+      },
+      {
+        "id": "1511537879359164446",
+        "name": "sudeku_play",
+        "animated": false,
+        "identifier": "<:sudeku_play:1511537879359164446>"
+      },
+      {
+        "id": "1511537882081263752",
+        "name": "sudeku_fullscreen_exit",
+        "animated": false,
+        "identifier": "<:sudeku_fullscreen_exit:1511537882081263752>"
+      },
+      {
+        "id": "1511537884174221393",
+        "name": "sudeku_loop",
+        "animated": false,
+        "identifier": "<:sudeku_loop:1511537884174221393>"
+      },
+      {
+        "id": "1511537885755740221",
+        "name": "sudeku_picture_in_picture",
+        "animated": false,
+        "identifier": "<:sudeku_picture_in_picture:1511537885755740221>"
+      },
+      {
+        "id": "1511537887781453824",
+        "name": "sudeku_pause",
+        "animated": false,
+        "identifier": "<:sudeku_pause:1511537887781453824>"
+      },
+      {
+        "id": "1511537889547124967",
+        "name": "sudeku_rewind",
+        "animated": false,
+        "identifier": "<:sudeku_rewind:1511537889547124967>"
+      },
+      {
+        "id": "1511537890948157610",
+        "name": "sudeku_fastforward",
+        "animated": false,
+        "identifier": "<:sudeku_fastforward:1511537890948157610>"
+      },
+      {
+        "id": "1511537892420223139",
+        "name": "sudeku_skip_back",
+        "animated": false,
+        "identifier": "<:sudeku_skip_back:1511537892420223139>"
+      },
+      {
+        "id": "1511537893938561064",
+        "name": "sudeku_skip_forward",
+        "animated": false,
+        "identifier": "<:sudeku_skip_forward:1511537893938561064>"
+      },
+      {
+        "id": "1511537895746306159",
+        "name": "sudeku_volume",
+        "animated": false,
+        "identifier": "<:sudeku_volume:1511537895746306159>"
+      },
+      {
+        "id": "1511537897990520873",
+        "name": "sudeku_volume_mute",
+        "animated": false,
+        "identifier": "<:sudeku_volume_mute:1511537897990520873>"
+      },
+      {
+        "id": "1511537900880396399",
+        "name": "sudeku_fullscreen_enter",
+        "animated": false,
+        "identifier": "<:sudeku_fullscreen_enter:1511537900880396399>"
+      },
+      {
+        "id": "1511778005641330688",
+        "name": "66",
+        "animated": false,
+        "identifier": "<:66:1511778005641330688>"
+      },
+      {
+        "id": "1511778883689512980",
+        "name": "11",
+        "animated": false,
+        "identifier": "<:11:1511778883689512980>"
+      },
+      {
+        "id": "1511780400433856543",
+        "name": "14",
+        "animated": false,
+        "identifier": "<:14:1511780400433856543>"
+      },
+      {
+        "id": "1511780771604725911",
+        "name": "88",
+        "animated": false,
+        "identifier": "<:88:1511780771604725911>"
+      },
+      {
+        "id": "1511803431516504085",
+        "name": "31",
+        "animated": false,
+        "identifier": "<:31:1511803431516504085>"
+      }
+    ]
+  }
+}

@@ -23,16 +23,13 @@ module.exports = {
 async function sendHelp(ctx, isSlash) {
   const client = isSlash ? ctx.client : ctx.client;
 
-  // Dynamically group commands by category
-  // Let's read from the client commands collection if available, or just read files
-  // Let's load the categories map from the filesystem directly to make it extremely robust
   const categories = {
-    music: { name: '🎵 Müzik', desc: 'Müzik oynatıcı, filtreler ve ses kontrolleri.' },
-    moderation: { name: '🛡️ Moderasyon', desc: 'Yetkililer için sunucu düzenleme/ceza komutları.' },
-    automod: { name: '🤖 AutoMod', desc: 'Küfür, link, davet ve spam engelleme ayarları.' },
-    economy: { name: '💰 Ekonomi', desc: 'Günlük coin kazanma, çalışma, soygun ve dükkan işlemleri.' },
-    fun: { name: '🎉 Eğlence', desc: 'AFK, hatırlatıcı, anket, quiz ve çekiliş komutları.' },
-    utility: { name: '⚙️ Yardımcı / Genel', desc: 'İstatistikler, sıralama, seviye kartı ve sunucu bilgisi.' }
+    music:      { name: 'Müzik',      icon: EMOJIS.note,     desc: 'Müzik oynatıcı, filtreler ve ses kontrolleri.' },
+    moderation: { name: 'Moderasyon', icon: EMOJIS.moderator, desc: 'Yetkililer için sunucu düzenleme/ceza komutları.' },
+    automod:    { name: 'AutoMod',    icon: EMOJIS.gear,      desc: 'Küfür, link, davet ve spam engelleme ayarları.' },
+    economy:    { name: 'Ekonomi',    icon: EMOJIS.coin,      desc: 'Günlük coin kazanma, çalışma, soygun ve dükkan işlemleri.' },
+    fun:        { name: 'Eğlence',    icon: EMOJIS.giveaway,  desc: 'AFK, hatırlatıcı, anket, quiz ve çekiliş komutları.' },
+    utility:    { name: 'Yardımcı',  icon: EMOJIS.gear,      desc: 'İstatistikler, sıralama, seviye kartı ve sunucu bilgisi.' }
   };
 
   const commandDir = path.join(__dirname, '../..', 'commands');
@@ -54,7 +51,7 @@ async function sendHelp(ctx, isSlash) {
             });
           }
         } catch (e) {
-          // ignore error
+          // ignore
         }
       });
     }
@@ -62,12 +59,13 @@ async function sendHelp(ctx, isSlash) {
 
   const embedColor = 0x8b5cf6;
   const homeEmbed = {
-    title: `${EMOJIS.moon || '🌙'} Sudeku - Yardım Kılavuzu`,
-    description: `Sudeku; üstün ses kalitesi, moderasyon araçları, eğlence, ekonomi ve otomasyon özellikleriyle donatılmış bir **All-in-One Discord Botu**dur.\n\n` +
+    title: `${EMOJIS.moon} Sudeku - Yardım Kılavuzu`,
+    description:
+      `Sudeku; üstün ses kalitesi, moderasyon araçları, eğlence, ekonomi ve otomasyon özellikleriyle donatılmış bir **All-in-One Discord Botu**dur.\n\n` +
       `Aşağıdaki açılır menüyü kullanarak kategoriler arasında geçiş yapabilirsiniz.\n\n` +
-      `✨ **Kullanım Prefiksleri:** \`/\` (Slash), \`a.\` veya \`a!\` (Mesaj Prefiksi)\n\n` +
+      `${EMOJIS.star} **Kullanım Prefiksleri:** \`/\` (Slash), \`a.\` veya \`a!\` (Mesaj Prefiksi)\n\n` +
       Object.entries(categories).map(([key, val]) => {
-        return `**${val.name}**\n*${val.desc}* (\`${commandsData[key]?.length || 0} komut\`)`;
+        return `**${val.icon} ${val.name}**\n*${val.desc}* (\`${commandsData[key]?.length || 0} komut\`)`;
       }).join('\n\n'),
     color: embedColor,
     thumbnail: { url: client.user.displayAvatarURL() },
@@ -77,13 +75,12 @@ async function sendHelp(ctx, isSlash) {
 
   const menu = new StringSelectMenuBuilder()
     .setCustomId('help_select')
-    .setPlaceholder('Bir kategori seçin...')
+    .setPlaceholder('Bir kategori seçin.')
     .addOptions([
-      { label: 'Ana Sayfa', value: 'home', emoji: '🏠', description: 'Ana yardım sayfasına geri dön.' },
+      { label: 'Ana Sayfa', value: 'home', description: 'Ana yardım sayfasına geri dön.' },
       ...Object.entries(categories).map(([key, val]) => ({
-        label: val.name.replace(/[^\p{L}\s]/gu, '').trim(),
+        label: val.name,
         value: key,
-        emoji: val.name.split(' ')[0],
         description: val.desc.substring(0, 100)
       }))
     ]);
@@ -110,13 +107,13 @@ async function sendHelp(ctx, isSlash) {
 
     const value = i.values[0];
     if (value === 'home') {
-      await i.update({ embeds: [homeEmbed] });
+      await i.update({ embeds: [homeEmbed], components: [row] });
     } else {
       const cat = categories[value];
       const cmds = commandsData[value] || [];
 
       const catEmbed = {
-        title: `${cat.name} Komutları`,
+        title: `${cat.icon} ${cat.name} Komutları`,
         description: `${cat.desc}\n\n` + (cmds.length === 0 ? '*Bu kategoride henüz komut bulunmuyor.*' : cmds.map(c => {
           const aliasesText = c.aliases.length > 0 ? ` (Alternatif: \`${c.aliases.join(', ')}\`)` : '';
           return `• **\`/${c.name}\` / \`a.${c.name}\`**\n  *${c.desc || 'Açıklama belirtilmemiş.'}*${aliasesText}`;
@@ -127,7 +124,7 @@ async function sendHelp(ctx, isSlash) {
         timestamp: new Date().toISOString()
       };
 
-      await i.update({ embeds: [catEmbed] });
+      await i.update({ embeds: [catEmbed], components: [row] });
     }
   });
 

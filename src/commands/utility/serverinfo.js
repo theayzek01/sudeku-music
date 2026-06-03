@@ -43,13 +43,13 @@ async function sendServerInfo(guild, member, reply) {
 
   reply({
     embeds: [{
-      title: `${EMOJIS.star || '⭐'} ${guild.name}`,
+      title: `${EMOJIS.star} ${guild.name}`,
       color: 0x8b5cf6,
       thumbnail: { url: guild.iconURL({ extension: 'png', size: 256 }) || '' },
       image: guild.bannerURL({ size: 1024 }) ? { url: guild.bannerURL({ size: 1024 }) } : undefined,
       fields: [
         {
-          name: '📌 Genel',
+          name: `${EMOJIS.info} Genel`,
           value: [
             `• **Sahip:** ${owner ? `<@${owner.id}>` : 'Bilinmiyor'}`,
             `• **Kuruluş:** <t:${Math.floor(guild.createdTimestamp / 1000)}:R>`,
@@ -59,22 +59,22 @@ async function sendServerInfo(guild, member, reply) {
           inline: false
         },
         {
-          name: '👥 Üyeler',
+          name: `${EMOJIS.voice} Üyeler`,
           value: `• **Toplam:** \`${totalMembers}\`\n• **İnsan:** \`${humans}\`\n• **Bot:** \`${bots}\``,
           inline: true
         },
         {
-          name: '💬 Kanallar',
+          name: `${EMOJIS.textChannel} Kanallar`,
           value: `• **Yazı:** \`${textCh}\`\n• **Ses:** \`${voiceCh}\`\n• **Kategori:** \`${categories}\``,
           inline: true
         },
         {
-          name: '🛡️ Durum',
+          name: `${EMOJIS.moderator} Durum`,
           value: `• **Roller:** \`${roles}\`\n• **Emoji:** \`${emojis}\`\n• **Sticker:** \`${stickers}\`\n• **Boost:** \`${boosts}\` (Seviye ${boostTier})`,
           inline: true
         },
         {
-          name: '✨ Özellikler',
+          name: `${EMOJIS.spark || EMOJIS.star} Özellikler`,
           value: features,
           inline: false
         }
