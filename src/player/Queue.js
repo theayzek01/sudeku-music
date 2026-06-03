@@ -71,30 +71,32 @@ function getStreamFromUrl(directUrl) {
   });
 }
 
+const GLOBAL_EMOJIS = require('../utils/emojis');
+
 const EMOJIS = {
-  spotify: "<:kanserspotify:1473947599256944751>",
-  youtube: "<a:kanseryoutube:1473947604432977941>",
-  loading: "<a:kanserload:1473947555283865765>",
-  verify: "<a:kanserVerify:1473947440553136178>",
-  tick: "<:kansertik:1500939716961505372>",
-  cross: "<:kanserred:1473947453471457483>",
-  note: "<a:kansernote:1445409966197313656>",
-  voice: "<:kanservcb:1473947473197269084>",
-  mute: "<:kanservmute:1500941934858866858>",
-  moon: "<a:kansermoon:1459736359437598741>",
-  status: "<:kanserstatus:1500946084749381663>",
-  fillStart: "<a:kanserfillstart:1473947582991564800>",
-  fill: "<a:kanserfill:1473947575014002728>",
-  fillEnd: "<a:kanserfillend:1473947578478362656>",
-  empty: "<:kanserempty:1473947567443410974>",
-  emptyEnd: "<:kanseremptyend:1473947571226677288>",
-  arrowLeft: "1511537892420223139",
-  arrowRight: "1511537893938561064",
-  play: "1511537879359164446",
-  pause: "1511537887781453824",
-  stop: "1473947453471457483",
-  loop: "1511537884174221393",
-  autoplay: "1511537885755740221"
+  get spotify() { return GLOBAL_EMOJIS.spotify; },
+  get youtube() { return GLOBAL_EMOJIS.youtube; },
+  get loading() { return GLOBAL_EMOJIS.loading; },
+  get verify() { return GLOBAL_EMOJIS.verify; },
+  get tick() { return GLOBAL_EMOJIS.tick; },
+  get cross() { return GLOBAL_EMOJIS.cross; },
+  get note() { return GLOBAL_EMOJIS.note; },
+  get voice() { return GLOBAL_EMOJIS.voice; },
+  get mute() { return GLOBAL_EMOJIS.mute; },
+  get moon() { return GLOBAL_EMOJIS.moon; },
+  get status() { return GLOBAL_EMOJIS.status; },
+  get fillStart() { return GLOBAL_EMOJIS.barFillStart; },
+  get fill() { return GLOBAL_EMOJIS.barFill; },
+  get fillEnd() { return GLOBAL_EMOJIS.barFillEnd; },
+  get empty() { return GLOBAL_EMOJIS.barEmpty; },
+  get emptyEnd() { return GLOBAL_EMOJIS.barEmptyEnd; },
+  get arrowLeft() { return GLOBAL_EMOJIS.prev; },
+  get arrowRight() { return GLOBAL_EMOJIS.skip; },
+  get play() { return GLOBAL_EMOJIS.play; },
+  get pause() { return GLOBAL_EMOJIS.pause; },
+  get stop() { return GLOBAL_EMOJIS.stop; },
+  get loop() { return GLOBAL_EMOJIS.loop; },
+  get autoplay() { return GLOBAL_EMOJIS.pip; }
 };
 
 class Queue {
@@ -266,8 +268,9 @@ class Queue {
       }
 
       // Generate the stream (with yt-dlp fallback)
-      let directUrl = '';
+      let directUrl = track.directUrl || '';
 
+    if (!directUrl) {
       try {
         console.log(`[Queue] play-dl ile stream aranıyor: ${playUrl}`);
         const stream = await require('play-dl').stream(playUrl, { quality: 2, discordPlayerCompatible: true });
@@ -290,39 +293,48 @@ class Queue {
           throw new Error(`Yayın başlatılamadı (play-dl ve yt-dlp hatası): ${ytDlpErr.message}`);
         }
       }
+    } else {
+      console.log(`[Queue] Ultra-Low Latency: playing using pre-fetched stream URL for track: ${track.title}`);
+    }
 
-      const ffmpegArgs = [];
-      if (seekSeconds > 0) {
-        ffmpegArgs.push('-ss', String(seekSeconds));
-      }
-      ffmpegArgs.push(
-        '-i', directUrl,
-        '-analyzeduration', '0',
-        '-loglevel', '0',
-        '-f', 's16le',
-        '-ar', '48000',
-        '-ac', '2'
-      );
+    const ffmpegArgs = [];
+    if (seekSeconds > 0) {
+      ffmpegArgs.push('-ss', String(seekSeconds));
+    }
+    ffmpegArgs.push(
+      '-reconnect', '1',
+      '-reconnect_streamed', '1',
+      '-reconnect_delay_max', '5',
+      '-i', directUrl,
+      '-analyzeduration', '0',
+      '-loglevel', '0',
+      '-f', 's16le',
+      '-ar', '48000',
+      '-ac', '2'
+    );
 
-      if (this.filterString) {
-        ffmpegArgs.push('-af', this.filterString);
-      }
+    if (this.filterString) {
+      ffmpegArgs.push('-af', this.filterString);
+    }
 
-      const ffmpegPath = require('ffmpeg-static');
-      const prism = require('prism-media');
-      const transcoder = new prism.FFmpeg({
-        binary: ffmpegPath,
-        args: ffmpegArgs
-      });
+    const ffmpegPath = require('ffmpeg-static');
+    const prism = require('prism-media');
+    const transcoder = new prism.FFmpeg({
+      binary: ffmpegPath,
+      args: ffmpegArgs
+    });
 
-      this.currentStream = transcoder;
-      this.resource = createAudioResource(transcoder, {
-        inputType: 'raw',
-        inlineVolume: true
-      });
+    this.currentStream = transcoder;
+    this.resource = createAudioResource(transcoder, {
+      inputType: 'raw',
+      inlineVolume: true
+    });
 
-      this.resource.volume.setVolume(this.volume / 100);
-      this.player.play(this.resource);
+    this.resource.volume.setVolume(this.volume / 100);
+    this.player.play(this.resource);
+
+    // Start pre-fetching the next track in background
+    this.prefetchNextTrack();
 
       // Register track played in database
       if (seekSeconds === 0) {
@@ -382,6 +394,57 @@ class Queue {
         });
       }
       this.playNext();
+    }
+  }
+
+  async prefetchNextTrack() {
+    if (this.tracks.length === 0) return;
+    const nextTrack = this.tracks[0];
+    if (nextTrack.directUrl || nextTrack.prefetching) return;
+
+    nextTrack.prefetching = true;
+    try {
+      let playUrl = nextTrack.url;
+      if (nextTrack.source === 'spotify' && !nextTrack.resolvedUrl) {
+        const resolved = await require('./search').resolveSpotifyTrack(nextTrack.title, "");
+        if (resolved) {
+          nextTrack.resolvedUrl = resolved;
+          playUrl = resolved;
+        }
+      } else if (nextTrack.source === 'spotify') {
+        playUrl = nextTrack.resolvedUrl;
+      }
+
+      if (playUrl) {
+        console.log(`[Queue] Background pre-fetching stream URL for: ${nextTrack.title}`);
+        let directUrl = '';
+        try {
+          const stream = await require('play-dl').stream(playUrl, { quality: 2, discordPlayerCompatible: true });
+          directUrl = stream.url;
+        } catch (e) {
+          try {
+            const ytDlpCmd = getYtDlpCommand();
+            directUrl = await new Promise((resolve, reject) => {
+              const { exec } = require('child_process');
+              const cmd = `${ytDlpCmd} -f bestaudio -g "${playUrl}"`;
+              exec(cmd, (err, stdout) => {
+                if (err) return reject(err);
+                resolve(stdout.trim());
+              });
+            });
+          } catch (ytDlpErr) {
+            // failed
+          }
+        }
+        if (directUrl) {
+          nextTrack.directUrl = directUrl;
+          console.log(`[Queue] Successfully pre-fetched stream URL for: ${nextTrack.title}`);
+        }
+      }
+    } catch (err) {
+      console.warn(`[Queue] Pre-fetching failed for: ${nextTrack.title}`, err.message || err);
+    } finally {
+      nextTrack.prefetching = false;
     }
   }
 
@@ -542,6 +605,7 @@ class Queue {
       this.playNext();
     } else {
       this.broadcastState();
+      this.prefetchNextTrack();
     }
   }
 

@@ -8,7 +8,7 @@ const DashboardServer = require('./dashboard/server');
 const Database = require('./database');
 const { commands } = require('./commands');
 const EMOJIS = require('./utils/emojis');
-const chatEngine = require('./ai/services/chatEngine');
+const chatEngine = require('./ai/chatEngine');
 
 const TOKEN = process.env.Token || process.env.TOKEN;
 const PORT = process.env.PORT || 3000;
@@ -34,6 +34,7 @@ client.playerManager = playerManager;
 
 client.once(Events.ClientReady, async (readyClient) => {
   console.log(`[Bot] ${readyClient.user.tag} olarak giriş yapıldı!`);
+  EMOJIS.init(readyClient);
 
   // Periyodik Ses Kanalı Stats Takibi (Her 30 saniyede bir)
   setInterval(() => {
@@ -161,7 +162,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         const btnClose = new ButtonBuilder()
           .setCustomId('ticket_close')
           .setLabel('Bileti Kapat')
-          .setEmoji('🔒')
+          .setEmoji(EMOJIS.exit.match(/\d+/)?.[0] || '🔒')
           .setStyle(ButtonStyle.Danger);
 
         const row = new ActionRowBuilder().addComponents(btnClose);
@@ -452,3 +453,5 @@ client.login(TOKEN).catch(err => {
   console.error("Bot giriş yaparken hata verdi:", err);
   process.exit(1);
 });
+
+module.exports = client;

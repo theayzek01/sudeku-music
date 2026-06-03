@@ -5,8 +5,11 @@ const fs = require('fs');
 const dbPath = path.join(__dirname, '../sudeku.db');
 const db = new Database(dbPath);
 
-// Enable WAL mode for high performance
+// Enable WAL mode & performance optimizations
 db.pragma('journal_mode = WAL');
+db.pragma('synchronous = NORMAL');
+db.pragma('temp_store = MEMORY');
+db.pragma('cache_size = -10000'); // limit cache to ~10MB to optimize RAM usage
 
 // Ensure tables exist
 function init() {
