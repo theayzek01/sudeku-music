@@ -1,0 +1,17 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+sudekuenv.env
+
+# Project specific logs / temp files
+bot.log
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
