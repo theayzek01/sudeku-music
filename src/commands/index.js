@@ -1,7 +1,9 @@
 const os = require('os');
 const path = require('path');
-const { SlashCommandBuilder, AttachmentBuilder, ActionRowBuilder, StringSelectMenuBuilder, ComponentType } = require('discord.js');
+const { SlashCommandBuilder, AttachmentBuilder, ActionRowBuilder, StringSelectMenuBuilder, ComponentType, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { search } = require('../player/search');
+const Database = require('../database');
+const { generateRankCard } = require('../player/canvasGenerator');
 
 const EMOJIS = {
   spotify: "<:kanserspotify:1473947599256944751>",
@@ -519,8 +521,283 @@ const commands = [
 				}]
 			});
 		}
-	}
+	},
+  // RANK COMMAND
+  {
+    data: new SlashCommandBuilder()
+      .setName('rank')
+      .setDescription('Seviye, XP ve dinleme istatistiklerinizi mükemmel bir kart ile görüntüler.')
+      .addUserOption(option => 
+        option.setName('kullanici')
+          .setDescription('İstatistiklerine bakmak istediğiniz kullanıcı')
+          .setRequired(false)),
+    async execute(interaction) {
+      await interaction.deferReply();
+      const targetUser = interaction.options.getUser('kullanici') || interaction.user;
+      
+      if (targetUser.bot) {
+        return interaction.editReply({ content: `${EMOJIS.cross} Botların seviye ve istatistik kartları bulunmaz!` });
+      }
+
+      const guildId = interaction.guildId;
+      const dbUser = Database.getUser(
+        guildId, 
+        targetUser.id, 
+        targetUser.username, 
+        targetUser.displayAvatarURL({ extension: 'png', size: 128 })
+      );
+
+      const leaderboard = Database.getLeaderboard(guildId, 'voice');
+      const rankIndex = leaderboard.findIndex(u => u.userId === targetUser.id);
+      const rank = rankIndex !== -1 ? rankIndex + 1 : leaderboard.length + 1;
+      const totalCount = leaderboard.length || 1;
+
+      try {
+        const canvasBuf = await generateRankCard(dbUser, rank, totalCount);
+        const attachment = new AttachmentBuilder(canvasBuf, { name: 'rank.png' });
+        return interaction.editReply({ files: [attachment] });
+      } catch (err) {
+        console.error('[Rank Command Error]', err);
+        return interaction.editReply({ content: `${EMOJIS.cross} Kart oluşturulurken bir hata oluştu: \`${err.message}\`` });
+      }
+    }
+  },
+  // LEADERBOARD COMMAND
+  {
+    data: new SlashCommandBuilder()
+      .setName('leaderboard')
+      .setDescription('Sunucudaki en aktif müzik dinleyicilerini listeler.'),
+    async execute(interaction) {
+      const guildId = interaction.guildId;
+      let currentTab = 'voice';
+      let page = 1;
+
+      const serverArrow = interaction.guild.emojis.cache.find(e => 
+        e.name.toLowerCase().includes('arrow') || 
+        e.name.toLowerCase().includes('ok') || 
+        e.name.toLowerCase().includes('right') || 
+        e.name.toLowerCase().includes('yon') ||
+        e.name.toLowerCase().includes('sag')
+      );
+      const arrowEmoji = serverArrow ? `<:${serverArrow.name}:${serverArrow.id}>` : '▶️';
+
+      function generateEmbed() {
+        const leaderboard = Database.getLeaderboard(guildId, currentTab);
+        const itemsPerPage = 10;
+        const totalPages = Math.max(1, Math.ceil(leaderboard.length / itemsPerPage));
+        if (page > totalPages) page = totalPages;
+        if (page < 1) page = 1;
+
+        const currentPageItems = leaderboard.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+        let desc = '';
+        if (currentPageItems.length === 0) {
+          desc = '*Bu sunucuda henüz veri toplanmamış.*';
+        } else {
+          desc = currentPageItems.map((u, idx) => {
+            const globalIdx = (page - 1) * itemsPerPage + idx + 1;
+            let rankEmoji = arrowEmoji;
+            if (globalIdx === 1) rankEmoji = EMOJIS.crown;
+            else if (globalIdx === 2) rankEmoji = '🥈';
+            else if (globalIdx === 3) rankEmoji = '🥉';
+
+            const valText = currentTab === 'voice' 
+              ? `\`${formatDurationText(u.voiceTime)}\`` 
+              : `\`${u.tracksPlayed} şarkı\``;
+
+            return `${rankEmoji} **#${globalIdx}** | <@${u.userId}> • Level \`${u.level}\` (${valText})`;
+          }).join('\n');
+        }
+
+        const title = currentTab === 'voice' 
+          ? `🔊 En Çok Ses Kanalında Kalanlar` 
+          : `🎵 En Çok Şarkı Dinleyenler`;
+
+        return {
+          embeds: [{
+            title: `${EMOJIS.star} Sudeku Music - Sunucu Sıralaması`,
+            description: `**${title}**\n\n${desc}`,
+            color: 0x8b5cf6,
+            footer: { text: `Sayfa ${page} / ${totalPages} • Toplam Kayıt: ${leaderboard.length}` },
+            timestamp: new Date().toISOString()
+          }]
+        };
+      }
+
+      function generateButtons() {
+        const leaderboard = Database.getLeaderboard(guildId, currentTab);
+        const itemsPerPage = 10;
+        const totalPages = Math.max(1, Math.ceil(leaderboard.length / itemsPerPage));
+
+        const row1 = new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setCustomId('lb_tab_voice')
+            .setLabel('Ses Süresi')
+            .setEmoji('🔊')
+            .setStyle(currentTab === 'voice' ? ButtonStyle.Primary : ButtonStyle.Secondary),
+          new ButtonBuilder()
+            .setCustomId('lb_tab_tracks')
+            .setLabel('Şarkı Dinleme')
+            .setEmoji('🎵')
+            .setStyle(currentTab === 'tracks' ? ButtonStyle.Primary : ButtonStyle.Secondary)
+        );
+
+        const row2 = new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setCustomId('lb_prev')
+            .setLabel('Geri')
+            .setEmoji('◀️')
+            .setStyle(ButtonStyle.Secondary)
+            .setDisabled(page <= 1),
+          new ButtonBuilder()
+            .setCustomId('lb_next')
+            .setLabel('İleri')
+            .setEmoji('▶️')
+            .setStyle(ButtonStyle.Secondary)
+            .setDisabled(page >= totalPages)
+        );
+
+        return [row1, row2];
+      }
+
+      const response = await interaction.reply({
+        ...generateEmbed(),
+        components: generateButtons(),
+        fetchReply: true
+      });
+
+      const collector = response.createMessageComponentCollector({
+        componentType: ComponentType.Button,
+        time: 180000
+      });
+
+      collector.on('collect', async (i) => {
+        if (i.user.id !== interaction.user.id) {
+          return i.reply({ content: 'Bu sıralama menüsünü sadece komutu kullanan kişi yönetebilir.', ephemeral: true });
+        }
+
+        if (i.customId === 'lb_tab_voice') {
+          currentTab = 'voice';
+          page = 1;
+        } else if (i.customId === 'lb_tab_tracks') {
+          currentTab = 'tracks';
+          page = 1;
+        } else if (i.customId === 'lb_prev') {
+          page = Math.max(1, page - 1);
+        } else if (i.customId === 'lb_next') {
+          page = page + 1;
+        }
+
+        await i.update({
+          ...generateEmbed(),
+          components: generateButtons()
+        });
+      });
+
+      collector.on('end', async () => {
+        const disabledRows = generateButtons().map(row => {
+          const updatedRow = new ActionRowBuilder();
+          row.components.forEach(btn => {
+            updatedRow.addComponents(ButtonBuilder.from(btn).setDisabled(true));
+          });
+          return updatedRow;
+        });
+        await interaction.editReply({
+          components: disabledRows
+        }).catch(() => {});
+      });
+    }
+  },
+  // SERVERINFO COMMAND
+  {
+    data: new SlashCommandBuilder()
+      .setName('serverinfo')
+      .setDescription('Mevcut Discord sunucusu hakkında detaylı istatistik ve bilgiler sunar.'),
+    async execute(interaction) {
+      const guild = interaction.guild;
+      if (!guild) return interaction.reply({ content: 'Bu komut yalnızca sunucularda kullanılabilir!', flags: 64 });
+
+      await guild.members.fetch();
+
+      const totalMembers = guild.memberCount;
+      const botMembers = guild.members.cache.filter(m => m.user.bot).size;
+      const humanMembers = totalMembers - botMembers;
+      
+      const textChannels = guild.channels.cache.filter(c => c.type === 0).size;
+      const voiceChannels = guild.channels.cache.filter(c => c.type === 2).size;
+      const categoryChannels = guild.channels.cache.filter(c => c.type === 4).size;
+      
+      const owner = await guild.fetchOwner();
+      const creationDate = `<t:${Math.floor(guild.createdTimestamp / 1000)}:R>`;
+      const joinDate = `<t:${Math.floor(interaction.member.joinedTimestamp / 1000)}:R>`;
+      
+      const boostCount = guild.premiumSubscriptionCount || 0;
+      const boostTier = guild.premiumTier;
+      const rolesCount = guild.roles.cache.size;
+      const emojisCount = guild.emojis.cache.size;
+
+      return interaction.reply({
+        embeds: [{
+          title: `${EMOJIS.star} Sunucu Bilgileri - ${guild.name}`,
+          color: 0x8b5cf6,
+          thumbnail: { url: guild.iconURL({ extension: 'png', size: 256 }) || '' },
+          fields: [
+            {
+              name: "📌 Genel Bilgiler",
+              value: 
+                `• **Sunucu Sahibi:** ${owner} (\`${owner.id}\`)\n` +
+                `• **Kuruluş Tarihi:** ${creationDate}\n` +
+                `• **Katılım Tarihiniz:** ${joinDate}\n` +
+                `• **Sunucu ID:** \`${guild.id}\``,
+              inline: false
+            },
+            {
+              name: "👥 Üyeler",
+              value: 
+                `• **Toplam Üye:** \`${totalMembers}\`\n` +
+                `• **İnsanlar:** \`${humanMembers}\`\n` +
+                `• **Botlar:** \`${botMembers}\``,
+              inline: true
+            },
+            {
+              name: "💬 Kanallar",
+              value: 
+                `• **Yazı Kanalları:** \`${textChannels}\`\n` +
+                `• **Ses Kanalları:** \`${voiceChannels}\`\n` +
+                `• **Kategoriler:** \`${categoryChannels}\``,
+              inline: true
+            },
+            {
+              name: "🛡️ Sunucu Durumu",
+              value: 
+                `• **Rol Sayısı:** \`${rolesCount}\`\n` +
+                `• **Emoji Sayısı:** \`${emojisCount}\`\n` +
+                `• **Takviye Sayısı:** \`${boostCount} Takviye\` (Seviye ${boostTier})`,
+              inline: false
+            }
+          ],
+          timestamp: new Date().toISOString(),
+          footer: { text: `İsteyen: ${interaction.user.username}` }
+        }]
+      });
+    }
+  }
 ];
+
+function formatDurationText(ms) {
+  if (!ms || ms <= 0) return '0 dk';
+  const sec = Math.floor(ms / 1000);
+  const min = Math.floor(sec / 60);
+  const hr = Math.floor(min / 60);
+
+  if (hr > 0) {
+    return `${hr} sa ${min % 60} dk`;
+  }
+  if (min > 0) {
+    return `${min} dk`;
+  }
+  return `${sec} sn`;
+}
 
 function formatMs(ms) {
   const seconds = Math.floor((ms / 1000) % 60);

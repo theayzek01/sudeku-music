@@ -12,6 +12,7 @@ const { AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = requ
 const play = require('play-dl');
 const { resolveSpotifyTrack, formatMs } = require('./search');
 const { generateNowPlayingCard } = require('./canvasGenerator');
+const Database = require('../database');
 const https = require('https');
 const { exec, spawn } = require('child_process');
 const fs = require('fs');
@@ -287,6 +288,18 @@ class Queue {
 
       this.resource.volume.setVolume(this.volume / 100);
       this.player.play(this.resource);
+
+ // Register track played in database
+ try {
+ Database.addTrackPlayed(
+ this.guildId,
+ track.requester.id,
+ track.requester.username,
+ track.requester.displayAvatarURL({ extension: 'png', size: 128 })
+ );
+ } catch (dbErr) {
+ console.error("[Queue DB] Failed to record track play:", dbErr);
+ }
 
       // Announce the song in chat with beautiful canvas card & control buttons
       if (this.textChannel) {

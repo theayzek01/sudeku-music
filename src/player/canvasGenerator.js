@@ -263,5 +263,229 @@ async function generateNowPlayingCard(track, requesterName) {
   return canvas.toBuffer('image/png');
 }
 
+// Format duration in ms to text (e.g. 2sa 15dk or 45dk or 12sn)
+function formatDurationText(ms) {
+  if (!ms || ms <= 0) return '0 dk';
+  const sec = Math.floor(ms / 1000);
+  const min = Math.floor(sec / 60);
+  const hr = Math.floor(min / 60);
+
+  if (hr > 0) {
+    return `${hr} sa ${min % 60} dk`;
+  }
+  if (min > 0) {
+    return `${min} dk`;
+  }
+  return `${sec} sn`;
+}
+
+// ─── Rank Card Generator ─────────────────────────────────────────────────────
+async function generateRankCard(userData, rank, totalCount) {
+  const W = 900, H = 280;
+  const canvas = createCanvas(W, H);
+  const ctx = canvas.getContext('2d');
+
+  const { username, avatar, voiceTime, xp, level, tracksPlayed } = userData;
+
+  // 1. Background: dark SaaS canvas
+  ctx.fillStyle = '#0a0a0f';
+  ctx.fillRect(0, 0, W, H);
+
+  // 2. Try loading avatar
+  let avatarImg = null;
+  if (avatar) {
+    try {
+      const buf = await fetchBuffer(avatar);
+      avatarImg = await loadImage(buf);
+    } catch (_) {}
+  }
+
+  // 3. Ambient glow from avatar (if available)
+  if (avatarImg) {
+    ctx.save();
+    ctx.globalAlpha = 0.15;
+    ctx.filter = 'blur(40px)';
+    ctx.drawImage(avatarImg, -50, -50, 300, 300);
+    ctx.filter = 'none';
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  }
+
+  // Accent gradient on the right (violet/indigo ambient glow)
+  const rightGlow = ctx.createRadialGradient(W - 100, H / 2, 0, W - 100, H / 2, 350);
+  rightGlow.addColorStop(0, 'rgba(99,102,241,0.18)');
+  rightGlow.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = rightGlow;
+  ctx.fillRect(0, 0, W, H);
+
+  // Decorative grid/lines (SaaS style)
+  ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < W; i += 60) {
+    ctx.beginPath();
+    ctx.moveTo(i, 0);
+    ctx.lineTo(i, H);
+    ctx.stroke();
+  }
+  for (let j = 0; j < H; j += 60) {
+    ctx.beginPath();
+    ctx.moveTo(0, j);
+    ctx.lineTo(W, j);
+    ctx.stroke();
+  }
+
+  // 4. Draw Avatar with rounded rectangle clip
+  const AX = 40, AY = 40, AS = 200, AR = 24;
+  ctx.save();
+  roundRect(ctx, AX, AY, AS, AS, AR);
+  ctx.clip();
+
+  if (avatarImg) {
+    ctx.drawImage(avatarImg, AX, AY, AS, AS);
+  } else {
+    // Fallback: draw a colored circle with user initial
+    ctx.fillStyle = '#6d28d9';
+    ctx.fillRect(AX, AY, AS, AS);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 80px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText((username || '?').substring(0, 1).toUpperCase(), AX + AS / 2, AY + AS / 2);
+  }
+  ctx.restore();
+
+  // Draw border around avatar
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.lineWidth = 3;
+  roundRect(ctx, AX, AY, AS, AS, AR);
+  ctx.stroke();
+
+  // 5. User metadata & labels
+  const textX = AX + AS + 30;
+  const maxTW = W - textX - 40;
+
+  // Level Badge (Large Circle/Ring on the top-right)
+  const LX = W - 100, LY = 80, LR = 45;
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(LX, LY, LR, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(109, 40, 217, 0.12)';
+  ctx.fill();
+  ctx.strokeStyle = '#a78bfa';
+  ctx.lineWidth = 4;
+  ctx.stroke();
+
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#c4b5fd';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('LEVEL', LX, LY - 12);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 32px sans-serif';
+  ctx.fillText(String(level), LX, LY + 12);
+  ctx.restore();
+
+  // Username
+  ctx.font = 'bold 32px sans-serif';
+  ctx.fillStyle = '#f4f4f5';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  const cleanName = ellipsis(ctx, username || 'Unknown', maxTW - 120);
+  ctx.fillText(cleanName, textX, 40);
+
+  // Rank Info
+  ctx.font = 'bold 15px sans-serif';
+  ctx.fillStyle = '#a78bfa';
+  const rankLabel = `Rank #${rank} / ${totalCount}`;
+  ctx.fillText(rankLabel, textX, 80);
+
+  // Statistics Panels
+  // Panel 1: Ses Süresi (Voice Time)
+  const P1X = textX;
+  const PY = 110;
+  const PW = 190;
+  const PH = 70;
+  const PR = 12;
+
+  // Panel 1 background
+  roundRect(ctx, P1X, PY, PW, PH, PR);
+  ctx.fillStyle = 'rgba(255,255,255,0.03)';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Panel 1 Content
+  ctx.font = 'bold 10px sans-serif';
+  ctx.fillStyle = '#71717a';
+  ctx.fillText('SES SÜRESİ', P1X + 15, PY + 15);
+  ctx.font = 'bold 18px sans-serif';
+  ctx.fillStyle = '#f4f4f5';
+  ctx.fillText(formatDurationText(voiceTime), P1X + 15, PY + 38);
+
+  // Panel 2: Şarkı Sayısı (Tracks Played)
+  const P2X = textX + PW + 20;
+  roundRect(ctx, P2X, PY, PW, PH, PR);
+  ctx.fillStyle = 'rgba(255,255,255,0.03)';
+  ctx.fill();
+  ctx.stroke();
+
+  // Panel 2 Content
+  ctx.font = 'bold 10px sans-serif';
+  ctx.fillStyle = '#71717a';
+  ctx.fillText('DİNLENEN ŞARKI', P2X + 15, PY + 15);
+  ctx.font = 'bold 18px sans-serif';
+  ctx.fillStyle = '#f4f4f5';
+  ctx.fillText(`${tracksPlayed} adet`, P2X + 15, PY + 38);
+
+  // 6. XP Progress Bar
+  const pbX = textX;
+  const pbY = 205;
+  const pbW = W - textX - 40;
+  const pbH = 14;
+  const pbR = 7;
+
+  // XP calculations
+  const currentLevelXP = Math.pow(level, 2) * 100;
+  const nextLevelXP = Math.pow(level + 1, 2) * 100;
+  const neededXPInLevel = nextLevelXP - currentLevelXP;
+  const xpInCurrentLevel = Math.max(0, xp - currentLevelXP);
+  const ratio = Math.min(1, Math.max(0, xpInCurrentLevel / neededXPInLevel));
+
+  // XP Text labels
+  ctx.font = '12px sans-serif';
+  ctx.fillStyle = '#71717a';
+  ctx.textAlign = 'left';
+  ctx.fillText(`XP: ${xpInCurrentLevel} / ${neededXPInLevel}`, pbX, pbY - 18);
+  ctx.textAlign = 'right';
+  ctx.fillText(`Toplam: ${xp} XP`, pbX + pbW, pbY - 18);
+
+  // Draw background bar
+  roundRect(ctx, pbX, pbY, pbW, pbH, pbR);
+  ctx.fillStyle = 'rgba(255,255,255,0.06)';
+  ctx.fill();
+
+  // Draw progress filled bar
+  const filledW = pbW * ratio;
+  if (filledW > 0) {
+    roundRect(ctx, pbX, pbY, filledW, pbH, pbR);
+    const pbGrad = ctx.createLinearGradient(pbX, 0, pbX + pbW, 0);
+    pbGrad.addColorStop(0, '#7c3aed');
+    pbGrad.addColorStop(0.5, '#a78bfa');
+    pbGrad.addColorStop(1, '#6366f1');
+    ctx.fillStyle = pbGrad;
+    ctx.fill();
+  }
+
+  // 7. Watermark
+  ctx.font = 'italic 11px sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.1)';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'bottom';
+  ctx.fillText('Sudeku Music', W - 40, H - 20);
+
+  return canvas.toBuffer('image/png');
+}
+
 // ─── Exports ──────────────────────────────────────────────────────────────────
-module.exports = { generateNowPlayingCard, guildEmoji, E };
+module.exports = { generateNowPlayingCard, generateRankCard, guildEmoji, E };
