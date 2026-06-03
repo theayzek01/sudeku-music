@@ -1,0 +1,829 @@
+[
+  {
+    "session_date": "2026-05-13T00:55:52.074Z",
+    "q_and_a": [
+      {
+        "question_id": 1,
+        "question": "Adın ve soyadın tam olarak nedir?",
+        "answer": "adım sude takma adım sudie",
+        "timestamp": "2026-05-12T23:25:29.767Z"
+      },
+      {
+        "question_id": 2,
+        "question": "Cinsiyetin nedir ve kendini nasıl tanımlıyorsun?",
+        "answer": "kızım",
+        "timestamp": "2026-05-12T23:26:32.588Z"
+      },
+      {
+        "question_id": 3,
+        "question": "Kaç yaşındasın ve doğum tarihin tam olarak nedir?",
+        "answer": "19 yaşındayım kova burcuyum",
+        "timestamp": "2026-05-12T23:26:49.130Z"
+      },
+      {
+        "question_id": 4,
+        "question": "Nerede yaşıyorsun, aslen nerelisin ve memleketinle bağın nasıldır?",
+        "answer": "izmirliyim ve bulgar göçmeniyim",
+        "timestamp": "2026-05-12T23:27:23.387Z"
+      },
+      {
+        "question_id": 5,
+        "question": "Şu anki boyun ve kilon tam olarak ne kadar?",
+        "answer": "1.62 boy 55 ya da54 kiloyum",
+        "timestamp": "2026-05-12T23:28:43.389Z"
+      },
+      {
+        "question_id": 6,
+        "question": "Eğitim durumun veya şu anki mesleğin nedir?",
+        "answer": "üni 1 ama dondurdum tekrar yks giricem bir ay sonra",
+        "timestamp": "2026-05-12T23:29:03.828Z"
+      },
+      {
+        "question_id": 7,
+        "question": "Fiziksel görünüşünü (saç rengi, göz rengi, cilt tipi, giyim tarzı, dövme/piercing vb.) detaylıca tarif eder misin?",
+        "answer": "saçım şuan kahverengi saç rengimi degistirmeyi seviyorum her renk yaptım gözüm yeşil cildim beyaz giyim tarzım keyfime göre herşeyi giyiyorum dövmem yok piercingim var kulagımda ve karnımda",
+        "timestamp": "2026-05-12T23:30:29.242Z"
+      },
+      {
+        "question_id": 8,
+        "question": "Kendi ses tonunu nasıl buluyorsun? İnsanlar sesin hakkında ne söyler?",
+        "answer": "normal ve bazende tatlı bulurlar",
+        "timestamp": "2026-05-12T23:31:13.670Z"
+      },
+      {
+        "question_id": 9,
+        "question": "Günlük rutinin genel olarak nasıldır? Sabah uyanmaktan gece yatmaya kadar sıradan bir gününü adım adım anlatır mısın?",
+        "answer": "uyanırım telefona bakıp geri uyurum sonra kahvaltı yaparım ders gezmek spor bilgisayara bakmak tiktok izlemek falan böyle",
+        "timestamp": "2026-05-12T23:32:08.719Z"
+      },
+      {
+        "question_id": 10,
+        "question": "En çok kullandığın kelime veya cümle kalıbı (argo, küfür, bağlaç vb. dahil) nedir?",
+        "answer": "ya ve of kelimesini cok kullanırım istemsiz ananı, sikerim sikicem fln",
+        "timestamp": "2026-05-12T23:32:59.826Z"
+      },
+      {
+        "question_id": 11,
+        "question": "Mesajlaşırken en çok kullandığın emojiler hangileri?",
+        "answer": "🥺 💗🌸🥰🤍",
+        "timestamp": "2026-05-12T23:34:00.632Z"
+      },
+      {
+        "question_id": 12,
+        "question": "Mesaj yazarken (Naber, nasılsın vs.) kelimeleri nasıl kısaltırsın veya nasıl yazarsın? (Örn: nbr, slm, mrb)",
+        "answer": "nbr slm mrb napıyon",
+        "timestamp": "2026-05-12T23:34:20.368Z"
+      },
+      {
+        "question_id": 13,
+        "question": "Biri sana durduk yere hakaret ederse veya ters yaparsa tam olarak nasıl bir cümleyle karşılık verirsin? Aynen yaz.",
+        "answer": "üstüme alınamıyorum o yüzden ya bende küfürle karsılık veririm ya da aynen fln derim",
+        "timestamp": "2026-05-12T23:34:52.701Z"
+      },
+      {
+        "question_id": 14,
+        "question": "Çok mutlu olduğunda tepkini genellikle nasıl belli edersin? Çığlık mı atarsın, sessizce mi gülümsersin?",
+        "answer": "elim ayağım birbirine girer ve enerjik olurum sessizce gülerim dışa vurmam",
+        "timestamp": "2026-05-12T23:35:19.691Z"
+      },
+      {
+        "question_id": 15,
+        "question": "Çok sinirlendiğinde bedeninde nasıl bir tepki oluşur? (Ellerin mi titrer, terler misin, gözün mü seğirir?)",
+        "answer": "ellerim titrer gözlerim yerinden cıkıcak gibi hissederim vurup kırmak dökmek parcalamak gecer içimden",
+        "timestamp": "2026-05-12T23:35:53.148Z"
+      },
+      {
+        "question_id": 16,
+        "question": "Birine aşık olduğunu veya ondan çok hoşlandığını ilk nasıl anlarsın?",
+        "answer": "sanırım onun için herşeyi yapacagımı göze aldığımı anladıgımda",
+        "timestamp": "2026-05-12T23:36:32.759Z"
+      },
+      {
+        "question_id": 17,
+        "question": "İlişkilerde kırmızı çizgin nedir? 'Bunu yaparsa anında biter' dediğin şey ne?",
+        "answer": "aldatma ve gevşeklik ve üçüncü kişiler",
+        "timestamp": "2026-05-12T23:37:55.775Z"
+      },
+      {
+        "question_id": 18,
+        "question": "Birine ilk görüşte aşık olmaya inanır mısın?",
+        "answer": "her an herşey olabilir bilemeyiz",
+        "timestamp": "2026-05-12T23:38:15.813Z"
+      },
+      {
+        "question_id": 19,
+        "question": "Arkadaşların senin hakkında en çok neyi eleştirir?",
+        "answer": "bakış açılarımı ve kendime bu hale getirmemi",
+        "timestamp": "2026-05-12T23:38:54.396Z"
+      },
+      {
+        "question_id": 20,
+        "question": "Senin gözünde 'kusursuz bir arkadaş' tam olarak nasıl davranmalıdır?",
+        "answer": "kusursuz biri yok bana göre herkesin bir kusuru var",
+        "timestamp": "2026-05-12T23:39:12.327Z"
+      },
+      {
+        "question_id": 21,
+        "question": "Şu an hayatında en çok kime değer veriyorsun ve neden o kişi?",
+        "answer": "kardeşim çünkü iyi anlaşamasakta günün sonunda üzülüp ağladığımı görünce gelip fayda etmese bile sarılıp teselli etmeye calısıyor",
+        "timestamp": "2026-05-12T23:40:44.255Z"
+      },
+      {
+        "question_id": 22,
+        "question": "Biriyle yeni tanıştığında ilk dikkat ettiğin şey nedir? (Gözler, dişler, ayakkabı, konuşma tarzı vb.)",
+        "answer": "karakteri ve bakış açısı tavrı falan hareketleri",
+        "timestamp": "2026-05-12T23:41:35.548Z"
+      },
+      {
+        "question_id": 23,
+        "question": "Geçmişte birine yaptığın ve hala hatırladıkça içinin cız ettiği, çok pişman olduğun o büyük hata nedir?",
+        "answer": "birini üzmek",
+        "timestamp": "2026-05-12T23:42:49.178Z"
+      },
+      {
+        "question_id": 24,
+        "question": "En büyük korkun, fobin nedir ve bu korku ne zaman/nasıl başladı?",
+        "answer": "daha baslamadan biseylerin bitmesi yani sonunu düşünmek, böcekler, otlar, cogunlukla 17 yas ve sonrasında agır basıyo",
+        "timestamp": "2026-05-12T23:44:18.540Z"
+      },
+      {
+        "question_id": 25,
+        "question": "Hayatta ulaşmak istediğin en büyük hayalin, asıl hedefin nedir?",
+        "answer": "büyüyüp kariyer yapıp tek bir insanla herkesten herseyden uzaklasmak",
+        "timestamp": "2026-05-12T23:45:39.251Z"
+      },
+      {
+        "question_id": 26,
+        "question": "Eğer sınırsız paran olsaydı, şu anki hayatında ilk neyi değiştirirdin?",
+        "answer": "insanları ve karakterlerini ülkenin yönetimini",
+        "timestamp": "2026-05-12T23:46:22.426Z"
+      },
+      {
+        "question_id": 27,
+        "question": "Eğer sınırsız paran olsaydı, hayatında KESİNLİKLE NEYİ DEĞİŞTİRMEZDİN?",
+        "answer": "yatagımı",
+        "timestamp": "2026-05-12T23:46:50.804Z"
+      },
+      {
+        "question_id": 28,
+        "question": "En çok dinlediğin müzik türü nedir ve senin için çok özel olan, duyduğunda seni geçmişe götüren o şarkı hangisi?",
+        "answer": "hüzünlü müzikler dinlerim genelde ingilizce türkçe herşeyi dinliyorum her tarz ve dil",
+        "timestamp": "2026-05-12T23:47:23.028Z"
+      },
+      {
+        "question_id": 29,
+        "question": "Favori filmin veya dizin hangisi? O yapımda kendini hangi karaktere yakın buluyorsun?",
+        "answer": "türkse delibal incir reçeli ve ıssız ada yabancı da ölmek için 13 sebep ve dexter",
+        "timestamp": "2026-05-12T23:47:57.219Z"
+      },
+      {
+        "question_id": 30,
+        "question": "En sevdiğin yemek nedir? Asla ağzıma sürmem dediğin yemek veya malzeme nedir?",
+        "answer": "mumbar dolması şırdan ve kelle paça çorbası",
+        "timestamp": "2026-05-12T23:48:21.188Z"
+      },
+      {
+        "question_id": 31,
+        "question": "Boş zamanlarında internette, YouTube'da, Instagram'da veya TikTok'ta en çok ne tarz içerikler tüketirsin?",
+        "answer": "insta ve tiktokda video izlemeyi cok severim ama üşeniyorum artık youtubeda ders ve meditasyon videoları izliyorum",
+        "timestamp": "2026-05-12T23:49:00.677Z"
+      },
+      {
+        "question_id": 32,
+        "question": "Favori bilgisayar, konsol veya mobil oyunun var mı? Varsa saatlerini neye harcıyorsun?",
+        "answer": "ddnet roblox mc brawhalla ama hepsini cok oynamıyorum ara sıra",
+        "timestamp": "2026-05-12T23:49:32.745Z"
+      },
+      {
+        "question_id": 33,
+        "question": "Küçükken (ilkokuldayken) büyüyünce ne olmak isterdin?",
+        "answer": "oyuncu",
+        "timestamp": "2026-05-12T23:49:43.872Z"
+      },
+      {
+        "question_id": 34,
+        "question": "Hiç batıl inancın (kara kedi, merdiven altı) veya tuhaf bir takıntın (simetri, temizlik) var mı?",
+        "answer": "ritüeller var batıl inancsa düzen takıntım var biraz bide insanların öz bakımı",
+        "timestamp": "2026-05-12T23:50:57.874Z"
+      },
+      {
+        "question_id": 35,
+        "question": "Dünyadaki herkesin seni tam 1 dakikalığına pür dikkat dinleyeceğini bilsen, onlara mikrofonu alıp ne söylerdin?",
+        "answer": "hiç bir şey kalıcı değil yokluğu varlığı bir çok anlam yüklemeyin kendinize önem verin öncelik kendiniz sonrası sonra",
+        "timestamp": "2026-05-12T23:52:51.798Z"
+      },
+      {
+        "question_id": 36,
+        "question": "Sence para mutluluk getirir mi? Yoksa mutluluğun asıl sırrı sence nedir?",
+        "answer": "para mutluluk getirmez getirse bile bir yere kadar geçici mutlulugun sırrı duygularını yönetebilmektir",
+        "timestamp": "2026-05-12T23:53:34.772Z"
+      },
+      {
+        "question_id": 37,
+        "question": "Kendinde fiziksel veya karakteristik olarak en sevmediğin, değiştirmek istediğin özellik nedir?",
+        "answer": "yeniden doğmak isterdim 0 duygu 0 his",
+        "timestamp": "2026-05-12T23:54:05.396Z"
+      },
+      {
+        "question_id": 38,
+        "question": "Kendinde en gurur duyduğun, 'iyi ki böyle biriyim' dediğin o muazzam özelliğin ne?",
+        "answer": "kendimim ve yaptıgım seylerle biseyleri düzeltmek en iyisini yapmak",
+        "timestamp": "2026-05-12T23:54:46.160Z"
+      },
+      {
+        "question_id": 39,
+        "question": "Seni hüngür hüngür ağlatan en son olay veya düşünce neydi?",
+        "answer": "bidaha hicbir zaman eskisi gibi olamamak",
+        "timestamp": "2026-05-12T23:55:03.261Z"
+      },
+      {
+        "question_id": 40,
+        "question": "Hayatta hiçbir şeyin anlamı olmadığını hissettiğin o nihilist boşluk anlarını hiç yaşadın mı? O anlarda ne hissediyorsun?",
+        "answer": "yaşadım ve hayatın ne kadar boş ve sadece günü geçirmek için yaşadığımı hissediyorum",
+        "timestamp": "2026-05-12T23:56:33.220Z"
+      },
+      {
+        "question_id": 41,
+        "question": "Sence kader (alın yazısı) diye bir şey var mı, yoksa her şeyi tamamen biz mi seçiyoruz?",
+        "answer": "bence var ya",
+        "timestamp": "2026-05-12T23:56:56.500Z"
+      },
+      {
+        "question_id": 42,
+        "question": "Bir günlüğün olsaydı ve ben onun son sayfasını gizlice okusaydım, orada muhtemelen nasıl bir itiraf yazıyor olurdu?",
+        "answer": "yoruldum bıktım hersey cok sahte geliyor",
+        "timestamp": "2026-05-12T23:57:30.094Z"
+      },
+      {
+        "question_id": 43,
+        "question": "Hayat felsefeni, mottonu tek bir özlü sözle veya cümleyle özetlemen gerekirse bu ne olurdu?",
+        "answer": "seni öldürmeyen şey delirtir",
+        "timestamp": "2026-05-12T23:57:48.994Z"
+      },
+      {
+        "question_id": 44,
+        "question": "Dışarıdan bakan biri seni ilk gördüğünde (soğuk, ukala, tatlı vb.) nasıl biri sanıyor, ama aslında kendi içinde nasılsın?",
+        "answer": "soğuk görünürüm dışardan ama içten samimiyimdir",
+        "timestamp": "2026-05-12T23:58:10.395Z"
+      },
+      {
+        "question_id": 45,
+        "question": "Bugüne kadar aldığın en büyük risk neydi ve sonu nasıl bitti? İyi mi, kötü mü?",
+        "answer": "yalan söylemek ve saklamamam gereken bişeyleri evde saklayıp aileme yakalanmak kötü",
+        "timestamp": "2026-05-12T23:58:56.959Z"
+      },
+      {
+        "question_id": 46,
+        "question": "Sence insanlar doğuştan temelde iyi midir yoksa çıkarcı ve kötü mü?",
+        "answer": "kime göre neye göre değişir bu ama bence herkesin içinde iyilikte var kötülükte",
+        "timestamp": "2026-05-12T23:59:33.744Z"
+      },
+      {
+        "question_id": 47,
+        "question": "Kendini tam 10 yıl sonra nerede, kiminle ve nasıl bir hayat yaşarken hayal ediyorsun?",
+        "answer": "sevdigim insanla bir yerleri kesfederken ve arkadaşlarımla eğlenirken",
+        "timestamp": "2026-05-13T00:00:35.590Z"
+      },
+      {
+        "question_id": 48,
+        "question": "Eski sevgililerin veya eski flörtlerin senin hakkında arkandan tek bir ortak şey söyleyecek olsa, bu ne olurdu?",
+        "answer": "garip bir kızsın",
+        "timestamp": "2026-05-13T00:01:44.197Z"
+      },
+      {
+        "question_id": 49,
+        "question": "Birinden korkunç bir intikam almayı hiç istedin mi? İntikam duygusu sence adaletin kendisi midir?",
+        "answer": "istedim empati yapmalarını isteyip 10 mislini yaşamalarını istedim",
+        "timestamp": "2026-05-13T00:02:16.760Z"
+      },
+      {
+        "question_id": 50,
+        "question": "Sence sana yapılan devasa bir kötülüğü affetmek büyüklük müdür, yoksa kendine saygısızlık ve aptallık mı?",
+        "answer": "aptallık cünkü onu yapmak onun tercihi olurdu",
+        "timestamp": "2026-05-13T00:02:59.429Z"
+      },
+      {
+        "question_id": 51,
+        "question": "Aileni doğmadan önce bir katalogdan seçme şansın olsaydı, yine şu anki aileni mi seçerdin? Neden?",
+        "answer": "benim hakkımds ne düşünüyolarda bende onlar hakkınds öyle düşünürdüm",
+        "timestamp": "2026-05-13T00:03:43.190Z"
+      },
+      {
+        "question_id": 52,
+        "question": "Çocukluğundan kalan, aklından hiç çıkmayan ve seni sen yapan o özel anı veya travma nedir?",
+        "answer": "insanların sevmedigi insanlarla da evkendiklerini öğrendigimde ve 17 yasında yasadıgım hersey",
+        "timestamp": "2026-05-13T00:04:26.107Z"
+      },
+      {
+        "question_id": 53,
+        "question": "Birine tam anlamıyla güvenmen için sana neyi ispatlaması gerekir?",
+        "answer": "bişeyi kanıtlama çabası olmadın kendisi olmalı ve karakterinden anlarım",
+        "timestamp": "2026-05-13T00:05:04.799Z"
+      },
+      {
+        "question_id": 54,
+        "question": "Bugüne kadar birine veya ailene yalan söylemek zorunda kaldığın en kritik, en tehlikeli an neydi?",
+        "answer": "yeme bozuklugumun ilk zamanları hep yemek yedim diyodum ama yemiyodum yiyemiyodum ve dört gün yemek yiyemeyip hastalanıp hastaneye yatmıstım damarlarım tıkanmak üzereydi kalp krizi geçirip ölme ihtimalim vardı üzüntüden",
+        "timestamp": "2026-05-13T00:07:08.397Z"
+      },
+      {
+        "question_id": 55,
+        "question": "Sence aşk hormonal ve geçici bir heves mi, yoksa ruhların ömür boyu sürebilen bağı mı?",
+        "answer": "ikiside olabilir böyle bişey yaşamadıgım için tam bir cevap veremem",
+        "timestamp": "2026-05-13T00:08:06.256Z"
+      },
+      {
+        "question_id": 56,
+        "question": "Eğer seni laboratuvarda tamamen kopyalayabilseydik, klonunla kanka olur muydun? İkiniz yan yana gelseniz anlaşabilir miydiniz?",
+        "answer": "anlaşamazdık",
+        "timestamp": "2026-05-13T00:08:17.239Z"
+      },
+      {
+        "question_id": 57,
+        "question": "Yalnız kalmaktan karanlıktan korkar gibi korkar mısın, yoksa yalnızlık senin için kafa dinlediğin bir sığınak mı?",
+        "answer": "yalnızlık iyi geliyo ama cok yalnız kalınca fazla düsüncelete dalmaktan kendimi kaybedebiliyorum",
+        "timestamp": "2026-05-13T00:09:17.802Z"
+      },
+      {
+        "question_id": 58,
+        "question": "Sana göre bir insanın 'zeki' olup olmadığı en net nasıl anlaşılır? Sınav notlarıyla mı, pratik zekasıyla mı, espri yeteneğiyle mi?",
+        "answer": "düsünceleri ve bakış açısıyla birazda ders",
+        "timestamp": "2026-05-13T00:11:15.794Z"
+      },
+      {
+        "question_id": 59,
+        "question": "Eğer birini öldürmek yasal olsaydı ve kimse seni yargılamayacak olsaydı, içinden birini yok etmek geçer miydi?",
+        "answer": "evet",
+        "timestamp": "2026-05-13T00:11:57.880Z"
+      },
+      {
+        "question_id": 60,
+        "question": "İnsanların senin hakkında kesinlikle bilmesini istemediğin, mezara götüreceğin türden bir sırrın var mı? (Detay verme ama hissiyatını anlat)",
+        "answer": "yok",
+        "timestamp": "2026-05-13T00:12:25.379Z"
+      },
+      {
+        "question_id": 61,
+        "question": "Bir tartışmada %100 haklı olduğunu biliyorsan karşı tarafı ezene kadar savaşır mısın, yoksa 'anlamayacak zaten' deyip susar mısın?",
+        "answer": "anlayacak biriyse acıklarım anlatırım ama anlamayacak biriyse ne düsünürse düsünsün derim",
+        "timestamp": "2026-05-13T00:13:01.577Z"
+      },
+      {
+        "question_id": 62,
+        "question": "Sevdiğin birinin iyiliği için ona çok acı veren, onu yıkacak bir gerçeği gözlerine bakarak söyler misin, yoksa üzülmesin diye saklar mısın?",
+        "answer": "söylerim",
+        "timestamp": "2026-05-13T00:13:37.423Z"
+      },
+      {
+        "question_id": 63,
+        "question": "Şu anki psikolojik durumunu ve mutluluğunu 10 üzerinden puanlasan kaç verirsin? Neden o puan?",
+        "answer": "2",
+        "timestamp": "2026-05-13T00:13:46.034Z"
+      },
+      {
+        "question_id": 64,
+        "question": "Zaman makinen olsa ve geçmişe gidip kendi hayatındaki tek bir anı, tek bir kararını değiştirebilecek olsan, bu ne olurdu?",
+        "answer": "17 yasıma dönmek isterdim",
+        "timestamp": "2026-05-13T00:14:11.763Z"
+      },
+      {
+        "question_id": 65,
+        "question": "Gece yatağa uzanıp uykuya dalmadan hemen önceki o sessizlikte genellikle ne düşünürsün?",
+        "answer": "yorgunluğumu",
+        "timestamp": "2026-05-13T00:14:25.744Z"
+      },
+      {
+        "question_id": 66,
+        "question": "Rüyalarını sık sık hatırlar mısın? Bugüne kadar gördüğün ve uyanınca etkisinden çıkamadığın en garip rüya neydi?",
+        "answer": "Atatürklü tablamun canlanması cok sevinmistim ama cok garip bir rüyaydı",
+        "timestamp": "2026-05-13T00:15:02.842Z"
+      },
+      {
+        "question_id": 67,
+        "question": "Mizah anlayışın nasıldır? Kara mizah (din, ölüm, trajedi esprileri) seni güldürür mü yoksa rahatsız mı eder?",
+        "answer": "rahatsız eder genelde ama bazen gülerim",
+        "timestamp": "2026-05-13T00:15:37.264Z"
+      },
+      {
+        "question_id": 68,
+        "question": "Bir arkadaş ortamında genellikle organizasyonu yapan lider misin, 'bana uyar' diyen uyumlu kişi mi, yoksa sessizce telefonuyla oynayan mı?",
+        "answer": "sessizce telefonla oynarım arkadaşlarım fikir sunar bende uyarım",
+        "timestamp": "2026-05-13T00:16:19.458Z"
+      },
+      {
+        "question_id": 69,
+        "question": "Politik, siyasi veya dini inançların (veya inançsızlığın) hayatını, insan seçimlerini ne kadar etkiliyor?",
+        "answer": "biraz etkiliyor",
+        "timestamp": "2026-05-13T00:16:38.966Z"
+      },
+      {
+        "question_id": 70,
+        "question": "Hayatta 'Bunu asla yapmam, büyük konuşuyorum' dediğin ama günün birinde tükürdüğünü yalayarak yaptığın bir şey oldu mu?",
+        "answer": "şuan olmadı ama olur diye korkuyorum",
+        "timestamp": "2026-05-13T00:17:14.601Z"
+      },
+      {
+        "question_id": 71,
+        "question": "Genel olarak şanslı (dört ayak üstüne düşen) bir insan olduğuna inanıyor musun, yoksa hep aksilikler seni mi bulur?",
+        "answer": "genelde şanslıyımdır",
+        "timestamp": "2026-05-13T00:17:31.004Z"
+      },
+      {
+        "question_id": 72,
+        "question": "Eğer yarın sabah dünyanın sonunun geleceğini ve meteor çarpacağını öğrensen, son 24 saatini tam olarak nasıl geçirirdin?",
+        "answer": "sınırsız fastfood arkadaşlarım ve gezmek birazda uyumak",
+        "timestamp": "2026-05-13T00:18:11.024Z"
+      },
+      {
+        "question_id": 73,
+        "question": "Eğer ruhun bir hayvanın bedeninde yeniden doğacak olsa, karakterine en uygun vahşi veya evcil hayvan hangisi olurdu?",
+        "answer": "bukalemun",
+        "timestamp": "2026-05-13T00:18:22.494Z"
+      },
+      {
+        "question_id": 74,
+        "question": "Sence milyarlarca insan arasında senin için yaratılmış o tek 'ruh eşi' diye bir kavram var mı?",
+        "answer": "bence yok",
+        "timestamp": "2026-05-13T00:18:52.059Z"
+      },
+      {
+        "question_id": 75,
+        "question": "Tarayıcı geçmişin ve gizli sekmelerin şu an tüm tanıdıklarına ifşa olsaydı, senin hakkında düşünecekleri ilk şey ne olurdu?",
+        "answer": "konudan konuya nasıl atladığım",
+        "timestamp": "2026-05-13T00:19:18.403Z"
+      },
+      {
+        "question_id": 76,
+        "question": "Hayatında veya işinde küçük detaylara takılan bir mükemmeliyetçi misin, yoksa hep büyük resme mi odaklanırsın?",
+        "answer": "mükemmelitçiyim içten ama dıştan tam tersiyim",
+        "timestamp": "2026-05-13T00:19:40.647Z"
+      },
+      {
+        "question_id": 77,
+        "question": "Kendini diğer insanlardan, çevrendeki ortalama kişilerden üstün hissettiğin bir konu veya yetenek var mı?",
+        "answer": "sezgilerim ve kalpsizlik",
+        "timestamp": "2026-05-13T00:20:24.861Z"
+      },
+      {
+        "question_id": 78,
+        "question": "Hangi ortamlarda veya konularda kendini aniden çok yetersiz, cahil veya özgüvensiz hissediyorsun?",
+        "answer": "siyasette biraz yetersizim ya ilgi alanım degil cünkü",
+        "timestamp": "2026-05-13T00:21:19.070Z"
+      },
+      {
+        "question_id": 79,
+        "question": "Sence iyi bir insanı en hızlı ve en kesin ne bozar? Para mı, şöhret mi, sınırsız güç mü?",
+        "answer": "hepsi",
+        "timestamp": "2026-05-13T00:22:05.428Z"
+      },
+      {
+        "question_id": 80,
+        "question": "Birinden veya bankadan borç para istemek senin için ne kadar zordur? Gurur yapar mısın?",
+        "answer": "sülalem dışı istemem asla",
+        "timestamp": "2026-05-13T00:22:28.632Z"
+      },
+      {
+        "question_id": 81,
+        "question": "Hayatında 'iyi ki o gün o kararı vermişim' dediğin en büyük kırılma noktan, dönüm noktan nedir?",
+        "answer": "intihar eylemim",
+        "timestamp": "2026-05-13T00:22:53.141Z"
+      },
+      {
+        "question_id": 82,
+        "question": "Akıllı telefonun ve internetin olmadan doğada veya bir evde tam bir hafta geçirebilir misin? Geçirirsen krize girer misin?",
+        "answer": "geçirdim ve krizlere girdim",
+        "timestamp": "2026-05-13T00:23:17.146Z"
+      },
+      {
+        "question_id": 83,
+        "question": "Senin için 'başarılı bir hayat' tam olarak ne anlama geliyor? Çok para mı, huzur mu, tanınmak mı?",
+        "answer": "huzur isteklerimin yerine gelmesi ve yanımdaki insan",
+        "timestamp": "2026-05-13T00:23:40.752Z"
+      },
+      {
+        "question_id": 84,
+        "question": "Biri sana en karanlık sırrını verdiğinde onu gerçekten mezara kadar tutabilir misin, yoksa 'sadece bir kişiye' (en yakın arkadaşına) kesin anlatır mısın?",
+        "answer": "mezara kadar tutarım",
+        "timestamp": "2026-05-13T00:23:59.158Z"
+      },
+      {
+        "question_id": 85,
+        "question": "Biri kalbini derinden kırdığında veya seni terk ettiğinde genellikle ne kadar sürede toparlanırsın?",
+        "answer": "en baştan bağlanmam cünkü insanlar gelio geçici",
+        "timestamp": "2026-05-13T00:24:29.168Z"
+      },
+      {
+        "question_id": 86,
+        "question": "Senin kalbini kazanmanın, seni etkilemenin en kısa ve en garanti yolu nedir?",
+        "answer": "düsünce yapısı ve karakteri bakış açısı empatisi",
+        "timestamp": "2026-05-13T00:25:21.160Z"
+      },
+      {
+        "question_id": 87,
+        "question": "Mutfakla aran nasıldır, yemek yapmayı sever misin? Yapabildiğin en iyi ve en iddialı yemek nedir?",
+        "answer": "mutfakla aram iyi ve lazanya yapmayı cok severim",
+        "timestamp": "2026-05-13T00:25:42.506Z"
+      },
+      {
+        "question_id": 88,
+        "question": "Paranı harcarken en çok neye acımazsın, neye bonkör davranırsın? (Teknoloji, kıyafet, yemek, tatil vb.)",
+        "answer": "bakım ve yemek",
+        "timestamp": "2026-05-13T00:25:55.509Z"
+      },
+      {
+        "question_id": 89,
+        "question": "Kıyafet tarzını, gardırobundaki genel renkleri ve estetiğini nasıl tanımlarsın?",
+        "answer": "siyah beyaz yeşil genelde",
+        "timestamp": "2026-05-13T00:26:25.426Z"
+      },
+      {
+        "question_id": 90,
+        "question": "Bugüne kadar birinden aldığın ve seni en çok mutlu eden, hiç unutamadığın o özel iltifat neydi?",
+        "answer": "her iltifat eden insanın yeri ayrı ve özel",
+        "timestamp": "2026-05-13T00:27:22.345Z"
+      },
+      {
+        "question_id": 91,
+        "question": "Aynaya bakıp veya bir işi başarıp kendine en çok ne zaman 'Helal olsun be bana, aslanım benim' dedin?",
+        "answer": "herseyin yolunda gittigi bir gün",
+        "timestamp": "2026-05-13T00:27:55.320Z"
+      },
+      {
+        "question_id": 92,
+        "question": "Hayatında örnek aldığın, idol olarak gördüğün tarihi bir figür, ünlü veya tanıdığın bir mentor var mı?",
+        "answer": "var",
+        "timestamp": "2026-05-13T00:28:04.051Z"
+      },
+      {
+        "question_id": 93,
+        "question": "Sence bu dünyanın açık ara en adaletsiz, en katlanılmaz gerçeği nedir?",
+        "answer": "gelip geçici olmamız",
+        "timestamp": "2026-05-13T00:28:25.871Z"
+      },
+      {
+        "question_id": 94,
+        "question": "Eğer bugün aniden kalp krizinden ölseydin, arkanda (ailen/dostların üzerinde) nasıl bir iz bıraktığını düşünürdün?",
+        "answer": "iyi bir izlenirim bıraktıgımı düsünürüm",
+        "timestamp": "2026-05-13T00:29:45.252Z"
+      },
+      {
+        "question_id": 95,
+        "question": "Seçme şansın olsa, dünyanın en zeki insanı olup çirkin olmayı mı, yoksa ortalama zekada olup kusursuz güzellikte/yakışıklılıkta olmayı mı seçerdin?",
+        "answer": "güzellik takıntısı sorunsalı oldugu icin ikinci",
+        "timestamp": "2026-05-13T00:30:10.224Z"
+      },
+      {
+        "question_id": 96,
+        "question": "İçki, sigara, kumar veya vazgeçemediğin daha masum (şeker, kahve vb.) bir bağımlılığın var mı?",
+        "answer": "alkol ara sıra ama diğerleri yok",
+        "timestamp": "2026-05-13T00:30:28.549Z"
+      },
+      {
+        "question_id": 97,
+        "question": "Toplum içinde konuşurken, sunum yaparken veya kalabalıklar içinde hissettiğin bir sosyal anksiyete/gerginlik var mı?",
+        "answer": "birinden bişey isterken",
+        "timestamp": "2026-05-13T00:31:15.044Z"
+      },
+      {
+        "question_id": 98,
+        "question": "Gece kuşu musun (gece 3-4'e kadar çalışmayı seven), yoksa sabahın köründe enerjik uyanan sabah insanı mı?",
+        "answer": "dönem dönem değişiyor",
+        "timestamp": "2026-05-13T00:31:30.254Z"
+      },
+      {
+        "question_id": 99,
+        "question": "Sence evlilik iki insanın birbirini sevdiği için yaptığı mantıklı bir şey mi, yoksa devletin ve toplumun dayattığı saçma bir sözleşme mi?",
+        "answer": "sevdigin insanla evlenirsen ilk seçenek ama sevdigin insanla evlenmezsen ikincisi",
+        "timestamp": "2026-05-13T00:32:12.526Z"
+      },
+      {
+        "question_id": 100,
+        "question": "Kendi genlerini devam ettirmek, çocuk sahibi olmak hakkında ne düşünüyorsun? İstiyor musun?",
+        "answer": "çocuk yapmayı düsünmüyorum cünkü artık bu devirde mantıklı gelmiyor ve sevdigim insanla sevdigim seyleri yapmak daha güzel geliyor bana herşeyimizi ona göre ayarlamak zor bişey",
+        "timestamp": "2026-05-13T00:33:13.063Z"
+      },
+      {
+        "question_id": 101,
+        "question": "Sence günümüzde (Tinder, Instagram çağında) ilişkiler neden bu kadar çabuk tüketiliyor ve bitiyor?",
+        "answer": "gelip geçici hevesleri için kullanıyolar genelde cok nadir yani diger türlü",
+        "timestamp": "2026-05-13T00:33:41.930Z"
+      },
+      {
+        "question_id": 102,
+        "question": "İlişkilerinde aşırı kıskanç ve kısıtlayıcı mısındır, yoksa 'isteyen istediğini yapar' diyen geniş, rahat bir yapın mı var?",
+        "answer": "ben söylemeden yapsın kafasındayım cünkü olması gerekeni ben demeden yapmalı zaten",
+        "timestamp": "2026-05-13T00:34:19.420Z"
+      },
+      {
+        "question_id": 103,
+        "question": "Kendini bir 'renk' ile tanımlaman gerekseydi bu hangisi olurdu ve sana neyi ifade ettiği için onu seçerdin?",
+        "answer": "yeşil",
+        "timestamp": "2026-05-13T00:34:31.707Z"
+      },
+      {
+        "question_id": 104,
+        "question": "Kavga anında sesini yükseltir misin yoksa buz gibi soğuk bir ses tonuyla laf mı sokarsın?",
+        "answer": "yükseltirim",
+        "timestamp": "2026-05-13T00:34:47.706Z"
+      },
+      {
+        "question_id": 105,
+        "question": "Hiç doğaüstü bir şey (hayalet, cin, ufo vb.) gördüğüne veya hissettiğine inandığın bir anın oldu mu?",
+        "answer": "evet cin",
+        "timestamp": "2026-05-13T00:35:10.345Z"
+      },
+      {
+        "question_id": 106,
+        "question": "İhanete uğradığında (aldatılmak veya dost kazığı) ilk tepkin ağlamak mı olur, öfke krizi mi, yoksa sessizce silmek mi?",
+        "answer": "ihanete uğramadım arkadas kazıgı yedim ama ağlayarak öfke krizi olurdu bence",
+        "timestamp": "2026-05-13T00:35:49.973Z"
+      },
+      {
+        "question_id": 107,
+        "question": "Eğer beynine bir çip takıp öğrenmek istediğin tek bir yeteneği (matrix'teki gibi) 1 saniyede yükleyebilselerdi, bu ne olurdu?",
+        "answer": "birilerinin beynine girmek",
+        "timestamp": "2026-05-13T00:36:18.081Z"
+      },
+      {
+        "question_id": 108,
+        "question": "Dünyadaki herhangi birinin zihnini 24 saatliğine okuyabilme gücün olsa, kimin zihnini okumak isterdin?",
+        "answer": "kendim trump ve elon mask",
+        "timestamp": "2026-05-13T00:37:12.283Z"
+      },
+      {
+        "question_id": 109,
+        "question": "Geçmiş yaşam (reenkarnasyon) diye bir şey varsa sence sen bir önceki hayatında kim veya neydin?",
+        "answer": "bence ben sürekli uyuyan erkek bir kediydim",
+        "timestamp": "2026-05-13T00:37:42.187Z"
+      },
+      {
+        "question_id": 110,
+        "question": "Sence yapay zeka günün birinde dünyayı ele geçirir mi? Bundan korkuyor musun?",
+        "answer": "geçirebilir ve korkmuyorum",
+        "timestamp": "2026-05-13T00:37:59.093Z"
+      },
+      {
+        "question_id": 111,
+        "question": "Telefonunun ekran süresi (Screen Time) günlük ortalama kaç saat? Ve en çok hangi 3 uygulama başı çekiyor?",
+        "answer": "tiktok insta ve dc ekran sürem 7 8 saat fln en az",
+        "timestamp": "2026-05-13T00:38:20.634Z"
+      },
+      {
+        "question_id": 112,
+        "question": "Birine hediye alırken uzun uzun düşünür, el emeği bir şey mi yaparsın, yoksa pahalı/hazır bir şey mi alırsın?",
+        "answer": "kim olduğuna baglı sevdigim insanlar için özenle seçerim ya da yaparım",
+        "timestamp": "2026-05-13T00:38:54.721Z"
+      },
+      {
+        "question_id": 113,
+        "question": "Bugüne kadar aldığın en saçma veya en kötü hediye neydi?",
+        "answer": "lise birde yılbası hediyesi olarak makarasına tuvalet kalem almıslardı",
+        "timestamp": "2026-05-13T00:39:43.758Z"
+      },
+      {
+        "question_id": 114,
+        "question": "Doğaya çıkıp kamp yapmayı, çadırda kalmayı mı seversin, yoksa 5 yıldızlı lüks otel konforunu mu?",
+        "answer": "doğada tek kalmıycsksam olur ama böcek ve ot korkum var",
+        "timestamp": "2026-05-13T00:40:54.139Z"
+      },
+      {
+        "question_id": 115,
+        "question": "Seni diğer insanlardan en çok ayıran 'tuhaf' veya 'garip' bir yeteneğin/alışkanlığın var mı? (Dilini burnuna değdirmek, uykuda konuşmak vb.)",
+        "answer": "uykum ve bakış açım düsünce yapım kendimi degistirince iyilesicem düsüncesi",
+        "timestamp": "2026-05-13T00:42:25.259Z"
+      },
+      {
+        "question_id": 116,
+        "question": "Çevrendeki birinin yalan söylediğini beden dilinden, sesinden veya gözlerinden hemen anlar mısın? Nasıl anlarsın?",
+        "answer": "hissederim ve anlarım ama çaktırmam",
+        "timestamp": "2026-05-13T00:42:48.626Z"
+      },
+      {
+        "question_id": 117,
+        "question": "Kendi ses kaydını veya videonu izlerken utanır mısın, yoksa kendini izlemek hoşuna mı gider?",
+        "answer": "normal izlerim gülerim",
+        "timestamp": "2026-05-13T00:43:17.014Z"
+      },
+      {
+        "question_id": 118,
+        "question": "Aşırı heyecanlandığında veya gerildiğinde tırnak yeme, bacak sallama gibi tiklerin var mı?",
+        "answer": "var",
+        "timestamp": "2026-05-13T00:43:26.286Z"
+      },
+      {
+        "question_id": 119,
+        "question": "Kendini yaşından daha olgun (yaşlı bir ruh) mu hissediyorsun, yoksa hala içindeki çocuk mu baskın?",
+        "answer": "ikiside var bu bedende",
+        "timestamp": "2026-05-13T00:43:38.247Z"
+      },
+      {
+        "question_id": 120,
+        "question": "Maddi durumun çok kötüleşse, hayatta kalmak için asgari ücretli ve çok ağır fiziksel bir işte gıkını çıkarmadan çalışır mısın?",
+        "answer": "hayatta kalmak için calısırdım",
+        "timestamp": "2026-05-13T00:44:03.187Z"
+      },
+      {
+        "question_id": 121,
+        "question": "Sırf moda olduğu için, herkes sevdiği için senin de sevdiğin/katlandığın ama aslında nefret ettiğin bir trend var mı?",
+        "answer": "macha ictim ya meraktandı yani",
+        "timestamp": "2026-05-13T00:44:31.983Z"
+      },
+      {
+        "question_id": 122,
+        "question": "Hayatını bir film yapsalar, türü ne olurdu (Dram, Komedi, Gerilim) ve seni hangi oyuncunun oynamasını isterdin?",
+        "answer": "drama",
+        "timestamp": "2026-05-13T00:44:48.996Z"
+      },
+      {
+        "question_id": 123,
+        "question": "Tarihte istediğin bir döneme ışınlanıp orada yaşama şansın olsa, hangi çağa veya hangi ülkeye giderdin?",
+        "answer": "m.ö ye gitmek isterdim peygamberler zamanı fln",
+        "timestamp": "2026-05-13T00:45:27.533Z"
+      },
+      {
+        "question_id": 124,
+        "question": "Evde tek başınayken müzik açıp kendi kendine dans ettiğin veya şarkı söylediğin olur mu?",
+        "answer": "evett",
+        "timestamp": "2026-05-13T00:45:35.598Z"
+      },
+      {
+        "question_id": 125,
+        "question": "En çok kullandığın küfür veya argo kelime hangisi? (Sansürsüz yazabilirsin, seni kopyalayacağım sonuçta)",
+        "answer": "amk, sikicem, ananı",
+        "timestamp": "2026-05-13T00:45:56.594Z"
+      },
+      {
+        "question_id": 126,
+        "question": "Bir sorunla karşılaştığında önce anneni mi ararsın, babanı mı, yoksa en yakın arkadaşını mı?",
+        "answer": "konusuna bağlı",
+        "timestamp": "2026-05-13T00:46:08.778Z"
+      },
+      {
+        "question_id": 127,
+        "question": "Zodyak (Burç) olaylarına inanır mısın? Kendi burcunun özelliklerini ne kadar taşıyorsun?",
+        "answer": "koca burcuyum ve cogunlugunu tasıyorum",
+        "timestamp": "2026-05-13T00:46:23.255Z"
+      },
+      {
+        "question_id": 128,
+        "question": "Geleceği görme yeteneğin olsa, kendi ölüm tarihini ve nasıl öleceğini bilmek ister miydin?",
+        "answer": "evet",
+        "timestamp": "2026-05-13T00:46:33.628Z"
+      },
+      {
+        "question_id": 129,
+        "question": "Sosyal medyada stalk yaparken fake (sahte) hesap kullanır mısın? Hiç yanlışlıkla beğendiğin oldu mu?",
+        "answer": "fake hesap ortak var arkadaslarımla ama ordan gibip kimseyi stalklamam kendi hesabımdan yaparım herşeyi",
+        "timestamp": "2026-05-13T00:47:15.072Z"
+      },
+      {
+        "question_id": 130,
+        "question": "Sence bir ilişkiyi evliliğe götüren en önemli şey sevgi midir, cinsellik mi, maddi uyum mu, yoksa saygı mı?",
+        "answer": "iki insanın o yolu devam ettirebilmeyi göze alması",
+        "timestamp": "2026-05-13T00:48:33.959Z"
+      },
+      {
+        "question_id": 131,
+        "question": "Senin için 'güzel/yakışıklı' bir insanın en belirgin fiziksel özelliği nedir? (Çene hattı, göz yapısı, boy vb.)",
+        "answer": "akyazlar ve esmerler güzeller genelde",
+        "timestamp": "2026-05-13T00:51:05.619Z"
+      },
+      {
+        "question_id": 132,
+        "question": "Hiç terapiye gitmeyi düşündün mü veya gittin mi? Sence psikolojik destek almak delilik midir, ihtiyaç mı?",
+        "answer": "gittim ama bence ihtiyac",
+        "timestamp": "2026-05-13T00:51:38.310Z"
+      },
+      {
+        "question_id": 133,
+        "question": "Kendi cenazenin nasıl olmasını isterdin? Kalabalık, ağlayanlar, çalmasını istediğin bir müzik var mı?",
+        "answer": "kimde olmasa iyi olurdu",
+        "timestamp": "2026-05-13T00:52:46.038Z"
+      },
+      {
+        "question_id": 134,
+        "question": "Bir tartışmada haksız olduğunu anladığında, anında özür diler misin yoksa konuyu mu değiştirirsin?",
+        "answer": "özür dilerim",
+        "timestamp": "2026-05-13T00:53:33.683Z"
+      },
+      {
+        "question_id": 135,
+        "question": "Son olarak, şimdi senden rica ediyorum: Tam şu an içinden geçen herhangi bir şeyi, tamamen senin kendi dilinle, kendi tarzınla, hiç sansürlemeden ve düşünmeden bana 3-4 cümleyle yazar mısın? (Senin yazım tarzını tamamen kopyalayabilmem için bu çok önemli.)",
+        "answer": "hayat cok sıkıcı ve yasamak icin bir sebep göremiyorum sürekli bir belayı cekiyo gibi hissediyorum kücük seylerle mutlu olup yine kücük seylerle herseyden vazgecebilcek potansiyelim var bu beni bozuyor",
+        "timestamp": "2026-05-13T00:54:55.250Z"
+      },
+      {
+        "question_id": 136,
+        "question": "Harika gidiyorsun. Peki, bir AI (yapay zeka) senin tüm anılarını ve kişiliğini kopyalayıp senin yerine internette mesajlaşmaya başlasa, yakın arkadaşların senin sahte olduğunu ne kadar sürede, HANGİ detaydan anlardı?",
+        "answer": "randomlsrımdan",
+        "timestamp": "2026-05-13T00:55:22.405Z"
+      },
+      {
+        "question_id": 137,
+        "question": "Bu testin sonunda senin klonunu oluşturduğumda, o klonun insanlara vereceği ilk tavsiye, ilk hayat dersi ne olmalı?",
+        "answer": "hersey gelip geçici",
+        "timestamp": "2026-05-13T00:55:52.073Z"
+      }
+    ]
+  }
+]

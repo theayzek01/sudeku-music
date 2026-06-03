@@ -1,0 +1,75 @@
+require('./utils/envLoader').loadEnv();
+require('./console/watermark');
+
+const { Client, Partials, Collection } = require('discord.js');
+const { ClusterClient } = require('discord-hybrid-sharding');
+const { colorize } = require('./utils/consoleStyle');
+const adminServer = require('./services/adminServer');
+
+// Create Discord client
+const client = new Client({
+    intents: [
+        "Guilds",
+        "GuildMembers",
+        "GuildMessages",
+        "GuildMessageReactions",
+        "DirectMessages",
+        "MessageContent",
+        "GuildVoiceStates",
+    ],
+    partials: [
+        Partials.Channel,
+        Partials.Message,
+        Partials.User,
+        Partials.GuildMember,
+        Partials.Reaction,
+    ],
+});
+
+// Export client to avoid circular dependency issues
+module.exports = client;
+
+// Token check
+if (!process.env.TOKEN) {
+    console.log(`${colorize('yellow', '[WARN] Token for Discord app is required! Put your token in .env file')}\n`);
+    process.exit();
+}
+
+// Collections
+client.commands = new Collection();
+client.events = new Collection();
+client.slash = new Collection();
+client.aliases = new Collection();
+
+// Attach ClusterClient
+client.cluster = new ClusterClient(client);
+
+// Load handlers AFTER client is exported
+["event", "slash", "message"].forEach(file => require(`./handlers/${file}`)(client));
+
+if (process.env.ADMIN_PANEL !== 'false') adminServer.start(client);
+
+// Login
+client.login(process.env.TOKEN)
+    .then(() => console.log(colorize('green', '[INFO] App logged in successfully')))
+    .catch(err => {
+        console.error("[CRUSH] Failed to login:", err);
+        process.exit();
+    });
+
+// Global error handling
+client.on('error', (error) => {
+    console.error("[CLIENT ERROR]", error);
+});
+
+client.on('shardError', (error) => {
+    console.error("[SHARD ERROR]", error);
+});
+
+process.on('uncaughtException', (err) => {
+    console.error("[UNCAUGHT EXCEPTION]", err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error("[UNHANDLED REJECTION] At:", promise, "reason:", reason);
+});

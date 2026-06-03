@@ -113,6 +113,9 @@ class Queue {
     this.paused = false;
     this.autoplay = false;
 
+    this.filter = null;
+    this.filterString = null;
+
     this.connection = null;
     this.player = null;
     this.resource = null;
@@ -232,20 +235,22 @@ class Queue {
     });
   }
 
-  async playTrack(track) {
+    async playTrack(track, seekSeconds = 0) {
     this.stopPlaybackTicker();
-    await this.disableOldMessageButtons();
+    if (seekSeconds === 0) {
+      await this.disableOldMessageButtons();
+    }
     this.cleanupStreams();
 
     this.currentTrack = track;
-    this.playbackTimeMs = 0;
+    this.playbackTimeMs = seekSeconds * 1000;
 
     try {
       let playUrl = track.url;
 
       // If it's Spotify, we resolve the search query to a YouTube stream
       if (track.source === 'spotify' && !track.resolvedUrl) {
-        const resolved = await resolveSpotifyTrack(track.title, "");
+        const resolved = await require('./search').resolveSpotifyTrack(track.title, "");
         if (!resolved) {
           throw new Error("Spotify track could not be resolved on YouTube.");
         }
@@ -260,49 +265,81 @@ class Queue {
       }
 
       // Generate the stream (with yt-dlp fallback)
-      let streamStream;
-      let inputType;
+      let directUrl = '';
 
       try {
-      console.log(`[Queue] play-dl ile stream aranıyor: ${playUrl}`);
-      const stream = await play.stream(playUrl, { quality: 2, discordPlayerCompatible: true });
-      streamStream = stream.stream;
-      inputType = stream.type;
-    } catch (playDlErr) {
-      console.warn(`[Queue] play-dl ile stream alınamadı, yt-dlp fallback kullanılıyor. Hata: ${playDlErr.message || playDlErr}`);
-      try {
-        console.log(`[Queue] yt-dlp ile doğrudan stream başlatılıyor...`);
-        streamStream = getStreamWithYtDlp(playUrl);
-        inputType = 'arbitrary';
-      } catch (ytDlpErr) {
-        console.error(`[Queue] yt-dlp fallback de başarısız oldu!`, ytDlpErr);
-        throw new Error(`Yayın başlatılamadı (play-dl ve yt-dlp hatası): ${ytDlpErr.message}`);
+        console.log(`[Queue] play-dl ile stream aranıyor: ${playUrl}`);
+        const stream = await require('play-dl').stream(playUrl, { quality: 2, discordPlayerCompatible: true });
+        directUrl = stream.url;
+      } catch (playDlErr) {
+        console.warn(`[Queue] play-dl ile stream alınamadı, yt-dlp fallback kullanılıyor. Hata: ${playDlErr.message || playDlErr}`);
+        try {
+          console.log(`[Queue] yt-dlp ile doğrudan stream url alınıyor.`);
+          directUrl = await new Promise((resolve, reject) => {
+            const ytDlpCmd = require('path').join(process.env.YT_DLP_PATH || 'C:\\Users\\ozenc\\AppData\\Local\\Python\\pythoncore-3.14-64\\Scripts\\yt-dlp.exe');
+            const { exec } = require('child_process');
+            const cmd = `"${ytDlpCmd}" -f bestaudio -g "${playUrl}"`;
+            exec(cmd, (err, stdout) => {
+              if (err) return reject(err);
+              resolve(stdout.trim());
+            });
+          });
+        } catch (ytDlpErr) {
+          console.error(`[Queue] yt-dlp fallback de başarısız oldu!`, ytDlpErr);
+          throw new Error(`Yayın başlatılamadı (play-dl ve yt-dlp hatası): ${ytDlpErr.message}`);
+        }
       }
-    }
 
-      this.currentStream = streamStream;
-      this.resource = createAudioResource(streamStream, {
-        inputType: inputType,
+      const ffmpegArgs = [];
+      if (seekSeconds > 0) {
+        ffmpegArgs.push('-ss', String(seekSeconds));
+      }
+      ffmpegArgs.push(
+        '-i', directUrl,
+        '-analyzeduration', '0',
+        '-loglevel', '0',
+        '-f', 's16le',
+        '-ar', '48000',
+        '-ac', '2'
+      );
+
+      if (this.filterString) {
+        ffmpegArgs.push('-af', this.filterString);
+      }
+
+      const ffmpegPath = require('ffmpeg-static');
+      const prism = require('prism-media');
+      const transcoder = new prism.FFmpeg({
+        binary: ffmpegPath,
+        args: ffmpegArgs
+      });
+
+      this.currentStream = transcoder;
+      this.resource = createAudioResource(transcoder, {
+        inputType: 'raw',
         inlineVolume: true
       });
 
       this.resource.volume.setVolume(this.volume / 100);
       this.player.play(this.resource);
 
- // Register track played in database
- try {
- Database.addTrackPlayed(
- this.guildId,
- track.requester.id,
- track.requester.username,
- track.requester.displayAvatarURL({ extension: 'png', size: 128 })
- );
- } catch (dbErr) {
- console.error("[Queue DB] Failed to record track play:", dbErr);
- }
+      // Register track played in database
+      if (seekSeconds === 0) {
+        try {
+          Database.addTrackPlayed(
+            this.guildId,
+            track.requester.id,
+            track.requester.username,
+            track.requester.displayAvatarURL({ extension: 'png', size: 128 })
+          );
+        } catch (dbErr) {
+          console.error("[Queue DB] Failed to record track play:", dbErr);
+        }
+      }
 
       // Announce the song in chat with beautiful canvas card & control buttons
-      if (this.textChannel) {
+      try {
+      if (seekSeconds === 0 && this.textChannel) {
         try {
           const canvasBuffer = await generateNowPlayingCard(track, track.requester.username);
           const attachment = new AttachmentBuilder(canvasBuffer, { name: 'nowplaying.png' });
@@ -312,7 +349,12 @@ class Queue {
             files: [attachment],
             components: rows
           });
-        } catch (canvasErr) {
+        } catch (err2) {
+          // Fallback to text embed
+          throw err2;
+        }
+      }
+    } catch (canvasErr) {
           console.error("Canvas sending failed, sending basic embed:", canvasErr);
           const sourceIcon = track.source === 'spotify' ? EMOJIS.spotify : EMOJIS.youtube;
           this.nowPlayingMessage = await this.textChannel.send({
@@ -325,9 +367,7 @@ class Queue {
             components: this.getControlRows()
           });
         }
-      }
-
-      this.broadcastState();
+    this.broadcastState();
     } catch (err) {
       console.error(`Error playing track in guild ${this.guildId}:`, err);
       console.error("Track details:", JSON.stringify(track, null, 2));
@@ -757,6 +797,40 @@ class Queue {
         } : null
       });
     }
+  }
+
+  async seek(seconds) {
+    if (!this.currentTrack) return false;
+    await this.playTrack(this.currentTrack, seconds);
+    return true;
+  }
+
+  async setFilter(filterName) {
+    const FILTERS = {
+      bassboost: 'bass=g=15:f=110:w=0.6',
+      nightcore: 'asetrate=48000*1.25,aresample=48000',
+      '8d': 'apulsator=hz=0.08',
+      vaporwave: 'asetrate=48000*0.8,aresample=48000',
+      karaoke: 'stereotools=mlev=0.03',
+      speedup: 'atempo=1.5',
+      slowmo: 'atempo=0.75'
+    };
+
+    if (!filterName || filterName === 'none' || filterName === 'clear') {
+      this.filter = null;
+      this.filterString = null;
+    } else if (FILTERS[filterName]) {
+      this.filter = filterName;
+      this.filterString = FILTERS[filterName];
+    } else {
+      return false;
+    }
+
+    if (this.currentTrack) {
+      const currentSecond = Math.floor(this.playbackTimeMs / 1000);
+      await this.playTrack(this.currentTrack, currentSecond);
+    }
+    return true;
   }
 }
 

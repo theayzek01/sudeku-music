@@ -1,0 +1,26 @@
+{
+  "users": {
+    "1442997310735913053-875400268202786886": {
+      "guildId": "1442997310735913053",
+      "userId": "875400268202786886",
+      "voiceTime": 0,
+      "xp": 15,
+      "level": 0,
+      "tracksPlayed": 1,
+      "username": "heraximo",
+      "avatar": "https://cdn.discordapp.com/avatars/875400268202786886/2d1156421a43e1f3b9bb674bc2ba6dd7.png?size=128",
+      "lastActive": 1780477770473
+    },
+    "1442997310735913053-904050437005660180": {
+      "guildId": "1442997310735913053",
+      "userId": "904050437005660180",
+      "voiceTime": 390000,
+      "xp": 95,
+      "level": 0,
+      "tracksPlayed": 2,
+      "username": "eaijkn",
+      "avatar": "https://cdn.discordapp.com/avatars/904050437005660180/58e753a575ce5a61e7b188d20cb28ec5.png?size=128",
+      "lastActive": 1780492677063
+    }
+  }
+}

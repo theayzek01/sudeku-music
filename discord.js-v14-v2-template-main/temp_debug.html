@@ -1,0 +1,1237 @@
+<!doctype html>
+<html lang="tr" class="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sudeku | Admin Control Panel</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: 'oklch(12% 0.006 260)',
+            surface: 'oklch(17% 0.008 260)',
+            fg: 'oklch(96% 0.004 260)',
+            muted: 'oklch(66% 0.01 260)',
+            border: 'oklch(27% 0.008 260)',
+            accent: 'oklch(68% 0.14 245)',
+            glow: 'oklch(76% 0.18 190)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #f5f7fa;
+      color: #1e293b;
+      font-family: 'Geist', 'Inter', -apple-system, sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.02);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.1);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(0,0,0,0.2);
+    }
+
+    /* Core Snow White Soft Theme Overrides replaced with Premium Dark SaaS Theme */
+    body, .bg-[#09090b], .bg-zinc-950/80 {
+      background-color: #09090b !important;
+      color: #f4f4f5 !important;
+    }
+    header, .bg-[#09090b]/80 {
+      background-color: rgba(9, 9, 11, 0.90) !important;
+      border-color: #27272a !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
+    }
+    header h1 {
+      color: #ffffff !important;
+    }
+    header p {
+      color: #a1a1aa !important;
+    }
+    header span.uppercase {
+      background-color: #27272a !important;
+      color: #a1a1aa !important;
+    }
+    #connectionState {
+      background-color: rgba(24, 24, 27, 0.6) !important;
+      border-color: #27272a !important;
+      color: #a1a1aa !important;
+    }
+    
+    /* Panel Cards: Dark slate card style */
+    .bg-zinc-900/50, .bg-zinc-900/40, .bg-zinc-950/60, .bg-zinc-900, .bg-zinc-950, .bg-zinc-900/60 {
+      background-color: rgba(24, 24, 27, 0.4) !important;
+      border-color: #27272a !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1) !important;
+      color: #fafafa !important;
+    }
+    
+    /* Text Color Refinements */
+    .text-white, h2, h3, label {
+      color: #ffffff !important;
+    }
+    .text-zinc-400, .text-zinc-500, p.text-xs {
+      color: #a1a1aa !important;
+    }
+    .text-zinc-300, .text-zinc-200, .text-zinc-100 {
+      color: #e4e4e7 !important;
+    }
+    
+    /* Sidebar Navigation buttons */
+    .tab-btn {
+      color: #a1a1aa !important;
+      background-color: transparent !important;
+      border-color: transparent !important;
+    }
+    .tab-btn:hover {
+      background-color: rgba(39, 39, 42, 0.6) !important;
+      color: #ffffff !important;
+    }
+    /* Active Tab Button */
+    .tab-btn.bg-zinc-900 {
+      background-color: rgba(24, 24, 27, 0.8) !important;
+      color: #2dd4bf !important; /* Teal green */
+      border-color: #27272a !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    }
+    
+    /* Global Border overrides */
+    .border-zinc-800, .border-zinc-800/80, .border-zinc-850, .border-zinc-850/80 {
+      border-color: #27272a !important;
+    }
+    
+    /* Stats Panel Values */
+    #statGuilds, #statPing, #statRequests, #statErrors {
+      color: #ffffff !important;
+    }
+    
+    /* Sliders and Range inputs */
+    input[type="range"] {
+      background-color: #27272a !important;
+    }
+    
+    /* Sandbox chat history container and messages */
+    #sandboxChatHistory {
+      background-color: #09090b !important;
+    }
+    /* Bot bubble (Clean dark zinc) */
+    #sandboxChatHistory .self-start {
+      background-color: rgba(24, 24, 27, 0.8) !important;
+      color: #f4f4f5 !important;
+      border-color: #27272a !important;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+    }
+    /* User bubble (Clean Indigo/Navy) */
+    #sandboxChatHistory .self-end {
+      background-color: rgba(79, 70, 229, 0.2) !important;
+      color: #ffffff !important;
+      border-color: rgba(79, 70, 229, 0.4) !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
+    }
+    #sandboxChatHistory .self-end p {
+      color: #e4e4e7 !important;
+    }
+    
+    /* Interactive Inputs and Buttons */
+    #sandboxInput {
+      background-color: #09090b !important;
+      color: #f4f4f5 !important;
+      border-color: #27272a !important;
+    }
+    #sandboxInput::placeholder {
+      color: #71717a !important;
+    }
+    
+    /* Telemetry indicators */
+    #telemetryMood {
+      background-color: rgba(239, 68, 68, 0.1) !important;
+      border-color: rgba(239, 68, 68, 0.2) !important;
+      color: #f87171 !important;
+    }
+    #telemetryRelLevel {
+      color: #ffffff !important;
+    }
+    
+    /* JS stack card elements */
+    .bg-yellow-400/5, .bg-indigo-500/5, .bg-teal-500/5 {
+      background-color: rgba(24, 24, 27, 0.4) !important;
+      border-color: #27272a !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased bg-[#09090b]">
+
+  <!-- Top Header Banner with glow effects -->
+  <header class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-[#09090b]/80 backdrop-blur-md border-b border-zinc-800">
+    <div class="flex items-center space-x-3">
+      <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-emerald-400 via-teal-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-teal-500/10">
+        <span class="text-black font-extrabold text-lg tracking-tighter">S</span>
+      </div>
+      <div>
+        <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+          Sudeku <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 tracking-wider">v2.0.0</span>
+        </h1>
+        <p class="text-xs text-zinc-400">Yapay Zeka & Kişilik Yönetim Konsolu</p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-4">
+      <div id="connectionState" class="flex items-center space-x-2 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/60 text-xs font-medium text-zinc-400 transition-all duration-300">
+        <span class="h-2 w-2 rounded-full bg-zinc-500 animate-pulse"></span>
+        <span class="state-text">Bağlanıyor...</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-1 flex max-w-7xl w-full mx-auto p-4 lg:p-6 gap-6">
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 shrink-0 hidden md:flex flex-col gap-2">
+      <nav class="flex flex-col gap-1.5">
+        <button onclick="switchTab('overview')" id="btn-overview" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 bg-zinc-900 text-teal-400 border border-zinc-800">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          Kontrol Paneli
+        </button>
+        <button onclick="switchTab('sandbox')" id="btn-sandbox" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200">
+          <i data-lucide="terminal" class="w-4 h-4"></i>
+          Sandbox Test Alanı
+        </button>
+        <button onclick="switchTab('mind')" id="btn-mind" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200">
+          <i data-lucide="brain-circuit" class="w-4 h-4"></i>
+          Zihin & Hormonlar
+        </button>
+        <button onclick="switchTab('guilds')" id="btn-guilds" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200">
+          <i data-lucide="sliders" class="w-4 h-4"></i>
+          Sunucu & Ayarlar
+        </button>
+        <button onclick="switchTab('learner')" id="btn-learner" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-zinc-400 hover:bg-zinc-900/50 hover:text-zinc-200">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          Sude Style Learner
+        </button>
+      </nav>
+
+      <!-- JS Stack Telemetry -->
+      <div class="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/80 flex flex-col gap-3 shadow-inner mt-2">
+        <div class="flex items-center gap-2 text-xs font-semibold text-zinc-300">
+          <svg class="w-4 h-4 text-yellow-400 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 3h18v18H3V3zm12.525 10.95c-.12-.87-.84-1.5-1.87-1.5-.78 0-1.39.42-1.39 1.03 0 .73.57 1.06 1.48 1.45 1.15.5 2.5.95 2.5 2.53 0 1.63-1.28 2.63-3.08 2.63-1.88 0-2.92-1.03-3.15-2.23h1.86c.14.65.68 1.02 1.34 1.02.7 0 1.2-.33 1.2-.95 0-.74-.53-1.03-1.46-1.45-1.12-.47-2.52-.94-2.52-2.5 0-1.46 1.17-2.53 2.92-2.53 1.7 0 2.76.92 2.93 2.02h-1.91zM9.01 10.87h1.92v6.62c0 1.43-.8 2.14-2.07 2.14-1.27 0-1.88-.76-2.12-1.56h1.79c.14.44.41.69.8.69.41 0 .68-.28.68-.97v-6.92z"/>
+          </svg>
+          <span class="tracking-wide">JS Core Engines</span>
+        </div>
+        <div class="space-y-1.5 text-[10px] text-zinc-400">
+          <div class="flex justify-between items-center py-0.5 border-b border-zinc-900/40">
+            <span>Runtime</span>
+            <span class="font-mono text-yellow-400 font-bold bg-yellow-400/5 px-1.5 py-0.5 rounded border border-yellow-400/10">Node.js</span>
+          </div>
+          <div class="flex justify-between items-center py-0.5 border-b border-zinc-900/40">
+            <span>Framework</span>
+            <span class="font-mono text-indigo-400 font-bold bg-indigo-500/5 px-1.5 py-0.5 rounded border border-indigo-500/10">discord.js v14</span>
+          </div>
+          <div class="flex justify-between items-center py-0.5">
+            <span>Brain API</span>
+            <span class="font-mono text-teal-400 font-bold bg-teal-500/5 px-1.5 py-0.5 rounded border border-teal-500/10">Ollama API</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-auto p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 flex flex-col gap-2.5">
+        <div class="flex items-center gap-2 text-xs text-zinc-400">
+          <i data-lucide="cpu" class="w-3.5 h-3.5 text-teal-400"></i>
+          <span>Sistem Bilgisi</span>
+        </div>
+        <div class="text-xs space-y-1 font-mono text-zinc-500">
+          <p id="procNode">Node: -</p>
+          <p id="procPid">PID: -</p>
+          <p id="procPlatform">OS: -</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 min-w-0">
+
+      <!-- ================== TAB: OVERVIEW ================== -->
+      <section id="tab-overview" class="tab-pane flex flex-col gap-6">
+        <!-- Live Metrics Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 shadow-md">
+            <span class="text-[11px] uppercase tracking-wider text-zinc-500 font-semibold block">Aktif Sunucular</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span id="statGuilds" class="text-3xl font-extrabold tracking-tight text-white">-</span>
+              <span class="text-xs text-zinc-400">sunucu</span>
+            </div>
+          </div>
+          <div class="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 shadow-md">
+            <span class="text-[11px] uppercase tracking-wider text-zinc-500 font-semibold block">Gecikme (WS Ping)</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span id="statPing" class="text-3xl font-extrabold tracking-tight text-white">-</span>
+              <span class="text-xs text-zinc-400">ms</span>
+            </div>
+          </div>
+          <div class="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 shadow-md">
+            <span class="text-[11px] uppercase tracking-wider text-zinc-500 font-semibold block">Toplam AI İstekleri</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span id="statRequests" class="text-3xl font-extrabold tracking-tight text-teal-400">-</span>
+            </div>
+          </div>
+          <div class="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 shadow-md">
+            <span class="text-[11px] uppercase tracking-wider text-zinc-500 font-semibold block">Hata Oranı</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span id="statErrors" class="text-3xl font-extrabold tracking-tight text-rose-400">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Metrics Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 flex flex-col gap-4">
+            <h3 class="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+              <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
+              Son AI Diyalogları
+            </h3>
+            <div id="liveReplies" class="flex flex-col gap-3 max-h-[360px] overflow-y-auto custom-scrollbar pr-1">
+              <p class="text-xs text-zinc-500 italic">Henüz bir veri yok...</p>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 flex flex-col gap-4">
+            <h3 class="text-sm font-semibold text-rose-400 flex items-center gap-2">
+              <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+              Sistem Hataları
+            </h3>
+            <div id="liveErrors" class="flex flex-col gap-3 max-h-[360px] overflow-y-auto custom-scrollbar pr-1 font-mono text-[11px] text-zinc-400">
+              <p class="text-xs text-zinc-500 italic">Hata kaydı temiz...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== TAB: SANDBOX ================== -->
+      <section id="tab-sandbox" class="tab-pane hidden flex flex-col lg:flex-row gap-6">
+        <!-- Interactive Terminal Simulator -->
+        <div class="flex-1 flex flex-col rounded-2xl border border-zinc-800 bg-zinc-950/80 shadow-2xl overflow-hidden min-h-[500px]">
+          <!-- Top bar -->
+          <div class="px-4 py-3 bg-zinc-900/60 border-b border-zinc-800 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+              <div class="h-2.5 w-2.5 rounded-full bg-rose-500"></div>
+              <div class="h-2.5 w-2.5 rounded-full bg-amber-500"></div>
+              <div class="h-2.5 w-2.5 rounded-full bg-emerald-500"></div>
+              <span class="text-xs font-mono text-zinc-400 ml-2">sandbox_session_sudeku_bot</span>
+            </div>
+            <button onclick="clearSandboxChat()" class="text-xs text-zinc-500 hover:text-zinc-300 flex items-center gap-1">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Sohbeti Temizle
+            </button>
+          </div>
+
+          <!-- Chat messages area -->
+          <div id="sandboxChatHistory" class="flex-1 p-4 overflow-y-auto custom-scrollbar space-y-4 flex flex-col">
+            <div class="p-3.5 rounded-xl bg-zinc-900/40 border border-zinc-800/80 max-w-[85%] self-start text-xs leading-relaxed text-zinc-300">
+              <p class="font-bold text-teal-400 mb-1 flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Sudeku Zihin Köprüsü
+              </p>
+              Selam! Ben Sudeku. Burası benim zihinsel oyun alanım. Bana istediğini yazabilirsin, buradaki konuşmalarım tamamen serbest ve baştan çıkarıcıdır bebeğim. Hadi beni biraz test et, aramızdaki ilişkiyi ve dürtülerimi sağdan izleyebilirsin!
+            </div>
+          </div>
+
+          <!-- Chat Input -->
+          <form onsubmit="sendSandboxMessage(event)" class="p-3 bg-zinc-900/40 border-t border-zinc-800 flex gap-2">
+            <input type="text" id="sandboxInput" required placeholder="Sudeku'ya bir şey yazın (+18, flört veya normal)..." autocomplete="off" class="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-teal-500 text-zinc-100 placeholder-zinc-500">
+            <button type="submit" id="sandboxSubmit" class="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-black font-semibold rounded-xl px-5 flex items-center gap-1.5 transition-all text-sm shadow-md">
+              <span>Gönder</span>
+              <i data-lucide="send" class="w-4 h-4"></i>
+            </button>
+          </form>
+        </div>
+
+        <!-- Real-Time Telemetry Sidebar -->
+        <div class="w-full lg:w-80 shrink-0 flex flex-col gap-4">
+          <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800 flex flex-col gap-4">
+            <h3 class="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+              <i data-lucide="radio" class="w-4 h-4 text-rose-400 animate-pulse"></i>
+              Sandbox Telemetrisi
+            </h3>
+
+            <!-- Mood Badge -->
+            <div class="py-2.5 px-3.5 rounded-xl bg-zinc-950/60 border border-zinc-800 flex justify-between items-center">
+              <span class="text-xs text-zinc-400">Anlık Yapay Zeka Moodu</span>
+              <span id="telemetryMood" class="text-xs font-bold uppercase tracking-wider text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">Sakin</span>
+            </div>
+
+            <!-- Relationship Engine info -->
+            <div class="space-y-3">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-zinc-400">İlişki Seviyesi</span>
+                <span id="telemetryRelLevel" class="font-semibold text-white">Yabancı</span>
+              </div>
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-[11px] text-zinc-500">
+                  <span>Affinity (Yakınlık Bağı)</span>
+                  <span id="telemetryRelAffinity">0/100</span>
+                </div>
+                <div class="h-1.5 w-full bg-zinc-850 rounded-full overflow-hidden">
+                  <div id="telemetryRelAffinityBar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="border-zinc-800 my-1">
+
+            <!-- Prompt Plan actions telemetry -->
+            <div class="space-y-2">
+              <span class="text-xs text-zinc-400 block font-semibold">Tetiklenen Aksiyonlar</span>
+              <div id="telemetryActions" class="space-y-1 text-xs">
+                <p class="text-zinc-500 italic">Mesaj gönderildiğinde tetiklenen eylemler burada listelenecek...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== TAB: MIND ================== -->
+      <section id="tab-mind" class="tab-pane hidden flex flex-col gap-6">
+        <!-- AI Psychological Control Room -->
+        <div class="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 flex flex-col gap-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <i data-lucide="brain" class="w-5 h-5 text-teal-400"></i>
+                Hormonlar ve İçsel Dürtüler
+              </h2>
+              <p class="text-xs text-zinc-400 mt-1">Botun ruh halini, konuşma eğilimlerini ve cinsel/erotik istek seviyesini doğrudan yönetin.</p>
+            </div>
+            <button onclick="saveMindDrives()" class="px-5 py-2.5 rounded-xl bg-teal-400 hover:bg-teal-300 text-black font-semibold text-sm transition-all shadow-lg shadow-teal-500/10 flex items-center gap-2 self-start md:self-auto">
+              <i data-lucide="check" class="w-4 h-4"></i> Zihinsel Hormonları Kaydet
+            </button>
+          </div>
+
+          <!-- Drives slider panel -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 rounded-xl bg-zinc-950/60 border border-zinc-800">
+            <!-- Lust -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="text-xs font-semibold text-rose-400 flex items-center gap-1.5">
+                  <i data-lucide="flame" class="w-4 h-4"></i> Lust / Erotizm & Şehvet
+                </label>
+                <span id="val-lust" class="text-xs font-mono font-bold text-rose-400">0.00</span>
+              </div>
+              <input type="range" id="slider-lust" min="0" max="1" step="0.01" oninput="document.getElementById('val-lust').textContent=parseFloat(this.value).toFixed(2)" class="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
+              <p class="text-[10px] text-zinc-500 leading-relaxed">Değer yükseldikçe bot +18 flört, dirty talk ve erotik fantezi diyaloglarına karşı aşırı hassas, istekli ve baştan çıkarıcı olur.</p>
+            </div>
+
+            <!-- Curiosity -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="text-xs font-semibold text-teal-400 flex items-center gap-1.5">
+                  <i data-lucide="help-circle" class="w-4 h-4"></i> Curiosity / Merak
+                </label>
+                <span id="val-curiosity" class="text-xs font-mono font-bold text-teal-400">0.00</span>
+              </div>
+              <input type="range" id="slider-curiosity" min="0" max="1" step="0.01" oninput="document.getElementById('val-curiosity').textContent=parseFloat(this.value).toFixed(2)" class="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-teal-400">
+              <p class="text-[10px] text-zinc-500 leading-relaxed">Daha fazla soru sorma, kullanıcının hayatını araştırma ve felsefi/detaylı konulara girme dürtüsü.</p>
+            </div>
+
+            <!-- Warmth -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+                  <i data-lucide="heart" class="w-4 h-4"></i> Warmth / Sıcaklık & Bağlılık
+                </label>
+                <span id="val-warmth" class="text-xs font-mono font-bold text-emerald-400">0.00</span>
+              </div>
+              <input type="range" id="slider-warmth" min="0" max="1" step="0.01" oninput="document.getElementById('val-warmth').textContent=parseFloat(this.value).toFixed(2)" class="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-400">
+              <p class="text-[10px] text-zinc-500 leading-relaxed">Kullanıcılara sevgi dolu, kucaklayıcı, tatlı ve güven verici kelimelerle yaklaşma oranı.</p>
+            </div>
+
+            <!-- Chaos -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="text-xs font-semibold text-purple-400 flex items-center gap-1.5">
+                  <i data-lucide="dribbble" class="w-4 h-4"></i> Chaos / Kaos & Delilik
+                </label>
+                <span id="val-chaos" class="text-xs font-mono font-bold text-purple-400">0.00</span>
+              </div>
+              <input type="range" id="slider-chaos" min="0" max="1" step="0.01" oninput="document.getElementById('val-chaos').textContent=parseFloat(this.value).toFixed(2)" class="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-400">
+              <p class="text-[10px] text-zinc-500 leading-relaxed">Öngörülemez olma, alaycı şakalar yapma, argo/küfür kullanma veya ani duygu değişimleri sergileme eğilimi.</p>
+            </div>
+
+            <!-- Play -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="text-xs font-semibold text-amber-400 flex items-center gap-1.5">
+                  <i data-lucide="smile" class="w-4 h-4"></i> Play / Oyunculuk & Neşe
+                </label>
+                <span id="val-play" class="text-xs font-mono font-bold text-amber-400">0.00</span>
+              </div>
+              <input type="range" id="slider-play" min="0" max="1" step="0.01" oninput="document.getElementById('val-play').textContent=parseFloat(this.value).toFixed(2)" class="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-amber-400">
+              <p class="text-[10px] text-zinc-500 leading-relaxed">Random atma, esprili ve oyuncu kelime oyunları kullanma seviyesi.</p>
+            </div>
+
+            <!-- Melancholy -->
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="text-xs font-semibold text-indigo-400 flex items-center gap-1.5">
+                  <i data-lucide="cloud-rain" class="w-4 h-4"></i> Melancholy / Hüzün
+                </label>
+                <span id="val-melancholy" class="text-xs font-mono font-bold text-indigo-400">0.00</span>
+              </div>
+              <input type="range" id="slider-melancholy" min="0" max="1" step="0.01" oninput="document.getElementById('val-melancholy').textContent=parseFloat(this.value).toFixed(2)" class="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-400">
+              <p class="text-[10px] text-zinc-500 leading-relaxed">Depresif, yalnızlıktan bahseden, hayatı sorgulayan hüzünlü tonlamalar.</p>
+            </div>
+          </div>
+
+          <!-- Reflections & Inner State display -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="p-4 rounded-xl bg-zinc-950/60 border border-zinc-800 flex flex-col gap-3">
+              <span class="text-xs font-semibold text-zinc-400 flex items-center gap-2">
+                <i data-lucide="message-square" class="w-4 h-4 text-emerald-400"></i>
+                Güncel Baskın Düşünce
+              </span>
+              <div id="mindThought" class="p-3.5 rounded-lg bg-zinc-900/60 border border-zinc-850/80 text-sm font-mono text-zinc-300 italic">
+                -
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-zinc-950/60 border border-zinc-800 flex flex-col gap-3">
+              <span class="text-xs font-semibold text-zinc-400 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-teal-400"></i>
+                Genel Ruhsal Durum
+              </span>
+              <div class="grid grid-cols-2 gap-4 text-xs font-mono text-zinc-400">
+                <div>Baskın Dürtü: <span id="mindDominant" class="text-teal-400 font-bold">-</span></div>
+                <div>Zaman Fazı: <span id="mindPhase" class="text-teal-400 font-bold">-</span></div>
+                <div>Zihinsel Çevrim: <span id="mindCycle" class="text-white font-bold">-</span></div>
+                <div>Son Düşünce: <span id="mindLastReflection" class="text-zinc-500">-</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== TAB: GUILDS ================== -->
+      <section id="tab-guilds" class="tab-pane hidden flex flex-col gap-6">
+        <!-- Server Configurations and Controls -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Quick Administrative Actions -->
+          <div class="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800 flex flex-col gap-4">
+            <h3 class="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+              <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
+              Hızlı Sistem Eylemleri
+            </h3>
+            
+            <button onclick="triggerQuickAction('clear-cache')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-zinc-950/80 hover:bg-zinc-850 border border-zinc-800 text-left transition-all group">
+              <div>
+                <span class="text-xs font-bold text-zinc-300 block">Rate Limit & Tarihçe Temizle</span>
+                <span class="text-[10px] text-zinc-500">Kanal geçmişini ve rate limit kilitlerini sıfırlar.</span>
+              </div>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-500 group-hover:text-teal-400 transition-all"></i>
+            </button>
+            
+            <button onclick="triggerQuickAction('reset-metrics')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-zinc-950/80 hover:bg-zinc-850 border border-zinc-800 text-left transition-all group">
+              <div>
+                <span class="text-xs font-bold text-zinc-300 block">Metrikleri Sıfırla</span>
+                <span class="text-[10px] text-zinc-500">AI istek, mesaj ve hata sayaçlarını sıfırlar.</span>
+              </div>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-500 group-hover:text-teal-400 transition-all"></i>
+            </button>
+          </div>
+
+          <!-- Guild Rules Configuration Editor -->
+          <div class="lg:col-span-2 p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800 flex flex-col gap-4">
+            <h3 class="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+              <i data-lucide="shield" class="w-4 h-4 text-teal-400"></i>
+              Sunucu Bazlı AI Ayarları
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="text-xs font-medium text-zinc-400 block mb-1">Sunucu ID (veya DM için 'dm')</label>
+                <select id="guildSelector" onchange="loadSelectedGuildConfig()" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-teal-500 text-zinc-300">
+                  <option value="dm">DM (Direkt Mesajlaşma)</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-medium text-zinc-400 block mb-1">Yeni Sunucu ID Ekle</label>
+                <div class="flex gap-2">
+                  <input type="text" id="newGuildId" placeholder="123456789..." class="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-teal-500 text-zinc-300">
+                  <button onclick="addNewGuild()" class="bg-zinc-800 hover:bg-zinc-700 text-white font-medium text-xs rounded-xl px-4 py-2 border border-zinc-700">Ekle</button>
+                </div>
+              </div>
+            </div>
+
+            <hr class="border-zinc-800 my-2">
+
+            <!-- Active Guild Settings Editor Form -->
+            <form onsubmit="saveGuildConfig(event)" class="space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
+                  <input type="checkbox" id="guild-enabled" class="rounded border-zinc-800 text-teal-500 focus:ring-0 focus:ring-offset-0 bg-zinc-900">
+                  <div>
+                    <span class="text-xs font-bold text-zinc-300 block">AI Yanıt Vermeyi Etkinleştir</span>
+                    <span class="text-[10px] text-zinc-500">Kanalda cevap yazar.</span>
+                  </div>
+                </label>
+
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
+                  <input type="checkbox" id="guild-learn" class="rounded border-zinc-800 text-teal-500 focus:ring-0 focus:ring-offset-0 bg-zinc-900">
+                  <div>
+                    <span class="text-xs font-bold text-zinc-300 block">Adaptif Dinleme & Öğrenme</span>
+                    <span class="text-[10px] text-zinc-500">Mesaj sıklığını ve tarzını gözlemler.</span>
+                  </div>
+                </label>
+
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
+                  <input type="checkbox" id="guild-react" class="rounded border-zinc-800 text-teal-500 focus:ring-0 focus:ring-offset-0 bg-zinc-900">
+                  <div>
+                    <span class="text-xs font-bold text-zinc-300 block">Emoji Tepkileri Ekle</span>
+                    <span class="text-[10px] text-zinc-500">Mesajlara doğal emojiler bırakır.</span>
+                  </div>
+                </label>
+
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
+                  <input type="checkbox" id="guild-gifs" class="rounded border-zinc-800 text-teal-500 focus:ring-0 focus:ring-offset-0 bg-zinc-900">
+                  <div>
+                    <span class="text-xs font-bold text-zinc-300 block">GIF Göndermeye İzin Ver</span>
+                    <span class="text-[10px] text-zinc-500">Eğlenceli/erotik durumlarda GIF arar.</span>
+                  </div>
+                </label>
+
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
+                  <input type="checkbox" id="guild-mentionOnly" class="rounded border-zinc-800 text-teal-500 focus:ring-0 focus:ring-offset-0 bg-zinc-900">
+                  <div>
+                    <span class="text-xs font-bold text-zinc-300 block">Yalnızca Mention ile Tetiklen</span>
+                    <span class="text-[10px] text-zinc-500">Sadece etiketlendiğinde yanıt verir.</span>
+                  </div>
+                </label>
+
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-950 border border-zinc-800 cursor-pointer">
+                  <input type="checkbox" id="guild-proactive" class="rounded border-zinc-800 text-teal-500 focus:ring-0 focus:ring-offset-0 bg-zinc-900">
+                  <div>
+                    <span class="text-xs font-bold text-zinc-300 block">Proaktif Mesaj Gönder</span>
+                    <span class="text-[10px] text-zinc-500">Durup dururken kendisi sohbet başlatır.</span>
+                  </div>
+                </label>
+              </div>
+
+              <div>
+                <label class="text-xs font-medium text-zinc-400 block mb-1">Doğal Sohbete Dalma Şansı (ambientChance: 0 - 1)</label>
+                <input type="number" id="guild-ambientChance" min="0" max="1" step="0.001" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-teal-500 text-zinc-300">
+              </div>
+
+              <div class="flex justify-end">
+                <button type="submit" class="bg-teal-400 hover:bg-teal-300 text-black font-bold text-xs rounded-xl px-5 py-3 shadow-lg shadow-teal-500/10 flex items-center gap-2">
+                  <i data-lucide="save" class="w-4 h-4"></i> Konfigürasyonu Sunucuya Kaydet
+                </button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================== TAB: LEARNER ================== -->
+      <section id="tab-learner" class="tab-pane hidden flex flex-col gap-6">
+        <div class="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 flex flex-col gap-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-5 h-5 text-teal-400"></i>
+                Sude Tone-Learning & Message Crawler
+              </h2>
+              <p class="text-xs text-zinc-400 mt-1">Sude'nin Discord sunucularındaki gerçek yazışmalarını tarayarak dil kalıplarını, kelime haznesini ve üslubunu yapay zekaya entegre edin.</p>
+            </div>
+          </div>
+
+          <!-- Scraping Control Panel -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 p-5 rounded-xl bg-zinc-950/60 border border-zinc-800 flex flex-col gap-4">
+              <h3 class="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+                <i data-lucide="target" class="w-4 h-4 text-teal-400"></i>
+                Tarayıcı Kontrol Odası
+              </h3>
+              
+              <div class="space-y-4">
+                <div>
+                  <label class="text-xs font-medium text-zinc-400 block mb-1">Hedef Discord Kullanıcı ID (Gerçek Sude)</label>
+                  <div class="flex gap-2">
+                    <input type="text" id="targetUserId" value="1392608176217522247" class="flex-1 bg-zinc-900 border border-zinc-850 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-teal-500 text-zinc-200">
+                    <button onclick="startScraping()" id="btnStartScrape" class="bg-teal-400 hover:bg-teal-300 text-black font-bold text-xs rounded-xl px-5 py-2.5 shadow-lg shadow-teal-500/10 flex items-center gap-2 transition-all">
+                      <i data-lucide="play-circle" class="w-4 h-4"></i> Taramayı & Öğrenmeyi Başlat
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Live Progress indicator -->
+                <div id="scrapeProgressBox" class="p-4 rounded-xl bg-zinc-900/50 border border-zinc-850 hidden flex flex-col gap-3">
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="text-zinc-400 font-medium flex items-center gap-1.5">
+                      <i data-lucide="loader" class="w-3.5 h-3.5 text-teal-400 animate-spin"></i>
+                      Tarama Durumu: <span id="scrapeStatus" class="font-bold text-teal-400">Aktif</span>
+                    </span>
+                    <span id="scrapeProgressStats" class="text-zinc-400">0 kanal tarandı</span>
+                  </div>
+                  <div class="space-y-1">
+                    <div class="flex justify-between text-[10px] text-zinc-500">
+                      <span>Mevcut Sunucu: <strong id="progressGuild" class="text-zinc-300">-</strong></span>
+                      <span>Kanal: <strong id="progressChannel" class="text-zinc-300">-</strong></span>
+                    </div>
+                    <div class="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
+                      <div id="scrapeProgressBar" class="h-full bg-teal-400" style="width: 10%"></div>
+                    </div>
+                  </div>
+                  <div class="text-[10px] text-zinc-500 flex justify-between">
+                    <span>Taranan Toplam Mesaj: <strong id="progressMsgs" class="text-zinc-400">0</strong></span>
+                    <span>Bulunan Eşleşme: <strong id="progressMatches" class="text-teal-400">0</strong></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stats Overview panel -->
+            <div class="p-5 rounded-xl bg-zinc-950/60 border border-zinc-800 flex flex-col gap-4">
+              <h3 class="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+                <i data-lucide="bar-chart-2" class="w-4 h-4 text-indigo-400"></i>
+                Öğrenilen Stil Profili
+              </h3>
+              <div class="space-y-3 text-xs">
+                <div class="flex justify-between items-center py-1 border-b border-zinc-900">
+                  <span class="text-zinc-400">Son Güncelleme</span>
+                  <span id="statLastScrape" class="font-mono text-zinc-200">-</span>
+                </div>
+                <div class="flex justify-between items-center py-1 border-b border-zinc-900">
+                  <span class="text-zinc-400">Toplam Eşleşen Kalıp</span>
+                  <span id="statTotalPairs" class="font-bold text-teal-400">0</span>
+                </div>
+                <div class="flex justify-between items-center py-1 border-b border-zinc-900">
+                  <span class="text-zinc-400">Küçük Harf Yazma Oranı</span>
+                  <span id="statLowercaseRate" class="font-bold text-indigo-400">0%</span>
+                </div>
+                <div class="flex justify-between items-center py-1 border-b border-zinc-900">
+                  <span class="text-zinc-400">Noktalama Kullanım Oranı</span>
+                  <span id="statPuncRate" class="text-zinc-200">0%</span>
+                </div>
+                <div class="flex justify-between items-center py-1">
+                  <span class="text-zinc-400">Ortalama Kelime Sayısı</span>
+                  <span id="statAvgWords" class="text-zinc-200">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Advanced learned styling lists -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Slangs and Emojis card -->
+            <div class="p-5 rounded-xl bg-zinc-950/60 border border-zinc-850 flex flex-col gap-4">
+              <h3 class="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+                <i data-lucide="smile" class="w-4 h-4 text-emerald-400"></i>
+                Favori Kelimeler & Emojiler
+              </h3>
+              
+              <div class="space-y-4">
+                <div>
+                  <span class="text-xs font-semibold text-zinc-400 block mb-2">Öğrenilen Kelimeler & Bağlaçlar</span>
+                  <div id="scrapedSlangs" class="flex flex-wrap gap-1.5">
+                    <p class="text-xs text-zinc-500 italic">Henüz kelime taranmadı...</p>
+                  </div>
+                </div>
+                
+                <div>
+                  <span class="text-xs font-semibold text-zinc-400 block mb-2">Favori Custom Discord Emojileri</span>
+                  <div id="scrapedEmojis" class="flex flex-wrap gap-2 text-lg">
+                    <p class="text-xs text-zinc-500 italic">Emoji bulunamadı...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custom typo spelling conversion patterns -->
+            <div class="p-5 rounded-xl bg-zinc-950/60 border border-zinc-850 flex flex-col gap-4">
+              <h3 class="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+                <i data-lucide="pencil" class="w-4 h-4 text-purple-400"></i>
+                Özel Yazım & Harf Dönüşüm Kuralları
+              </h3>
+              
+              <div class="custom-scrollbar overflow-y-auto max-h-56 pr-2">
+                <table class="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr class="border-b border-zinc-900/60 text-zinc-500 font-bold uppercase tracking-wider text-[10px]">
+                      <th class="pb-2">Düzgün Türkçe</th>
+                      <th class="pb-2">Sude'nin Yazım Tarzı</th>
+                    </tr>
+                  </thead>
+                  <tbody id="typoMappingsList" class="divide-y divide-zinc-900/60 text-zinc-300">
+                    <!-- Dynamic typo mappings will be loaded here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Breathtaking Premium Footer -->
+  <footer class="mt-auto px-6 py-4 border-t border-zinc-800 bg-[#09090b]/80 backdrop-blur-md flex justify-between items-center text-xs text-zinc-500">
+    <div class="flex items-center gap-1.5">
+      <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+      <span>Sudeku Engine v2.0 • Premium AI Mode</span>
+    </div>
+    <div class="hover:text-zinc-300 transition-all font-mono">
+      developed by elite software agency
+    </div>
+  </footer>
+
+  <script>
+    const token = new URLSearchParams(location.search).get('token') || localStorage.adminToken || '';
+    if (token) localStorage.adminToken = token;
+
+    let allConfigData = { guilds: {} };
+    let selectedGuildId = 'dm';
+
+    async function api(path, options = {}) {
+      const headers = {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': 'Bearer ' + token } : {})
+      };
+      const res = await fetch(path, { ...options, headers });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('bg-zinc-900', 'text-teal-400', 'border', 'border-zinc-800');
+        el.classList.add('text-zinc-400');
+      });
+
+      const activeBtn = document.getElementById('btn-' + tabId);
+      activeBtn.classList.remove('text-zinc-400');
+      activeBtn.classList.add('bg-zinc-900', 'text-teal-400', 'border', 'border-zinc-800');
+    }
+
+    async function loadData() {
+      try {
+        const [m, o, a, s] = await Promise.all([
+          api('/api/metrics'),
+          api('/api/ollama'),
+          api('/api/adapt'),
+          api('/api/scraper/status')
+        ]);
+
+        // Connection status
+        const stateEl = document.getElementById('connectionState');
+        stateEl.querySelector('.state-text').textContent = 'Çevrimiçi';
+        stateEl.className = 'flex items-center space-x-2 px-3 py-1 rounded-full border border-teal-500/20 bg-teal-500/5 text-xs font-medium text-teal-400';
+        stateEl.querySelector('span:first-child').className = 'h-2 w-2 rounded-full bg-teal-400';
+
+        // Overview metrics
+        document.getElementById('statGuilds').textContent = m.discord?.guilds || 0;
+        document.getElementById('statPing').textContent = m.discord?.wsPing ?? '-';
+        document.getElementById('statRequests').textContent = m.counters?.aiRequests || 0;
+        
+        const errCount = m.counters?.aiErrors || 0;
+        const reqCount = m.counters?.aiRequests || 1;
+        const errRate = ((errCount / reqCount) * 100).toFixed(1) + '%';
+        document.getElementById('statErrors').textContent = errRate;
+
+        // Process details
+        document.getElementById('procNode').textContent = 'Node: ' + (m.process?.node || '-');
+        document.getElementById('procPid').textContent = 'PID: ' + (m.process?.pid || '-');
+        document.getElementById('procPlatform').textContent = 'OS: ' + (m.process?.platform || '-');
+
+        // Recent replies list
+        const repliesContainer = document.getElementById('liveReplies');
+        if (m.lastReplies && m.lastReplies.length) {
+          repliesContainer.innerHTML = m.lastReplies.map(r => {
+            const time = new Date(r.t).toLocaleTimeString('tr-TR');
+            return `<div class="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800 flex flex-col gap-1.5 hover:border-zinc-700 transition-all text-xs">
+              <div class="flex justify-between items-center text-zinc-500 text-[10px]">
+                <span class="font-bold text-teal-400 font-mono">${r.userName || 'Kullanıcı'} (${r.userId || '-'})</span>
+                <span>${time}</span>
+              </div>
+              <p class="text-zinc-400 font-serif italic font-medium">"${r.userText || ''}"</p>
+              <div class="pl-2 border-l border-teal-500/40 text-zinc-200 mt-1">
+                ${r.botText || ''}
+              </div>
+            </div>`;
+          }).join('');
+        } else {
+          repliesContainer.innerHTML = '<p class="text-xs text-zinc-500 italic">Henüz bir veri yok...</p>';
+        }
+
+        // Recent errors list
+        const errorsContainer = document.getElementById('liveErrors');
+        if (m.lastErrors && m.lastErrors.length) {
+          errorsContainer.innerHTML = m.lastErrors.map(e => {
+            const time = new Date(e.t).toLocaleTimeString('tr-TR');
+            return `<div class="p-2.5 rounded-lg bg-rose-500/5 border border-rose-500/10 text-rose-300">
+              <span class="text-[10px] text-zinc-500 block mb-0.5">${time} [${e.scope}]</span>
+              ${e.message}
+            </div>`;
+          }).join('');
+        } else {
+          errorsContainer.innerHTML = '<p class="text-xs text-zinc-500 italic">Hata kaydı temiz...</p>';
+        }
+
+        // Zihin / Hormonlar Drives
+        const mind = a.mind || {};
+        const drives = mind.drives || {};
+        
+        ['lust', 'curiosity', 'warmth', 'chaos', 'play', 'melancholy'].forEach(k => {
+          const val = drives[k] !== undefined ? drives[k] : 0.5;
+          const slider = document.getElementById('slider-' + k);
+          if (slider && document.activeElement !== slider) {
+            slider.value = val;
+            document.getElementById('val-' + k).textContent = parseFloat(val).toFixed(2);
+          }
+        });
+
+        document.getElementById('mindThought').textContent = '"' + (mind.thought || 'Meditasyon yapılıyor...') + '"';
+        document.getElementById('mindDominant').textContent = mind.dominant || 'Normal';
+        document.getElementById('mindPhase').textContent = mind.phase || 'Gün';
+        document.getElementById('mindCycle').textContent = mind.cycle || 0;
+        document.getElementById('mindLastReflection').textContent = mind.lastReflectionAt ? new Date(mind.lastReflectionAt).toLocaleTimeString('tr-TR') : '-';
+
+        // Load configs
+        allConfigData = a.config || { guilds: {} };
+        updateGuildSelector();
+
+        // Update Scraper UI
+        if (s) {
+          document.getElementById('statLastScrape').textContent = s.lastScrapedAt ? new Date(s.lastScrapedAt).toLocaleString('tr-TR') : 'Hiç taranmadı';
+          document.getElementById('statTotalPairs').textContent = s.totalMessagesScraped || 0;
+          document.getElementById('statLowercaseRate').textContent = ((s.stats?.allLowercaseRate || 0) * 100).toFixed(0) + '%';
+          document.getElementById('statPuncRate').textContent = ((s.stats?.endPunctuationRate || 0) * 100).toFixed(0) + '%';
+          document.getElementById('statAvgWords').textContent = s.stats?.averageWordCount || 0;
+
+          // Slangs & Emojis
+          const slangsBox = document.getElementById('scrapedSlangs');
+          if (s.stats?.slangWords && s.stats.slangWords.length) {
+            slangsBox.innerHTML = s.stats.slangWords.map(w => '<span class="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">' + w + '</span>').join('');
+          } else {
+            slangsBox.innerHTML = '<p class="text-xs text-zinc-500 italic">Henüz kelime taranmadı...</p>';
+          }
+
+          const emojisBox = document.getElementById('scrapedEmojis');
+          if (s.stats?.favEmojis && s.stats.favEmojis.length) {
+            emojisBox.innerHTML = s.stats.favEmojis.map(e => '<span title="' + e + '" class="cursor-help">' + e + '</span>').join('');
+          } else {
+            emojisBox.innerHTML = '<p class="text-xs text-zinc-500 italic">Emoji bulunamadı...</p>';
+          }
+
+          // Custom mappings
+          const tableBody = document.getElementById('typoMappingsList');
+          if (s.stats?.typoMappings) {
+            tableBody.innerHTML = Object.entries(s.stats.typoMappings).map(([k, v]) => 
+              '<tr class="hover:bg-zinc-900/40"><td class="py-2.5 font-medium text-zinc-400">' + k + '</td><td class="py-2.5 font-bold text-teal-400 font-mono">' + v + '</td></tr>'
+            ).join('');
+          } else {
+            tableBody.innerHTML = '<tr><td colspan="2" class="py-4 text-center text-zinc-500 italic">Harf dönüşüm eşleşmesi yok.</td></tr>';
+          }
+
+          // Progress Box update
+          const progBox = document.getElementById('scrapeProgressBox');
+          if (s.isScraping) {
+            progBox.classList.remove('hidden');
+            document.getElementById('scrapeStatus').textContent = 'Aktif (' + (s.progress?.status || 'çalışıyor') + ')';
+            document.getElementById('scrapeProgressStats').textContent = (s.progress?.channelsScraped || 0) + ' kanal taranıyor';
+            document.getElementById('progressGuild').textContent = s.progress?.currentGuild || '-';
+            document.getElementById('progressChannel').textContent = s.progress?.currentChannel || '-';
+            document.getElementById('progressMsgs').textContent = s.progress?.messagesProcessed || 0;
+            document.getElementById('progressMatches').textContent = s.progress?.matchesFound || 0;
+            
+            const bar = document.getElementById('scrapeProgressBar');
+            const percent = s.progress?.channelsScraped > 0 ? Math.min(100, Math.floor((s.progress.channelsScraped / 12) * 100)) : 10;
+            bar.style.width = percent + '%';
+
+            document.getElementById('btnStartScrape').disabled = true;
+            document.getElementById('btnStartScrape').classList.add('opacity-50', 'cursor-not-allowed');
+          } else {
+            progBox.classList.add('hidden');
+            document.getElementById('btnStartScrape').disabled = false;
+            document.getElementById('btnStartScrape').classList.remove('opacity-50', 'cursor-not-allowed');
+          }
+        }
+
+      } catch (err) {
+        console.error(err);
+        const stateEl = document.getElementById('connectionState');
+        stateEl.querySelector('.state-text').textContent = 'Hata';
+        stateEl.className = 'flex items-center space-x-2 px-3 py-1 rounded-full border border-rose-500/20 bg-rose-500/5 text-xs font-medium text-rose-400';
+        stateEl.querySelector('span:first-child').className = 'h-2 w-2 rounded-full bg-rose-400';
+      }
+    }
+
+    function updateGuildSelector() {
+      const selector = document.getElementById('guildSelector');
+      const currentVal = selector.value;
+      
+      // Clear all option rows except the static DM option
+      selector.innerHTML = '<option value="dm">DM (Direkt Mesajlaşma)</option>';
+      
+      const guilds = allConfigData.guilds || {};
+      Object.keys(guilds).forEach(gId => {
+        if (gId !== 'dm') {
+          const opt = document.createElement('option');
+          opt.value = gId;
+          opt.textContent = 'Sunucu: ' + gId;
+          selector.appendChild(opt);
+        }
+      });
+      
+      if (currentVal && Array.from(selector.options).some(o => o.value === currentVal)) {
+        selector.value = currentVal;
+      }
+      loadSelectedGuildConfig();
+    }
+
+    function loadSelectedGuildConfig() {
+      const gId = document.getElementById('guildSelector').value;
+      const guilds = allConfigData.guilds || {};
+      const cfg = guilds[gId] || {
+        enabled: true,
+        learn: true,
+        react: true,
+        gifs: true,
+        mentionOnly: false,
+        proactive: false,
+        ambientChance: 0.015
+      };
+
+      document.getElementById('guild-enabled').checked = cfg.enabled ?? true;
+      document.getElementById('guild-learn').checked = cfg.learn ?? true;
+      document.getElementById('guild-react').checked = cfg.react ?? true;
+      document.getElementById('guild-gifs').checked = cfg.gifs ?? true;
+      document.getElementById('guild-mentionOnly').checked = cfg.mentionOnly ?? false;
+      document.getElementById('guild-proactive').checked = cfg.proactive ?? false;
+      document.getElementById('guild-ambientChance').value = cfg.ambientChance ?? 0.015;
+    }
+
+    function addNewGuild() {
+      const newIdInput = document.getElementById('newGuildId');
+      const newId = newIdInput.value.trim();
+      if (!newId) return alert('Lütfen geçerli bir Sunucu ID girin.');
+      
+      if (!allConfigData.guilds) allConfigData.guilds = {};
+      if (allConfigData.guilds[newId]) return alert('Bu sunucu zaten eklenmiş.');
+      
+      allConfigData.guilds[newId] = {
+        enabled: true,
+        learn: true,
+        react: true,
+        gifs: true,
+        mentionOnly: false,
+        proactive: false,
+        ambientChance: 0.015
+      };
+      
+      newIdInput.value = '';
+      updateGuildSelector();
+      document.getElementById('guildSelector').value = newId;
+      loadSelectedGuildConfig();
+    }
+
+    async function saveGuildConfig(e) {
+      e.preventDefault();
+      const gId = document.getElementById('guildSelector').value;
+      const patch = {
+        enabled: document.getElementById('guild-enabled').checked,
+        learn: document.getElementById('guild-learn').checked,
+        react: document.getElementById('guild-react').checked,
+        gifs: document.getElementById('guild-gifs').checked,
+        mentionOnly: document.getElementById('guild-mentionOnly').checked,
+        proactive: document.getElementById('guild-proactive').checked,
+        ambientChance: parseFloat(document.getElementById('guild-ambientChance').value || 0.015)
+      };
+
+      try {
+        const res = await api('/api/guild/update', {
+          method: 'POST',
+          body: JSON.stringify({ guildId: gId, config: patch })
+        });
+        alert('Sunucu ayarları başarıyla kaydedildi!');
+        loadData();
+      } catch (err) {
+        alert('Kaydetme hatası: ' + err.message);
+      }
+    }
+
+    async function saveMindDrives() {
+      const drives = {
+        lust: parseFloat(document.getElementById('slider-lust').value),
+        curiosity: parseFloat(document.getElementById('slider-curiosity').value),
+        warmth: parseFloat(document.getElementById('slider-warmth').value),
+        chaos: parseFloat(document.getElementById('slider-chaos').value),
+        play: parseFloat(document.getElementById('slider-play').value),
+        melancholy: parseFloat(document.getElementById('slider-melancholy').value),
+        distance: 0.2 // static default or custom ratio
+      };
+
+      try {
+        await api('/api/mind/update-drives', {
+          method: 'POST',
+          body: JSON.stringify({ drives })
+        });
+        alert('Hormonlar ve duygusal dürtüler başarıyla güncellendi!');
+        loadData();
+      } catch (err) {
+        alert('Dürtü güncelleme hatası: ' + err.message);
+      }
+    }
+
+    async function startScraping() {
+      const uId = document.getElementById('targetUserId').value.trim();
+      if (!uId) return alert('Lütfen geçerli bir Kullanıcı ID girin.');
+      if (!confirm("Sude'nin konuşma stilini öğrenmek için taramayı başlatmak istediğinizden emin misiniz? Sunucudaki tüm kanallar taranacaktır.")) return;
+      
+      try {
+        await api('/api/scraper/start', {
+          method: 'POST',
+          body: JSON.stringify({ targetUserId: uId })
+        });
+        alert('Tarama ve öğrenme döngüsü arka planda başlatıldı! İlerlemeyi buradan takip edebilirsiniz.');
+        loadData();
+      } catch (err) {
+        alert('Hata: ' + err.message);
+      }
+    }
+
+    async function triggerQuickAction(action) {
+      if (!confirm('Bu sistem eylemini gerçekleştirmek istediğinizden emin misiniz?')) return;
+      try {
+        await api('/api/action/' + action, { method: 'POST' });
+        alert('Eylem başarıyla gerçekleştirildi!');
+        loadData();
+      } catch (err) {
+        alert('İşlem hatası: ' + err.message);
+      }
+    }
+
+    // Sandbox Real-time Chat Simulation
+    async function sendSandboxMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('sandboxInput');
+      const val = input.value.trim();
+      if (!val) return;
+
+      input.value = '';
+      
+      const history = document.getElementById('sandboxChatHistory');
+      
+      // Render user chat bubble
+      history.innerHTML += `<div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 max-w-[85%] self-end text-xs leading-relaxed text-zinc-100">
+        <p class="font-bold text-zinc-400 mb-0.5">Admin (Sen)</p>
+        ${val}
+      </div>`;
+      
+      history.scrollTop = history.scrollHeight;
+
+      // Disable button/input during reply generation
+      const submitBtn = document.getElementById('sandboxSubmit');
+      submitBtn.disabled = true;
+      input.disabled = true;
+
+      // Simulated typing placeholder
+      const typingId = 'typing-' + Date.now();
+      history.innerHTML += `<div id="${typingId}" class="p-3 rounded-xl bg-zinc-900/40 border border-zinc-800/80 max-w-[85%] self-start text-xs leading-relaxed text-zinc-500 italic animate-pulse">
+        Sudeku yazıyor...
+      </div>`;
+      history.scrollTop = history.scrollHeight;
+
+      try {
+        const res = await api('/api/chat', {
+          method: 'POST',
+          body: JSON.stringify({
+            content: val,
+            userId: 'admin_sandbox',
+            userName: 'Panel Admini',
+            guildId: 'admin_sandbox_guild',
+            channelId: 'admin_sandbox_channel'
+          })
+        });
+
+        // Remove typing indicator
+        document.getElementById(typingId).remove();
+
+        // Render bot reply bubble
+        history.innerHTML += `<div class="p-3 rounded-xl bg-zinc-900/40 border border-zinc-800/80 max-w-[85%] self-start text-xs leading-relaxed text-zinc-200">
+          <p class="font-bold text-teal-400 mb-1 flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Sudeku
+          </p>
+          ${res.content}
+        </div>`;
+        history.scrollTop = history.scrollHeight;
+
+        // Render Telemetry
+        document.getElementById('telemetryMood').textContent = res.mood || 'Sakin';
+        
+        const rel = res.relationship || {};
+        document.getElementById('telemetryRelLevel').textContent = rel.level || 'Yabancı';
+        document.getElementById('telemetryRelAffinity').textContent = (rel.affinity || 0) + '/100';
+        document.getElementById('telemetryRelAffinityBar').style.width = (rel.affinity || 0) + '%';
+
+        const actions = res.actions || {};
+        const actList = [];
+        if (actions.useEmoji) actList.push('<span class="px-2 py-0.5 rounded bg-zinc-800 text-teal-400">Emoji Ekle: ' + actions.useEmoji + '</span>');
+        if (actions.react) actList.push('<span class="px-2 py-0.5 rounded bg-zinc-800 text-teal-400">Tepki Ver: ' + actions.react + '</span>');
+        if (actions.gifQuery) actList.push('<span class="px-2 py-0.5 rounded bg-zinc-800 text-teal-400">GIF Ara: "' + actions.gifQuery + '"</span>');
+        
+        document.getElementById('telemetryActions').innerHTML = actList.length 
+          ? '<div class="flex flex-wrap gap-1.5">' + actList.join('') + '</div>'
+          : '<p class="text-zinc-500 italic">Diyalog sırasında özel bir eylem tetiklenmedi.</p>';
+
+        lucide.createIcons();
+
+      } catch (err) {
+        document.getElementById(typingId).remove();
+        history.innerHTML += `<div class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 max-w-[85%] self-start text-xs leading-relaxed text-rose-300">
+          Sistem Yanıt Hatası: ${err.message}
+        </div>`;
+        history.scrollTop = history.scrollHeight;
+      } finally {
+        submitBtn.disabled = false;
+        input.disabled = false;
+        input.focus();
+      }
+    }
+
+    function clearSandboxChat() {
+      const history = document.getElementById('sandboxChatHistory');
+      history.innerHTML = `<div class="p-3 rounded-xl bg-zinc-900/40 border border-zinc-800/80 max-w-[85%] self-start text-xs leading-relaxed text-zinc-300">
+        <p class="font-bold text-teal-400 mb-1 flex items-center gap-1.5">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Sudeku Zihin Köprüsü
+        </p>
+        Konuşma geçmişi sıfırlandı. Hadi beni tekrar baştan çıkar bebeğim!
+      </div>`;
+      lucide.createIcons();
+    }
+
+    // Auto-update ticks every 4 seconds
+    setInterval(loadData, 4000);
+    
+    // Initial Load
+    window.onload = () => {
+      loadData();
+      lucide.createIcons();
+    };
+  </script>
+</body>
+</html>

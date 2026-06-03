@@ -1,0 +1,18 @@
+{
+  "name": "sude-cognitive-ai-engine",
+  "version": "2.1.0",
+  "description": "Sude Cognitive AI - A next-generation human twin Discord integration powered by dynamic vectorized memory, emotional drives, and style postprocessors.",
+  "license": "ISC",
+  "main": "src/sudeCore.js",
+  "scripts": {
+    "start": "node src/sudeCore.js",
+    "check": "node scripts/check.js",
+    "analyze:channel": "node scripts/analyzeChannel.js"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "discord-hybrid-sharding": "^3.0.1",
+    "discord.js": "^14.26.2",
+    "dotenv": "^17.4.0"
+  }
+}

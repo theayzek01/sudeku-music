@@ -1,12 +1,13 @@
 require('dotenv').config({ path: 'sudekuenv.env' }); // Load from their specific filename
 require('dotenv').config(); // Also load standard .env if present
 
-const { Client, GatewayIntentBits, REST, Routes, Events, AttachmentBuilder, ActionRowBuilder, StringSelectMenuBuilder, ComponentType } = require('discord.js');
+const { Client, GatewayIntentBits, REST, Routes, Events, AttachmentBuilder, ActionRowBuilder, StringSelectMenuBuilder, ComponentType, ButtonBuilder, ButtonStyle, ChannelType, PermissionFlagsBits } = require('discord.js');
 const path = require('path');
 const PlayerManager = require('./player/PlayerManager');
 const DashboardServer = require('./dashboard/server');
 const Database = require('./database');
 const { commands } = require('./commands');
+const EMOJIS = require('./utils/emojis');
 
 const TOKEN = process.env.Token || process.env.TOKEN;
 const PORT = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ const client = new Client({
 
 // Create Player Manager
 const playerManager = new PlayerManager(client);
+client.playerManager = playerManager;
 
 client.once(Events.ClientReady, async (readyClient) => {
   console.log(`[Bot] ${readyClient.user.tag} olarak giriş yapıldı!`);
@@ -123,6 +125,70 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 
   if (interaction.isButton()) {
+    // Ticket buttons handling
+    if (interaction.customId === 'ticket_create') {
+      const config = Database.getGuildConfig(interaction.guildId);
+      if (!config || !config.ticketCategoryId) {
+        return interaction.reply({ content: `${EMOJIS.cross} Sunucuda bilet kategorisi henüz ayarlanmamış!`, flags: 64 });
+      }
+      try {
+        const channel = await interaction.guild.channels.create({
+          name: `ticket-${interaction.user.username}`,
+          type: ChannelType.GuildText,
+          parent: config.ticketCategoryId,
+          permissionOverwrites: [
+            {
+              id: interaction.guild.roles.everyone,
+              deny: [PermissionFlagsBits.ViewChannel]
+            },
+            {
+              id: interaction.user.id,
+              allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory]
+            }
+          ]
+        });
+
+        Database.createTicket(interaction.guildId, channel.id, interaction.user.id);
+
+        const embed = {
+          title: `Sudeku Bilet Sistemi`,
+          description: `Merhaba <@${interaction.user.id}>, destek talebiniz oluşturuldu! Yetkililerimiz en kısa sürede yardımcı olacaktır. Sorununuzu buraya yazabilirsiniz.`,
+          color: 0x8b5cf6,
+          timestamp: new Date().toISOString()
+        };
+
+        const btnClose = new ButtonBuilder()
+          .setCustomId('ticket_close')
+          .setLabel('Bileti Kapat')
+          .setEmoji('🔒')
+          .setStyle(ButtonStyle.Danger);
+
+        const row = new ActionRowBuilder().addComponents(btnClose);
+
+        await channel.send({ content: `<@${interaction.user.id}>`, embeds: [embed], components: [row] });
+        return interaction.reply({ content: `${EMOJIS.tick} Biletiniz oluşturuldu: <#${channel.id}>`, flags: 64 });
+      } catch (err) {
+        console.error('[Ticket Create Error]', err);
+        return interaction.reply({ content: `${EMOJIS.cross} Bilet kanalı oluşturulurken hata oluştu!`, flags: 64 });
+      }
+    }
+
+    if (interaction.customId === 'ticket_close') {
+      const ticketInfo = Database.getTicket(interaction.channelId);
+      if (!ticketInfo) {
+        return interaction.reply({ content: `${EMOJIS.cross} Bu kanal aktif bir bilet kanalı değil!`, flags: 64 });
+      }
+
+      await interaction.reply({ content: `${EMOJIS.loading} Bilet kapatılıyor ve kanal 5 saniye içinde siliniyor...` });
+      Database.closeTicket(interaction.channelId);
+
+      setTimeout(async () => {
+        await interaction.channel.delete().catch(() => {});
+      }, 5000);
+      return;
+    }
+
+    // Music Buttons
     const queue = playerManager.getQueue(interaction.guildId);
     if (!queue) {
       return interaction.reply({ content: 'Aktif bir müzik oynatıcısı bulunamadı.', flags: 64 });
@@ -176,94 +242,134 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-// Emojis mapping for message commands
-const EMOJIS = {
-  spotify: "<:kanserspotify:1473947599256944751>",
-  youtube: "<a:kanseryoutube:1473947604432977941>",
-  loading: "<a:kanserload:1473947555283865765>",
-  verify: "<a:kanserVerify:1473947440553136178>",
-  tick: "<:kansertik:1500939716961505372>",
-  cross: "<:kanserred:1473947453471457483>",
-  note: "<a:kansernote:1445409966197313656>",
-  voice: "<:kanservcb:1473947473197269084>",
-  mute: "<:kanservmute:1500941934858866858>",
-  moon: "<a:kansermoon:1459736359437598741>",
-  status: "<:kanserstatus:1500946084749381663>",
-  star: "<a:kanserystar:1459461708039852187>",
-  stars: "<a:kanserystar:1459461708039852187>",
-  crown: "<a:kansergscrown:1445409864049229996>",
-  gear: "<a:kanserayar:1473947629443612672>"
-};
 
-function parseEmoji(emojiStr) {
-  if (!emojiStr) return null;
-  const match = emojiStr.match(/<(a?):([^:]+):(\d+)>/);
-  if (match) {
-    return {
-      animated: match[1] === 'a',
-      name: match[2],
-      id: match[3]
-    };
-  }
-  return null;
-}
-
-function getHelpEmbed(category, client, guildId) {
-  const avatarUrl = client.user.displayAvatarURL();
-  const baseEmbed = {
-    color: 0x8b5cf6,
-    thumbnail: { url: avatarUrl },
-    image: { url: 'attachment://sudekubanner.png' },
-    footer: { text: `Sudeku Music • Kategori: ${category.toUpperCase().replace('HELP_', '')} • Sunucu ID: ${guildId}` }
-  };
-
-  switch (category) {
-    case 'help_music':
-      return {
-        ...baseEmbed,
-        title: `${EMOJIS.crown} Müzik Çalma Komutları`,
-        description: `Müzik çalmak ve temel oynatıcıyı kontrol etmek için kullanabileceğiniz komutlar:\n\n` +
-          `• \`/play\` | \`a.play <sorgu>\` : YouTube/Spotify araması yapar veya direkt link çalar.\n` +
-          `• \`/skip\` | \`a.skip\` : Çalan şarkıyı atlayarak sıradaki şarkıya geçer.\n` +
-          `• \`/pause\` | \`a.pause\` : Oynatılan müziği geçici olarak duraklatır.\n` +
-          `• \`/resume\` | \`a.resume\` : Duraklatılan müziği kaldığı yerden devam ettirir.\n` +
-          `• \`/stop\` | \`a.stop\` : Müzik çalmayı durdurur, sırayı temizler ve kanaldan ayrılır.`
-      };
-    case 'help_queue':
-      return {
-        ...baseEmbed,
-        title: `${EMOJIS.status} Sıralama & Döngü Komutları`,
-        description: `Şarkı sırasını ve döngü ayarlarını kontrol etmek için kullanabileceğiniz komutlar:\n\n` +
-          `• \`/queue\` | \`a.queue\` : Sıradaki şarkıları, çalan şarkıyı ve toplam süreyi listeler.\n` +
-          `• \`/nowplaying\` | \`a.nowplaying\` : Detaylı ilerleme çubuğu ve şarkı kartını gösterir.\n` +
-          `• \`/loop\` | \`a.loop <mod>\` : Döngüyü ayarlar (0: Kapat, 1: Şarkı, 2: Tüm Sıra).\n` +
-          `• \`/shuffle\` | \`a.shuffle\` : Sıradaki tüm parçaları rastgele sırayla karıştırır.\n` +
-          `• \`/clear\` | \`a.clear\` : Sıradaki tüm şarkıları anında temizler.`
-      };
-    case 'help_settings':
-      return {
-        ...baseEmbed,
-        title: `${EMOJIS.gear} İnce Ayarlar & Sistem`,
-        description: `Ses kalitesi ayarlamak ve bot durumunu gözlemlemek için kullanabileceğiniz komutlar:\n\n` +
-          `• \`/volume\` | \`a.volume <0-100>\` : Ses düzeyini pürüzsüzce ayarlar.\n` +
-          `• \`/stats\` | \`a.stats\` : Botun canlı gecikme, RAM, CPU ve sistem durumunu görüntüler.`
-      };
-    case 'help_home':
-    default:
-      return {
-        ...baseEmbed,
-        title: `${EMOJIS.moon} Sudeku Music - Yardım Kılavuzu`,
-        description: `Sudeku, üstün ses kalitesi, dinamik görsel oynatıcı kartları ve gelişmiş platform entegrasyonuyla donatılmış yeni nesil bir müzik botudur.\n\n` +
-          `Aşağıdaki açılır menüyü kullanarak öğrenmek istediğiniz komut kategorisini seçebilirsiniz.\n\n` +
-          `${EMOJIS.star} **Kullanım Prefiksleri:** \`/\` (Slash), \`a.\` veya \`a!\` (Mesaj Prefiksi)\n` +
-          `${EMOJIS.voice} **Ses Altyapısı:** En yüksek bit hızına sahip \`Opus\` akışlarıyla kesintisiz çalma sunar.`
-      };
-  }
-}
+const spamCache = new Map();
+const xpCooldowns = new Set();
 
 client.on(Events.MessageCreate, async (message) => {
   if (message.author.bot || !message.guild) return;
 
+  // 1. AFK CHECK (Welcoming back the AFK user)
+  const userAfk = Database.getAfk(message.guildId, message.author.id);
+  if (userAfk) {
+    Database.removeAfk(message.guildId, message.author.id);
+    const duration = Date.now() - userAfk.t;
+    const durSec = Math.floor(duration / 1000);
+    const durMin = Math.floor(durSec / 60);
+    const durText = durMin > 0 ? `${durMin} dakika` : `${durSec} saniye`;
+    
+    const welcomeBackMsg = await message.reply({
+      content: `${EMOJIS.tick} Hoş geldin **${message.author.username}**! AFK durumun kaldırıldı. (${durText} boyunca uzaktaydın)`
+    }).catch(() => null);
+    
+    if (welcomeBackMsg) {
+      setTimeout(() => welcomeBackMsg.delete().catch(() => {}), 5000);
+    }
+  }
+
+  // 2. AFK CHECK (Mentions check)
+  if (message.mentions.users.size > 0) {
+    for (const [userId, user] of message.mentions.users) {
+      if (userId === message.author.id) continue;
+      const targetAfk = Database.getAfk(message.guildId, userId);
+      if (targetAfk) {
+        const duration = Date.now() - targetAfk.t;
+        const durSec = Math.floor(duration / 1000);
+        const durMin = Math.floor(durSec / 60);
+        const durText = durMin > 0 ? `${durMin} dakika` : `${durSec} saniye`;
+
+        message.reply({
+          embeds: [{
+            description: `${EMOJIS.moon} **${user.username}** şu an AFK!\n\n**Sebep:** \`${targetAfk.reason}\`\n**Süre:** \`${durText} önce\``,
+            color: 0x8b5cf6
+          }]
+        }).catch(() => {});
+      }
+    }
+  }
+
+  // 3. AUTOMOD FILTERS (Skip for Administrators)
+  const isAdm = message.member?.permissions.has(PermissionFlagsBits.Administrator);
+  if (!isAdm) {
+    const config = Database.getGuildConfig(message.guildId);
+
+    // Swear Filter
+    if (config.swearFilter === 1) {
+      const swearRegex = /amına|amk|sik|göt|piç|yarrak|pezevenk|oç|orospu|siktir/i;
+      if (swearRegex.test(message.content)) {
+        await message.delete().catch(() => {});
+        const warnMsg = await message.channel.send(`${message.author}, bu sunucuda küfür etmek yasaktır! ${EMOJIS.cross}`);
+        setTimeout(() => warnMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+    }
+
+    // Invite Filter
+    if (config.inviteFilter === 1) {
+      const inviteRegex = /(discord\.(gg|io|me|li)|discordapp\.com\/invite)\/[a-zA-Z0-9]+/i;
+      if (inviteRegex.test(message.content)) {
+        await message.delete().catch(() => {});
+        const warnMsg = await message.channel.send(`${message.author}, bu sunucuda davet linki paylaşmak yasaktır! ${EMOJIS.cross}`);
+        setTimeout(() => warnMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+    }
+
+    // Link Filter
+    if (config.linkFilter === 1) {
+      const linkRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&\/\/=]*)/i;
+      const isPlayCmd = message.content.startsWith('a.play') || message.content.startsWith('a.p') || message.content.startsWith('a!play') || message.content.startsWith('a!p');
+      if (linkRegex.test(message.content) && !isPlayCmd) {
+        await message.delete().catch(() => {});
+        const warnMsg = await message.channel.send(`${message.author}, bu sunucuda link paylaşmak yasaktır! ${EMOJIS.cross}`);
+        setTimeout(() => warnMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+    }
+
+    // Spam Filter
+    if (config.spamFilter === 1) {
+      const now = Date.now();
+      const userSpam = spamCache.get(message.author.id) || [];
+      const recent = userSpam.filter(t => now - t < 4000);
+      recent.push(now);
+      spamCache.set(message.author.id, recent);
+
+      if (recent.length > 5) {
+        await message.delete().catch(() => {});
+        const warnMsg = await message.channel.send(`${message.author}, lütfen çok hızlı mesaj göndermeyin (Spam Koruması)! ${EMOJIS.cross}`);
+        setTimeout(() => warnMsg.delete().catch(() => {}), 5000);
+        return;
+      }
+    }
+  }
+
+  // 4. XP / LEVELING SYSTEM (15s cooldown per user)
+  if (!xpCooldowns.has(message.author.id)) {
+    xpCooldowns.add(message.author.id);
+    setTimeout(() => xpCooldowns.delete(message.author.id), 15000);
+
+    const xpToAdd = Math.floor(Math.random() * 4) + 2;
+    const dbUser = Database.getUser(message.guildId, message.author.id, message.author.username, message.author.displayAvatarURL({ extension: 'png', size: 128 }));
+    const newXp = dbUser.xp + xpToAdd;
+    const newLevel = Math.floor(Math.sqrt(newXp / 100));
+
+    Database.updateUser(message.guildId, message.author.id, {
+      xp: newXp,
+      level: newLevel,
+      lastActive: Date.now()
+    });
+
+    if (newLevel > dbUser.level) {
+      message.channel.send({
+        content: `🎉 Tebrikler ${message.author}! Seviye atladın! Yeni seviyen: **${newLevel}** ${EMOJIS.star}`
+      }).then(msg => {
+        setTimeout(() => msg.delete().catch(() => {}), 10000);
+      }).catch(() => {});
+    }
+  }
+
+  // 5. PREFIX COMMAND HANDLER
   const prefixes = ['a.', 'a!'];
   let prefix = null;
   for (const p of prefixes) {
@@ -278,636 +384,18 @@ client.on(Events.MessageCreate, async (message) => {
   const args = message.content.slice(prefix.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();
 
-  // PLAY COMMAND
-  if (commandName === 'play' || commandName === 'p') {
-    const query = args.join(' ');
-    if (!query) {
-      return message.reply({
-        embeds: [{
-          color: 0xff3333,
-          description: `${EMOJIS.cross} **Lütfen bir şarkı ismi veya YouTube/Spotify linki girin!**`
-        }]
-      });
+  const command = commands.find(c => c.data.name === commandName || (c.aliases && c.aliases.includes(commandName)));
+  if (!command) return;
+
+  try {
+    if (typeof command.run === 'function') {
+      await command.run(message, args, client, prefix);
+    } else {
+      message.reply(`${EMOJIS.cross} Bu komut şu an prefix ile çalıştırılamıyor.`);
     }
-
-    const voiceChannel = message.member?.voice?.channel;
-    if (!voiceChannel) {
-      return message.reply({
-        embeds: [{
-          color: 0xff3333,
-          description: `${EMOJIS.cross} **Önce bir ses kanalına katılmalısınız!**`
-        }]
-      });
-    }
-
-    const loadingMsg = await message.reply({
-      embeds: [{
-        color: 0x5a189a,
-        description: `${EMOJIS.loading} **Şarkı aranıyor...**`
-      }]
-    });
-
-    try {
-      const { search } = require('./player/search');
-      const tracks = await search(query, message.author);
-      if (tracks.length === 0) {
-        return loadingMsg.edit({
-          embeds: [{
-            color: 0xff3333,
-            description: `${EMOJIS.cross} **Sonuç bulunamadı!**`
-          }]
-        });
-      }
-
-      const queue = playerManager.getOrCreateQueue(message.guildId, voiceChannel.id, message.channel);
-      queue.addTrack(tracks);
-
-      if (tracks.length > 1) {
-        return loadingMsg.edit({
-          embeds: [{
-            color: 0x5a189a,
-            description: `${EMOJIS.tick} **${tracks.length} şarkı** başarıyla sıraya eklendi.`
-          }]
-        });
-      } else {
-        return loadingMsg.edit({
-          embeds: [{
-            color: 0x5a189a,
-            description: `${EMOJIS.tick} [**${tracks[0].title}**](${tracks[0].url || tracks[0].spotifyUrl}) sıraya eklendi.`
-          }]
-        });
-      }
-    } catch (err) {
-      console.error(err);
-      return loadingMsg.edit({
-        embeds: [{
-          color: 0xff3333,
-          description: `${EMOJIS.cross} Şarkı eklenirken hata oluştu: \`${err.message}\``
-        }]
-      });
-    }
-  }
-
-  // SKIP COMMAND
-  if (commandName === 'skip' || commandName === 's') {
-    const queue = playerManager.getQueue(message.guildId);
-    if (!queue || !queue.currentTrack) {
-      return message.reply({
-        embeds: [{
-          color: 0xff3333,
-          description: `${EMOJIS.cross} **Şu an çalan bir şarkı bulunmuyor!**`
-        }]
-      });
-    }
-    queue.skip();
-    return message.reply({
-      embeds: [{
-        color: 0x5a189a,
-        description: `${EMOJIS.tick} **Şarkı başarıyla geçildi.**`
-      }]
-    });
-  }
-
-  // PAUSE COMMAND
-  if (commandName === 'pause') {
-    const queue = playerManager.getQueue(message.guildId);
-    if (!queue) return message.reply(`${EMOJIS.cross} Aktif bir çalma oturumu yok!`);
-    if (queue.paused) return message.reply(`Şarkı zaten duraklatılmış!`);
-
-    queue.pause();
-    return message.reply({
-      embeds: [{
-        color: 0x5a189a,
-        description: `${EMOJIS.tick} **Müzik duraklatıldı.**`
-      }]
-    });
-  }
-
-  // RESUME COMMAND
-  if (commandName === 'resume') {
-    const queue = playerManager.getQueue(message.guildId);
-    if (!queue) return message.reply(`${EMOJIS.cross} Aktif bir çalma oturumu yok!`);
-    if (!queue.paused) return message.reply(`Şarkı zaten oynatılıyor!`);
-
-    queue.resume();
-    return message.reply({
-      embeds: [{
-        color: 0x5a189a,
-        description: `${EMOJIS.tick} **Müzik devam ettiriliyor.**`
-      }]
-    });
-  }
-
-  // STOP COMMAND
-  if (commandName === 'stop' || commandName === 'leave' || commandName === 'dc') {
-    const queue = playerManager.getQueue(message.guildId);
-    if (!queue) return message.reply(`${EMOJIS.cross} Aktif bir çalma oturumu yok!`);
-
-    queue.destroy();
-    return message.reply({
-      embeds: [{
-        color: 0x121214,
-        description: `${EMOJIS.moon} **Müzik durduruldu, sıradan çıkıldı.**`
-      }]
-    });
-  }
-
-  // QUEUE COMMAND
-  if (commandName === 'queue' || commandName === 'q') {
-    const queue = playerManager.getQueue(message.guildId);
-    if (!queue) {
-      return message.reply(`Sırada şarkı bulunmuyor.`);
-    }
-
-    const list = queue.tracks.slice(0, 10).map((t, idx) => {
-      return `\`${idx + 1}.\` [**${t.title}**](${t.url || t.spotifyUrl}) | \`${t.duration}\``;
-    }).join('\n');
-
-    const desc = `**Şu An Çalıyor:**\n[**${queue.currentTrack?.title || 'Hiçbiri'}**](${queue.currentTrack?.url || queue.currentTrack?.spotifyUrl})\n\n**Sıra:**\n${list || '*Kuyruk boş.*'}`;
-
-    return message.reply({
-      embeds: [{
-        title: `${EMOJIS.note} Çalma Sırası`,
-        description: desc,
-        color: 0x5a189a,
-        footer: { text: `Toplam ${queue.tracks.length} şarkı var.` }
-      }]
-    });
-  }
-
-  // NOW PLAYING COMMAND
-  if (commandName === 'nowplaying' || commandName === 'np') {
-    const queue = playerManager.getQueue(message.guildId);
-    if (!queue || !queue.currentTrack) {
-      return message.reply(`Şu an hiçbir şey çalmıyor.`);
-    }
-
-    const pb = queue.getProgressBar(15);
-    const ct = queue.playbackTimeMs;
-    const { formatMs } = require('./commands/index');
-
-    return message.reply({
-      embeds: [{
-        title: `Şu An Oynatılıyor`,
-        description: `${EMOJIS.note} [**${queue.currentTrack.title}**](${queue.currentTrack.url || queue.currentTrack.spotifyUrl})\n\n${pb} \`[${formatMs(ct)} / ${queue.currentTrack.duration}]\`\n\n**İsteyen:** <@${queue.currentTrack.requester.id}>`,
-        thumbnail: { url: queue.currentTrack.thumbnail },
-        color: 0x5a189a
-      }]
-    });
-  }
-
-  // VOLUME COMMAND
-  if (commandName === 'volume' || commandName === 'vol') {
-    const queue = playerManager.getQueue(message.guildId);
-    if (!queue) return message.reply(`${EMOJIS.cross} Aktif bir çalma oturumu yok!`);
-
-    const vol = parseInt(args[0], 10);
-    if (isNaN(vol) || vol < 0 || vol > 100) {
-      return message.reply(`${EMOJIS.cross} Lütfen 0 ile 100 arasında geçerli bir ses seviyesi belirtin!`);
-    }
-
-    queue.setVolume(vol);
-    return message.reply({
-      embeds: [{
-        color: 0x5a189a,
-        description: `${EMOJIS.tick} **Ses düzeyi %${vol} olarak ayarlandı.**`
-      }]
-    });
-  }
-
-  // LOOP COMMAND
-  if (commandName === 'loop') {
-    const queue = playerManager.getQueue(message.guildId);
-    if (!queue) return message.reply(`${EMOJIS.cross} Aktif bir çalma oturumu yok!`);
-
-    let mode = parseInt(args[0], 10);
-    if (isNaN(mode) || mode < 0 || mode > 2) {
-      mode = (queue.loopMode + 1) % 3;
-    }
-
-    queue.setLoopMode(mode);
-    const modes = ['Kapatıldı', 'Şarkı döngüye alındı', 'Tüm sıra döngüye alındı'];
-    return message.reply({
-      embeds: [{
-        color: 0x5a189a,
-        description: `${EMOJIS.tick} **Döngü modu: ${modes[mode]}**`
-      }]
-    });
-  }
-
-  // SHUFFLE COMMAND
-  if (commandName === 'shuffle') {
-    const queue = playerManager.getQueue(message.guildId);
-    if (!queue || queue.tracks.length === 0) {
-      return message.reply(`${EMOJIS.cross} Sıra boş olduğu için karıştırılamadı!`);
-    }
-
-    queue.shuffle();
-    return message.reply({
-      embeds: [{
-        color: 0x5a189a,
-        description: `${EMOJIS.tick} **Çalma sırası karıştırıldı.**`
-      }]
-    });
-  }
-
-  // CLEAR COMMAND
-  if (commandName === 'clear') {
-    const queue = playerManager.getQueue(message.guildId);
-    if (!queue) return message.reply(`${EMOJIS.cross} Aktif bir çalma oturumu yok!`);
-
-    queue.clear();
-    return message.reply({
-      embeds: [{
-        color: 0x5a189a,
-        description: `${EMOJIS.tick} **Çalma sırası temizlendi.**`
-      }]
-    });
-  }
-
-  // STATS COMMAND
-  if (commandName === 'stats' || commandName === 'stat' || commandName === 'ping') {
-    const os = require('os');
-    const heapUsed = process.memoryUsage().heapUsed / 1024 / 1024;
-    const rss = process.memoryUsage().rss / 1024 / 1024;
-    const totalMem = os.totalmem() / 1024 / 1024 / 1024;
-    const freeMem = os.freemem() / 1024 / 1024 / 1024;
-    const usedMem = totalMem - freeMem;
-    const cpus = os.cpus();
-    const cpuModel = cpus.length > 0 ? cpus[0].model.replace(/\(R\)|\(TM\)/g, "").trim() : "Bilinmiyor";
-
-    const loadAvg = os.loadavg();
-    const cpuUsagePct = ((loadAvg[0] / Math.max(1, os.cpus().length)) * 100).toFixed(1);
-
-    const ping = Math.round(message.client.ws.ping || 0);
-    const { formatMs } = require('./commands/index');
-    const uptime = formatMs(message.client.uptime);
-    const guildsCount = message.client.guilds.cache.size;
-    const activePlayersCount = playerManager ? playerManager.queues.size : 0;
-
-    return message.reply({
-      embeds: [{
-        title: `${EMOJIS.status} Sudeku Music - Canli Sistem Durumu`,
-        color: 0x8b5cf6,
-        fields: [
-          {
-            name: "📊 Genel Performans",
-            value:
-              `• **Gecikme (Ping):** \`${ping} ms\`\n` +
-              `• **Calisma Suresi:** \`${uptime}\`\n` +
-              `• **Aktif Ses Odalari:** \`${activePlayersCount} aktif oturum\`\n` +
-              `• **Toplam Sunucular:** \`${guildsCount} sunucu\``,
-            inline: true
-          },
-          {
-            name: "⚙️ Sistem Kaynaklari",
-            value:
-              `• **Bellek (Heap):** \`${heapUsed.toFixed(1)} MB\`\n` +
-              `• **Bellek (RSS):** \`${rss.toFixed(1)} MB\`\n` +
-              `• **Sunucu RAM:** \`${usedMem.toFixed(1)} GB / ${totalMem.toFixed(1)} GB\`\n` +
-              `• **CPU Yuku:** \`${Math.min(100, Math.max(0, parseFloat(cpuUsagePct))).toFixed(1)}%\``,
-            inline: true
-          },
-          {
-            name: "💻 Sunucu Detaylari",
-            value:
-              `• **Islemci Modeli:** \`${cpuModel} (${cpus.length} Cekirdek)\`\n` +
-              `• **Node.js Surumu:** \`${process.version}\`\n` +
-              `• **Platform:** \`${os.platform()} (${os.arch()})\``
-          }
-        ],
-        thumbnail: { url: message.client.user.displayAvatarURL() },
-        timestamp: new Date().toISOString(),
-        footer: { text: "Sudeku Muzik Performans Izleyicisi" }
-      }]
-    });
-  }
-
-  // RANK COMMAND
-  if (commandName === 'rank') {
-    const targetUser = message.mentions.users.first() || message.author;
-    if (targetUser.bot) {
-      return message.reply(`${EMOJIS.cross} Botların seviye ve istatistik kartları bulunmaz!`);
-    }
-
-    const loadingMsg = await message.reply(`${EMOJIS.loading} **Kart hazırlanıyor...**`);
-
-    const guildId = message.guildId;
-    const dbUser = Database.getUser(
-      guildId, 
-      targetUser.id, 
-      targetUser.username, 
-      targetUser.displayAvatarURL({ extension: 'png', size: 128 })
-    );
-
-    const leaderboard = Database.getLeaderboard(guildId, 'voice');
-    const rankIndex = leaderboard.findIndex(u => u.userId === targetUser.id);
-    const rank = rankIndex !== -1 ? rankIndex + 1 : leaderboard.length + 1;
-    const totalCount = leaderboard.length || 1;
-
-    try {
-      const { generateRankCard } = require('./player/canvasGenerator');
-      const canvasBuf = await generateRankCard(dbUser, rank, totalCount);
-      const attachment = new AttachmentBuilder(canvasBuf, { name: 'rank.png' });
-      await loadingMsg.delete().catch(() => {});
-      return message.reply({ files: [attachment] });
-    } catch (err) {
-      console.error('[Rank Msg Command Error]', err);
-      return loadingMsg.edit({ content: `${EMOJIS.cross} Kart oluşturulurken bir hata oluştu: \`${err.message}\`` });
-    }
-  }
-
-  // LEADERBOARD COMMAND
-  if (commandName === 'leaderboard' || commandName === 'lb') {
-    const guildId = message.guildId;
-    let currentTab = 'voice';
-    let page = 1;
-
-    const serverArrow = message.guild.emojis.cache.find(e => 
-      e.name.toLowerCase().includes('arrow') || 
-      e.name.toLowerCase().includes('ok') || 
-      e.name.toLowerCase().includes('right') || 
-      e.name.toLowerCase().includes('yon') ||
-      e.name.toLowerCase().includes('sag')
-    );
-    const arrowEmoji = serverArrow ? `<:${serverArrow.name}:${serverArrow.id}>` : '▶️';
-
-    function formatDurationText(ms) {
-      if (!ms || ms <= 0) return '0 dk';
-      const sec = Math.floor(ms / 1000);
-      const min = Math.floor(sec / 60);
-      const hr = Math.floor(min / 60);
-      if (hr > 0) return `${hr} sa ${min % 60} dk`;
-      if (min > 0) return `${min} dk`;
-      return `${sec} sn`;
-    }
-
-    function generateEmbed() {
-      const leaderboard = Database.getLeaderboard(guildId, currentTab);
-      const itemsPerPage = 10;
-      const totalPages = Math.max(1, Math.ceil(leaderboard.length / itemsPerPage));
-      if (page > totalPages) page = totalPages;
-      if (page < 1) page = 1;
-
-      const currentPageItems = leaderboard.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-
-      let desc = '';
-      if (currentPageItems.length === 0) {
-        desc = '*Bu sunucuda henüz veri toplanmamış.*';
-      } else {
-        desc = currentPageItems.map((u, idx) => {
-          const globalIdx = (page - 1) * itemsPerPage + idx + 1;
-          let rankEmoji = arrowEmoji;
-          if (globalIdx === 1) rankEmoji = EMOJIS.crown;
-          else if (globalIdx === 2) rankEmoji = '🥈';
-          else if (globalIdx === 3) rankEmoji = '🥉';
-
-          const valText = currentTab === 'voice' 
-            ? `\`${formatDurationText(u.voiceTime)}\`` 
-            : `\`${u.tracksPlayed} şarkı\``;
-
-          return `${rankEmoji} **#${globalIdx}** | <@${u.userId}> • Level \`${u.level}\` (${valText})`;
-        }).join('\n');
-      }
-
-      const title = currentTab === 'voice' 
-        ? `🔊 En Çok Ses Kanalında Kalanlar` 
-        : `🎵 En Çok Şarkı Dinleyenler`;
-
-      return {
-        embeds: [{
-          title: `${EMOJIS.star} Sudeku Music - Sunucu Sıralaması`,
-          description: `**${title}**\n\n${desc}`,
-          color: 0x8b5cf6,
-          footer: { text: `Sayfa ${page} / ${totalPages} • Toplam Kayıt: ${leaderboard.length}` },
-          timestamp: new Date().toISOString()
-        }]
-      };
-    }
-
-    const { ButtonBuilder, ButtonStyle } = require('discord.js');
-
-    function generateButtons() {
-      const leaderboard = Database.getLeaderboard(guildId, currentTab);
-      const itemsPerPage = 10;
-      const totalPages = Math.max(1, Math.ceil(leaderboard.length / itemsPerPage));
-
-      const row1 = new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-          .setCustomId('lb_tab_voice')
-          .setLabel('Ses Süresi')
-          .setEmoji('🔊')
-          .setStyle(currentTab === 'voice' ? ButtonStyle.Primary : ButtonStyle.Secondary),
-        new ButtonBuilder()
-          .setCustomId('lb_tab_tracks')
-          .setLabel('Şarkı Dinleme')
-          .setEmoji('🎵')
-          .setStyle(currentTab === 'tracks' ? ButtonStyle.Primary : ButtonStyle.Secondary)
-      );
-
-      const row2 = new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-          .setCustomId('lb_prev')
-          .setLabel('Geri')
-          .setEmoji('◀️')
-          .setStyle(ButtonStyle.Secondary)
-          .setDisabled(page <= 1),
-        new ButtonBuilder()
-          .setCustomId('lb_next')
-          .setLabel('İleri')
-          .setEmoji('▶️')
-          .setStyle(ButtonStyle.Secondary)
-          .setDisabled(page >= totalPages)
-      );
-
-      return [row1, row2];
-    }
-
-    const response = await message.reply({
-      ...generateEmbed(),
-      components: generateButtons()
-    });
-
-    const collector = response.createMessageComponentCollector({
-      componentType: ComponentType.Button,
-      time: 180000
-    });
-
-    collector.on('collect', async (i) => {
-      if (i.user.id !== message.author.id) {
-        return i.reply({ content: 'Bu sıralama menüsünü sadece komutu kullanan kişi yönetebilir.', ephemeral: true });
-      }
-
-      if (i.customId === 'lb_tab_voice') {
-        currentTab = 'voice';
-        page = 1;
-      } else if (i.customId === 'lb_tab_tracks') {
-        currentTab = 'tracks';
-        page = 1;
-      } else if (i.customId === 'lb_prev') {
-        page = Math.max(1, page - 1);
-      } else if (i.customId === 'lb_next') {
-        page = page + 1;
-      }
-
-      await i.update({
-        ...generateEmbed(),
-        components: generateButtons()
-      });
-    });
-
-    collector.on('end', async () => {
-      const disabledRows = generateButtons().map(row => {
-        const updatedRow = new ActionRowBuilder();
-        row.components.forEach(btn => {
-          updatedRow.addComponents(ButtonBuilder.from(btn).setDisabled(true));
-        });
-        return updatedRow;
-      });
-      await response.edit({
-        components: disabledRows
-      }).catch(() => {});
-    });
-  }
-
-  // SERVERINFO COMMAND
-  if (commandName === 'serverinfo') {
-    const guild = message.guild;
-    await guild.members.fetch();
-
-    const totalMembers = guild.memberCount;
-    const botMembers = guild.members.cache.filter(m => m.user.bot).size;
-    const humanMembers = totalMembers - botMembers;
-    
-    const textChannels = guild.channels.cache.filter(c => c.type === 0).size;
-    const voiceChannels = guild.channels.cache.filter(c => c.type === 2).size;
-    const categoryChannels = guild.channels.cache.filter(c => c.type === 4).size;
-    
-    const owner = await guild.fetchOwner();
-    const creationDate = `<t:${Math.floor(guild.createdTimestamp / 1000)}:R>`;
-    const joinDate = `<t:${Math.floor(message.member.joinedTimestamp / 1000)}:R>`;
-    
-    const boostCount = guild.premiumSubscriptionCount || 0;
-    const boostTier = guild.premiumTier;
-    const rolesCount = guild.roles.cache.size;
-    const emojisCount = guild.emojis.cache.size;
-
-    return message.reply({
-      embeds: [{
-        title: `${EMOJIS.star} Sunucu Bilgileri - ${guild.name}`,
-        color: 0x8b5cf6,
-        thumbnail: { url: guild.iconURL({ extension: 'png', size: 256 }) || '' },
-        fields: [
-          {
-            name: "📌 Genel Bilgiler",
-            value: 
-              `• **Sunucu Sahibi:** ${owner} (\`${owner.id}\`)\n` +
-              `• **Kuruluş Tarihi:** ${creationDate}\n` +
-              `• **Katılım Tarihiniz:** ${joinDate}\n` +
-              `• **Sunucu ID:** \`${guild.id}\``,
-            inline: false
-          },
-          {
-            name: "👥 Üyeler",
-            value: 
-              `• **Toplam Üye:** \`${totalMembers}\`\n` +
-              `• **İnsanlar:** \`${humanMembers}\`\n` +
-              `• **Botlar:** \`${botMembers}\``,
-            inline: true
-          },
-          {
-            name: "💬 Kanallar",
-            value: 
-              `• **Yazı Kanalları:** \`${textChannels}\`\n` +
-              `• **Ses Kanalları:** \`${voiceChannels}\`\n` +
-              `• **Kategoriler:** \`${categoryChannels}\``,
-            inline: true
-          },
-          {
-            name: "🛡️ Sunucu Durumu",
-            value: 
-              `• **Rol Sayısı:** \`${rolesCount}\`\n` +
-              `• **Emoji Sayısı:** \`${emojisCount}\`\n` +
-              `• **Takviye Sayısı:** \`${boostCount} Takviye\` (Seviye ${boostTier})`,
-            inline: false
-          }
-        ],
-        timestamp: new Date().toISOString(),
-        footer: { text: `İsteyen: ${message.author.username}` }
-      }]
-    });
-  }
-
-  // HELP COMMAND
-  if (commandName === 'help' || commandName === 'h') {
-    const bannerPath = path.join(__dirname, '../assets/sudekubanner.png');
-    const bannerAttachment = new AttachmentBuilder(bannerPath, { name: 'sudekubanner.png' });
-
-    const selectMenu = new StringSelectMenuBuilder()
-      .setCustomId('help_select')
-      .setPlaceholder('Lütfen incelemek istediğiniz kategoriyi seçin...')
-      .addOptions([
-        {
-          label: 'Ana Menü',
-          description: 'Sudeku Music genel bilgileri ve kılavuz.',
-          value: 'help_home',
-          emoji: parseEmoji(EMOJIS.moon)
-        },
-        {
-          label: 'Müzik Çalma Komutları',
-          description: 'Şarkı arama, çalma, durdurma, atlama komutları.',
-          value: 'help_music',
-          emoji: parseEmoji(EMOJIS.crown)
-        },
-        {
-          label: 'Sıra & Döngü Komutları',
-          description: 'Oynatma listesi, döngü, karıştırma ve sırayı temizleme.',
-          value: 'help_queue',
-          emoji: parseEmoji(EMOJIS.status)
-        },
-        {
-          label: 'İnce Ayarlar & Sistem',
-          description: 'Ses seviyesi ayarı ve canlı bot istatistikleri.',
-          value: 'help_settings',
-          emoji: parseEmoji(EMOJIS.gear)
-        }
-      ]);
-
-    const row = new ActionRowBuilder().addComponents(selectMenu);
-
-    const homeEmbed = getHelpEmbed('help_home', message.client, message.guildId);
-
-    const response = await message.reply({
-      files: [bannerAttachment],
-      embeds: [homeEmbed],
-      components: [row]
-    });
-
-    const collector = response.createMessageComponentCollector({
-      componentType: ComponentType.StringSelect,
-      time: 120000 // 2 minutes
-    });
-
-    collector.on('collect', async (i) => {
-      if (i.user.id !== message.author.id) {
-        return i.reply({ content: 'Bu menüyü sadece komutu kullanan kişi yönetebilir.', ephemeral: true });
-      }
-
-      const selectedValue = i.values[0];
-      const updatedEmbed = getHelpEmbed(selectedValue, message.client, message.guildId);
-
-      await i.update({
-        embeds: [updatedEmbed]
-      });
-    });
-
-    collector.on('end', async () => {
-      const disabledSelectMenu = StringSelectMenuBuilder.from(selectMenu).setDisabled(true);
-      const disabledRow = new ActionRowBuilder().addComponents(disabledSelectMenu);
-      await response.edit({
-        components: [disabledRow]
-      }).catch(() => {});
-    });
+  } catch (error) {
+    console.error(`[Command Error] Command: ${commandName}`, error);
+    message.reply(`${EMOJIS.cross} Komut çalıştırılırken bir hata oluştu! Hata: \`${error.message}\``).catch(() => {});
   }
 });
 
