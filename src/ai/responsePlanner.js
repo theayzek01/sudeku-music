@@ -20,14 +20,12 @@ function plan({ text, style, userId, channelId }) {
   const intent = intentOf(text);
   const seed = `${userId}:${channelId}:${text}:${Math.floor(Date.now() / 180000)}`;
   const r = hash01(seed);
-  const envShort = style?.avgLen && style.avgLen < 35;
-  const length = intent === 'erotic' ? (r < 0.55 ? 'short' : 'medium') : r < 0.85 ? 'short' : 'very_short';
-  const formats = ['plain', 'dry_short', 'soft_take', 'tiny_story', 'teasing', 'quiet', 'chaotic', 'dirty_talk', 'hot_flirt'];
+  const length = intent === 'support' ? (r < 0.5 ? 'short' : 'medium') : r < 0.9 ? 'short' : 'very_short';
+  const formats = ['plain', 'dry_short', 'soft_take', 'quiet', 'teasing'];
   let format = formats[Math.floor(hash01(seed + ':fmt') * formats.length)] || 'plain';
-  if (intent === 'erotic') format = r < 0.5 ? 'dirty_talk' : 'hot_flirt';
-  if (intent === 'support') format = r < 0.72 ? 'soft_take' : 'quiet';
-  if (intent === 'question') format = r < 0.55 ? 'plain' : 'dry_short';
-  const punctuation = r < 0.7 ? 'low' : 'normal';
+  if (intent === 'support') format = r < 0.75 ? 'soft_take' : 'quiet';
+  if (intent === 'question') format = r < 0.7 ? 'plain' : 'dry_short';
+  const punctuation = r < 0.75 ? 'low' : 'normal';
   const emoji = style?.emoji && r > 0.55 ? style.emoji : '';
   return { intent, length, format, punctuation, emoji, mood: style?.mood || 'sakin' };
 }

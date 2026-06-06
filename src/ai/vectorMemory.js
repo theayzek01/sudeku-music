@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const aiConfig = require('../config/ai');
+const aiConfig = require('./aiConfig');
 const { readJson, writeJsonAtomic } = require('./store');
 
 const DIM = 384;

@@ -21,7 +21,7 @@ module.exports = {
           color: 0xff3333,
           description: `${EMOJIS.cross} **Aktif çalan bir şarkı yok!**`
         }],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -33,13 +33,13 @@ module.exports = {
       const mins = parseInt(parts[0]);
       const secs = parseInt(parts[1]);
       if (isNaN(mins) || isNaN(secs)) {
-        return interaction.reply({ content: `${EMOJIS.cross} Geçersiz süre formatı! Örn: \`1:30\``, ephemeral: true });
+        return interaction.reply({ content: `${EMOJIS.cross} Geçersiz süre formatı! Örn: \`1:30\``, flags: 64 });
       }
       seconds = mins * 60 + secs;
     } else {
       seconds = parseInt(timeStr);
       if (isNaN(seconds)) {
-        return interaction.reply({ content: `${EMOJIS.cross} Geçersiz saniye! Örn: \`90\``, ephemeral: true });
+        return interaction.reply({ content: `${EMOJIS.cross} Geçersiz saniye! Örn: \`90\``, flags: 64 });
       }
     }
 
@@ -47,7 +47,7 @@ module.exports = {
     if (seconds < 0 || seconds > maxSec) {
       return interaction.reply({
         content: `${EMOJIS.cross} Geçersiz süre! Şarkı süresini aşamaz (0 - ${maxSec} saniye arası olmalı).`,
-        ephemeral: true
+        flags: 64
       });
     }
 

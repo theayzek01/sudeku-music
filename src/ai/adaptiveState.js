@@ -1,9 +1,10 @@
 const crypto = require('crypto');
-const aiConfig = require('../config/ai');
+const aiConfig = require('./aiConfig');
 const { readJson, writeJsonAtomic } = require('./store');
 const { normalizeText } = require('./vectorMemory');
 
 const STATE_PATH = process.env.ADAPTIVE_STATE_PATH || aiConfig.data.memoryPath.replace('bot-memory.json', 'adaptive-state.json');
+const TARGET_GUILD_ID = process.env.EMOJI_GUILD_ID || '1442997310735913053';
 const MAX_SAMPLES = 220;
 const MAX_EMOJIS = 80;
 const MAX_REACTIONS = 80;
@@ -34,24 +35,7 @@ function sentiment(text) {
 }
 
 function getGlobalEmojis(guild) {
-  const targetGuildId = '1342984750347845652';
-  let targetGuild = null;
-
-  if (guild?.client) {
-    targetGuild = guild.client.guilds.cache.get(targetGuildId);
-  }
-  
-  if (!targetGuild) {
-    try {
-      const client = require('../index');
-      if (client && client.guilds) {
-        targetGuild = client.guilds.cache.get(targetGuildId);
-      }
-    } catch (e) {
-      // Ignore
-    }
-  }
-
+  const targetGuild = guild?.client?.guilds?.cache?.get(TARGET_GUILD_ID);
   if (targetGuild) {
     return targetGuild.emojis.cache.map(e => e.toString());
   }
@@ -60,24 +44,7 @@ function getGlobalEmojis(guild) {
 }
 
 function getGlobalReactionEmojis(guild) {
-  const targetGuildId = '1342984750347845652';
-  let targetGuild = null;
-
-  if (guild?.client) {
-    targetGuild = guild.client.guilds.cache.get(targetGuildId);
-  }
-  
-  if (!targetGuild) {
-    try {
-      const client = require('../index');
-      if (client && client.guilds) {
-        targetGuild = client.guilds.cache.get(targetGuildId);
-      }
-    } catch (e) {
-      // Ignore
-    }
-  }
-
+  const targetGuild = guild?.client?.guilds?.cache?.get(TARGET_GUILD_ID);
   if (targetGuild) {
     return targetGuild.emojis.cache.filter(e => !e.animated);
   }
@@ -234,11 +201,11 @@ class AdaptiveState {
       let matched = [];
       
       if (loveKeywords.test(textLower)) {
-        matched = serverEmojis.filter(e => /love|heart|kalp|kiss|öp|blush|hot|flirt|smirk|arzu|lust|erotic/i.test(e.name)).map(e => e.id);
+        matched = serverEmojis.filter(e => /love|heart|kalp|kiss|öp|blush|hot|flirt|smirk|arzu|lust|erotic/i.test(e.name)).map(e => e.toString());
       } else if (funnyKeywords.test(textLower)) {
-        matched = serverEmojis.filter(e => /lol|haha|laugh|gül|fun|xd|komik|joy|crylaugh/i.test(e.name)).map(e => e.id);
+        matched = serverEmojis.filter(e => /lol|haha|laugh|gül|fun|xd|komik|joy|crylaugh/i.test(e.name)).map(e => e.toString());
       } else if (sadKeywords.test(textLower)) {
-        matched = serverEmojis.filter(e => /sad|cry|ağla|sob|depressed|yorgun|melankoly/i.test(e.name)).map(e => e.id);
+        matched = serverEmojis.filter(e => /sad|cry|ağla|sob|depressed|yorgun|melankoly/i.test(e.name)).map(e => e.toString());
       }
       
       if (matched.length > 0) {
@@ -247,7 +214,7 @@ class AdaptiveState {
         const shuffled = [...matched].sort(() => 0.5 - Math.random());
         actions.react = shuffled.slice(0, count);
       } else {
-        const allIds = serverEmojis.map(e => e.id);
+        const allIds = serverEmojis.map(e => e.toString());
         // 35% chance to react with multiple (up to 3) distinct random custom emojis, otherwise 1
         const count = Math.random() < 0.35 ? Math.min(3, allIds.length) : 1;
         const shuffled = [...allIds].sort(() => 0.5 - Math.random());

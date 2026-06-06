@@ -1,5 +1,5 @@
 const path = require('path');
-const aiConfig = require('../config/ai');
+const aiConfig = require('./aiConfig');
 const { readJson, writeJsonAtomic } = require('./store');
 
 const FILE = process.env.GUILD_CONFIG_PATH || path.join(path.dirname(aiConfig.data.memoryPath), 'guild-config.json');

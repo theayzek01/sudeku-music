@@ -15,6 +15,10 @@ const Database = require('../database');
 
 const GLOBAL_EMOJIS = require('../utils/emojis');
 
+function applyButtonEmoji(button, emoji) {
+  return emoji ? button.setEmoji(emoji) : button;
+}
+
 const EMOJIS = {
   get spotify() { return GLOBAL_EMOJIS.spotify; },
   get youtube() { return GLOBAL_EMOJIS.youtube; },
@@ -363,43 +367,43 @@ class Queue {
   getControlRows() {
     const prevButton = new ButtonBuilder()
       .setCustomId('music_prev')
-      .setEmoji(EMOJIS.arrowLeft)
       .setLabel('Önceki')
       .setStyle(ButtonStyle.Secondary);
+    applyButtonEmoji(prevButton, EMOJIS.arrowLeft);
 
     const playPauseButton = new ButtonBuilder()
       .setCustomId('music_play_pause')
-      .setEmoji(this.paused ? EMOJIS.play : EMOJIS.pause)
       .setLabel(this.paused ? 'Devam' : 'Duraklat')
       .setStyle(ButtonStyle.Secondary);
+    applyButtonEmoji(playPauseButton, this.paused ? EMOJIS.play : EMOJIS.pause);
 
     const skipButton = new ButtonBuilder()
       .setCustomId('music_skip')
-      .setEmoji(EMOJIS.arrowRight)
       .setLabel('İleri')
       .setStyle(ButtonStyle.Secondary);
+    applyButtonEmoji(skipButton, EMOJIS.arrowRight);
 
     const stopButton = new ButtonBuilder()
       .setCustomId('music_stop')
-      .setEmoji(EMOJIS.stop)
       .setLabel('Durdur')
       .setStyle(ButtonStyle.Secondary);
+    applyButtonEmoji(stopButton, EMOJIS.stop);
 
     const row1 = new ActionRowBuilder().addComponents(prevButton, playPauseButton, skipButton, stopButton);
 
     const loopLabel = this.loopMode === 0 ? 'Döngü: Kapalı' : this.loopMode === 1 ? 'Döngü: Şarkı' : 'Döngü: Sıra';
     const loopButton = new ButtonBuilder()
       .setCustomId('music_loop')
-      .setEmoji(EMOJIS.loop)
       .setLabel(loopLabel)
       .setStyle(this.loopMode === 0 ? ButtonStyle.Secondary : ButtonStyle.Primary);
+    applyButtonEmoji(loopButton, EMOJIS.loop);
 
     const autoplayLabel = `Oto-Oynat: ${this.autoplay ? 'Açık' : 'Kapalı'}`;
     const autoplayButton = new ButtonBuilder()
       .setCustomId('music_autoplay')
-      .setEmoji(EMOJIS.autoplay)
       .setLabel(autoplayLabel)
       .setStyle(this.autoplay ? ButtonStyle.Primary : ButtonStyle.Secondary);
+    applyButtonEmoji(autoplayButton, EMOJIS.autoplay);
 
     const row2 = new ActionRowBuilder().addComponents(loopButton, autoplayButton);
 
@@ -502,9 +506,9 @@ class Queue {
         const autoplayTrack = await this.getAutoplayTrack(this.currentTrack);
         if (autoplayTrack) {
           if (this.textChannel) {
-            this.textChannel.send({
-              embeds: [{
-                description: `✨ **Otomatik Oynatma:** [**${autoplayTrack.title}**](${autoplayTrack.url}) sıraya eklendi.`,
+          this.textChannel.send({
+            embeds: [{
+                description: `${EMOJIS.sparkle} **Otomatik Oynatma:** [**${autoplayTrack.title}**](${autoplayTrack.url}) sıraya eklendi.`,
                 color: 0x5a189a
               }]
             });

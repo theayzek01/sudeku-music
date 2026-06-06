@@ -74193,8 +74193,38 @@
         }
       ],
       "profile": {}
+    },
+    "1241735373252464774": {
+      "facts": [],
+      "turns": [],
+      "profile": {
+        "affinity": 32.65,
+        "messagesSeen": 1,
+        "level": "Yabancı",
+        "coreBeliefs": []
+      }
+    },
+    "1157360773438378125": {
+      "facts": [],
+      "turns": [],
+      "profile": {
+        "affinity": 30.15,
+        "messagesSeen": 1,
+        "level": "Yabancı",
+        "coreBeliefs": []
+      }
+    },
+    "1505950300438003774": {
+      "facts": [],
+      "turns": [],
+      "profile": {
+        "affinity": 30.299999999999997,
+        "messagesSeen": 2,
+        "level": "Yabancı",
+        "coreBeliefs": []
+      }
     }
   },
   "global": [],
-  "updatedAt": "2026-06-03T21:41:22.106Z"
+  "updatedAt": "2026-06-05T18:31:46.596Z"
 }

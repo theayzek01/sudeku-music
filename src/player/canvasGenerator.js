@@ -182,7 +182,7 @@ async function generateNowPlayingCard(track, requesterName, currentMs = 0) {
     ctx.font = 'bold 64px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('🎵', TX + TS / 2, TY + TS / 2);
+    ctx.fillText('♫', TX + TS / 2, TY + TS / 2);
   }
   ctx.restore();
 

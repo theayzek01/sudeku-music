@@ -1,4 +1,40 @@
 const play = require('play-dl');
+const ytDlp = require('./ytDlp');
+const { getSpotifyTrack, getSpotifyCollection } = require('./spotifyEmbed');
+
+let spotifyReady = false;
+
+async function initSpotifyAuth() {
+  const clientId = process.env.SPOTIFY_CLIENT_ID;
+  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+  const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
+
+  if (!clientId || !clientSecret || !refreshToken) {
+    return false;
+  }
+
+  try {
+    await play.setToken({
+      spotify: {
+        client_id: clientId,
+        client_secret: clientSecret,
+        refresh_token: refreshToken,
+        market: process.env.SPOTIFY_MARKET || 'TR'
+      }
+    });
+    spotifyReady = true;
+    return true;
+  } catch (err) {
+    console.warn('[Search] Spotify token init failed, embed fallback will be used:', err.message || err);
+    return false;
+  }
+}
+
+const spotifyInitPromise = initSpotifyAuth();
+
+function isLikelyUrl(value) {
+  return /^https?:\/\//i.test(value.trim());
+}
 
 class Track {
   constructor({ title, url, duration, durationMs, thumbnail, requester, source, spotifyUrl = null }) {
@@ -8,128 +44,210 @@ class Track {
     this.durationMs = durationMs;
     this.thumbnail = thumbnail;
     this.requester = requester;
-    this.source = source; // 'youtube' or 'spotify'
+    this.source = source;
     this.spotifyUrl = spotifyUrl;
-    this.resolvedUrl = url; // Will be determined right before playing if it's Spotify
+    this.resolvedUrl = url;
   }
 }
 
-async function resolveSpotifyTrack(trackName, artistName) {
+function trackFromYtDlpEntry(entry, requester) {
+  const durationSec = Number(entry.duration) || 0;
+  return new Track({
+    title: entry.title,
+    url: entry.url || `https://www.youtube.com/watch?v=${entry.id}`,
+    duration: formatMs(durationSec * 1000),
+    durationMs: durationSec * 1000,
+    thumbnail: entry.thumbnails?.[0]?.url || `https://i.ytimg.com/vi/${entry.id}/hqdefault.jpg`,
+    requester,
+    source: 'youtube'
+  });
+}
+
+function trackFromYtDlpInfo(info, requester) {
+  const durationSec = Number(info.duration) || 0;
+  return new Track({
+    title: info.title,
+    url: info.webpage_url || info.original_url || info.url,
+    duration: formatMs(durationSec * 1000),
+    durationMs: durationSec * 1000,
+    thumbnail: info.thumbnail || info.thumbnails?.[0]?.url || '',
+    requester,
+    source: 'youtube'
+  });
+}
+
+async function searchYoutube(query, limit, requester) {
   try {
-    const searchResult = await play.search(`${trackName} ${artistName}`, { limit: 1, source: { youtube: 'video' } });
-    if (searchResult && searchResult.length > 0) {
-      return searchResult[0].url;
+    const entries = await ytDlp.searchYoutube(query, limit);
+    if (entries.length > 0) {
+      return entries.map(entry => trackFromYtDlpEntry(entry, requester));
     }
-  } catch (err) {
-    console.error("Error resolving Spotify track:", err);
+  } catch (ytErr) {
+    console.warn('[Search] yt-dlp search failed, trying play-dl:', ytErr.message || ytErr);
   }
-  return null;
+
+  const searchResult = await play.search(query, { limit, source: { youtube: 'video' } });
+  return (searchResult || [])
+    .filter(video => video && video.title && video.url)
+    .map(video => new Track({
+      title: video.title,
+      url: video.url,
+      duration: video.durationRaw || formatMs(video.durationInSec * 1000),
+      durationMs: video.durationInSec * 1000,
+      thumbnail: video.thumbnails?.[0]?.url || '',
+      requester,
+      source: 'youtube'
+    }));
 }
 
-async function search(query, requester) {
+async function resolveSpotifyTrack(trackName, artistName = '') {
+  const query = `${trackName} ${artistName}`.trim();
+  if (!query) return null;
+
   try {
-    const queryType = await play.validate(query);
+    const tracks = await searchYoutube(query, 1, null);
+    return tracks[0]?.url || null;
+  } catch (err) {
+    console.error('[Search] Error resolving Spotify track:', err.message || err);
+    return null;
+  }
+}
+
+async function resolveSpotifyTrackRecord(meta, requester, spotifyUrl) {
+  const resolvedUrl = await resolveSpotifyTrack(meta.trackName || meta.title, meta.artists?.join(' ') || '');
+  return new Track({
+    title: meta.title,
+    url: resolvedUrl,
+    duration: formatMs(meta.durationMs),
+    durationMs: meta.durationMs,
+    thumbnail: meta.thumbnail || '',
+    requester,
+    source: 'spotify',
+    spotifyUrl: spotifyUrl || meta.spotifyUrl
+  });
+}
+
+async function search(query, requester, limit = 1) {
+  await spotifyInitPromise;
+
+  const trimmed = query.trim();
+  if (!trimmed) return [];
+
+  try {
+    const queryType = isLikelyUrl(trimmed) ? await play.validate(trimmed) : 'search';
 
     if (queryType === 'yt_video') {
-      const info = await play.video_basic_info(query);
-      const video = info.video_details;
-      return [new Track({
-        title: video.title,
-        url: video.url,
-        duration: video.durationRaw || formatMs(video.durationInSec * 1000),
-        durationMs: video.durationInSec * 1000,
-        thumbnail: video.thumbnails[0]?.url || "",
-        requester,
-        source: 'youtube'
-      })];
+      try {
+        const info = await ytDlp.getVideoInfo(trimmed);
+        return [trackFromYtDlpInfo(info, requester)];
+      } catch {
+        const info = await play.video_basic_info(trimmed);
+        const video = info.video_details;
+        return [new Track({
+          title: video.title,
+          url: video.url,
+          duration: video.durationRaw || formatMs(video.durationInSec * 1000),
+          durationMs: video.durationInSec * 1000,
+          thumbnail: video.thumbnails?.[0]?.url || '',
+          requester,
+          source: 'youtube'
+        })];
+      }
     }
 
     if (queryType === 'yt_playlist') {
- const playlist = await play.playlist_info(query, { incomplete: true });
- const videos = await playlist.all_videos();
- return videos
-   .filter(video => video && video.title && video.url)
-   .map(video => new Track({
-     title: video.title,
-     url: video.url,
-     duration: video.durationRaw || formatMs(video.durationInSec * 1000),
-     durationMs: video.durationInSec * 1000,
-     thumbnail: video.thumbnails[0]?.url || "",
-     requester,
-     source: 'youtube'
-   }));
- }
+      try {
+        const output = await ytDlp.execYtDlp([
+          '--flat-playlist',
+          '--dump-single-json',
+          '--no-warnings',
+          trimmed
+        ]);
+        const playlist = JSON.parse(output);
+        const entries = (playlist.entries || []).filter(entry => entry && entry.id && entry.title);
+        if (entries.length > 0) {
+          return entries.map(entry => trackFromYtDlpEntry(entry, requester));
+        }
+      } catch (ytPlaylistErr) {
+        console.warn('[Search] yt-dlp playlist parse failed, trying play-dl:', ytPlaylistErr.message || ytPlaylistErr);
+      }
+
+      const playlist = await play.playlist_info(trimmed, { incomplete: true });
+      const videos = await playlist.all_videos();
+      return videos
+        .filter(video => video && video.title && video.url)
+        .map(video => new Track({
+          title: video.title,
+          url: video.url,
+          duration: video.durationRaw || formatMs(video.durationInSec * 1000),
+          durationMs: video.durationInSec * 1000,
+          thumbnail: video.thumbnails?.[0]?.url || '',
+          requester,
+          source: 'youtube'
+        }));
+    }
 
     if (queryType === 'sp_track') {
-      try {
-        const spData = await play.spotify(query);
-        return [new Track({
-          title: `${spData.name} - ${spData.artists.map(a => a.name).join(', ')}`,
-          url: null, // will resolve when playing
-          duration: formatMs(spData.durationInMs),
-          durationMs: spData.durationInMs,
-          thumbnail: spData.thumbnail?.url || "",
-          requester,
-          source: 'spotify',
-          spotifyUrl: query
-        })];
-      } catch (spErr) {
-        console.error("Spotify track search failed, trying YouTube fallback:", spErr);
-        // Clean query fallback
-        const cleanQuery = query.replace(/https?:\/\/(open\.)?spotify\.com\/track\//i, '').split('?')[0];
-        const ytSearch = await play.search(cleanQuery, { limit: 1 });
-        if (ytSearch && ytSearch.length > 0) {
+      if (spotifyReady) {
+        try {
+          const spData = await play.spotify(trimmed);
           return [new Track({
-            title: ytSearch[0].title,
-            url: ytSearch[0].url,
-            duration: ytSearch[0].durationRaw || formatMs(ytSearch[0].durationInSec * 1000),
-            durationMs: ytSearch[0].durationInSec * 1000,
-            thumbnail: ytSearch[0].thumbnails[0]?.url || "",
+            title: `${spData.name} - ${spData.artists.map(a => a.name).join(', ')}`,
+            url: null,
+            duration: formatMs(spData.durationInMs),
+            durationMs: spData.durationInMs,
+            thumbnail: spData.thumbnail?.url || '',
             requester,
-            source: 'youtube'
+            source: 'spotify',
+            spotifyUrl: trimmed
           })];
+        } catch (spErr) {
+          console.warn('[Search] Spotify API track lookup failed, using embed fallback:', spErr.message || spErr);
         }
-        throw spErr;
       }
+
+      const meta = await getSpotifyTrack(trimmed);
+      return [await resolveSpotifyTrackRecord(meta, requester, trimmed)];
     }
 
     if (queryType === 'sp_playlist' || queryType === 'sp_album') {
-      try {
-        const spData = await play.spotify(query);
-        const tracks = await spData.all_tracks();
-        return tracks.map(track => new Track({
-          title: `${track.name} - ${track.artists.map(a => a.name).join(', ')}`,
-          url: null,
-          duration: formatMs(track.durationInMs),
-          durationMs: track.durationInMs,
-          thumbnail: track.thumbnail?.url || spData.thumbnail?.url || "",
-          requester,
-          source: 'spotify',
-          spotifyUrl: track.url || query
-        }));
-      } catch (spErr) {
-        console.error("Spotify playlist/album search failed:", spErr);
-        throw new Error("Spotify çalma listesi yüklenemedi. Spotify API geçici olarak yanıt vermiyor olabilir.");
+      if (spotifyReady) {
+        try {
+          const spData = await play.spotify(trimmed);
+          const tracks = await spData.all_tracks();
+          return tracks.map(track => new Track({
+            title: `${track.name} - ${track.artists.map(a => a.name).join(', ')}`,
+            url: null,
+            duration: formatMs(track.durationInMs),
+            durationMs: track.durationInMs,
+            thumbnail: track.thumbnail?.url || spData.thumbnail?.url || '',
+            requester,
+            source: 'spotify',
+            spotifyUrl: track.url || trimmed
+          }));
+        } catch (spErr) {
+          console.warn('[Search] Spotify API collection lookup failed, using embed fallback:', spErr.message || spErr);
+        }
       }
+
+      const collection = await getSpotifyCollection(trimmed);
+      if (!collection.tracks.length) {
+        throw new Error('Spotify çalma listesinden şarkı okunamadı.');
+      }
+
+      const resolved = [];
+      for (const trackMeta of collection.tracks) {
+        resolved.push(await resolveSpotifyTrackRecord({
+          ...trackMeta,
+          thumbnail: trackMeta.thumbnail || collection.thumbnail
+        }, requester, trimmed));
+      }
+      return resolved;
     }
 
-    // Plain search query
- const searchResult = await play.search(query, { limit: 1 });
- if (!searchResult || searchResult.length === 0) return [];
-
- return searchResult
-   .filter(video => video && video.title && video.url)
-   .map(video => new Track({
-     title: video.title,
-     url: video.url,
-     duration: video.durationRaw || formatMs(video.durationInSec * 1000),
-     durationMs: video.durationInSec * 1000,
-     thumbnail: video.thumbnails[0]?.url || "",
-     requester,
-     source: 'youtube'
-   }));
+    return await searchYoutube(trimmed, limit, requester);
   } catch (error) {
-    console.error("Search general error:", error);
+    console.error('[Search] Search failed:', error.message || error);
     throw error;
   }
 }
@@ -147,7 +265,9 @@ function formatMs(ms) {
 }
 
 module.exports = {
+  Track,
   search,
   resolveSpotifyTrack,
-  formatMs
+  formatMs,
+  searchYoutube
 };

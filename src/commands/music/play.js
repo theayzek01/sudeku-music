@@ -24,7 +24,7 @@ module.exports = {
           color: 0xff3333,
           description: `${EMOJIS.cross} **Önce bir ses kanalına katılmalısınız!**`
         }],
-        ephemeral: true
+        flags: 64
       });
     }
 

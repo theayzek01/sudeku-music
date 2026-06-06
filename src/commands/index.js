@@ -33,6 +33,9 @@ function loadCommand(relativePath) {
   'music/join.js',
   'music/leave.js',
   'music/search.js',
+  'utility/help.js',
+  'utility/avatar.js',
+  'utility/serverinfo.js',
   'utility/stats.js',
   'utility/rank.js',
   'utility/love.js'
@@ -51,7 +54,5 @@ function formatMs(ms) {
   return `${hrStr}${minStr}:${secStr}`;
 }
 
-module.exports = {
-  commands,
-  formatMs
-};
+exports.commands = commands;
+exports.formatMs = formatMs;
