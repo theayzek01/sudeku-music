@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const aiConfig = require('../config/ai');
+const aiConfig = require('./aiConfig');
 const { readJson } = require('./store');
 
 const MODEL_PATH = path.join(path.dirname(aiConfig.data.memoryPath), 'sudeStyleModel.json');

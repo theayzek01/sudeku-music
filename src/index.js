@@ -7,6 +7,7 @@ const Database = require('./database');
 const { commands } = require('./commands');
 const EMOJIS = require('./utils/emojis');
 const { ensureYtDlp, getFfmpegPath } = require('./player/ytDlp');
+const chatEngine = require('./ai/chatEngine');
 
 const TOKEN = process.env.Token || process.env.TOKEN;
 
@@ -36,7 +37,7 @@ client.playerManager = playerManager;
 
 client.once(Events.ClientReady, async (readyClient) => {
   console.log(`[Bot] ${readyClient.user.tag} olarak giriş yapıldı!`);
-  EMOJIS.init(readyClient);
+  await EMOJIS.init(readyClient);
 
   // Periyodik ses süresi takibi (her 30 saniyede bir)
   setInterval(() => {
@@ -141,6 +142,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   if (interaction.isButton()) {
     try {
+      if (!String(interaction.customId || '').startsWith('music_')) {
+        return;
+      }
+
       // Music Buttons
       const queue = playerManager.getQueue(interaction.guildId);
       if (!queue) {
@@ -211,7 +216,40 @@ client.on(Events.InteractionCreate, async (interaction) => {
 const xpCooldowns = new Set();
 
 client.on(Events.MessageCreate, async (message) => {
-  if (message.author.bot || !message.guild) return;
+  if (message.author.bot) return;
+
+  const isDM = !message.guild;
+  const isMentioned = !isDM && (message.mentions?.users?.has?.(client.user.id) || new RegExp(`^<@!?${client.user.id}>`).test(message.content));
+
+  if (isDM || isMentioned) {
+    try {
+      const cleanContent = message.content
+        .replace(new RegExp(`<@!?${client.user.id}>`, 'g'), '')
+        .trim();
+      const result = await chatEngine.replyRich({
+        userId: message.author.id,
+        userName: message.author.username,
+        channelId: message.channelId,
+        guildId: message.guildId || 'dm',
+        guild: message.guild || null,
+        content: cleanContent || message.content,
+      });
+
+      const reply = await message.reply({ content: result.content, allowedMentions: { repliedUser: false } });
+      if (Array.isArray(result.actions?.react)) {
+        for (const emoji of result.actions.react.slice(0, 3)) {
+          await reply.react(emoji).catch(() => {});
+        }
+      } else if (result.actions?.useEmoji) {
+        await reply.react(result.actions.useEmoji).catch(() => {});
+      }
+    } catch (error) {
+      console.error('[AI Reply Error]', error);
+    }
+    return;
+  }
+
+  if (!message.guild) return;
 
   // XP / LEVELING SYSTEM (15s cooldown per user)
   if (!xpCooldowns.has(message.author.id)) {

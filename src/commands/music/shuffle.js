@@ -16,7 +16,7 @@ module.exports = {
           color: 0xff3333,
           description: `${EMOJIS.cross} **Sırayı karıştırmak için en az 2 şarkı olmalı!**`
         }],
-        ephemeral: true
+        flags: 64
       });
     }
 

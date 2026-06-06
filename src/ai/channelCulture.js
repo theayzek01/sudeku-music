@@ -1,5 +1,5 @@
 const path = require('path');
-const aiConfig = require('../config/ai');
+const aiConfig = require('./aiConfig');
 const { readJson } = require('./store');
 
 function load(channelId) {

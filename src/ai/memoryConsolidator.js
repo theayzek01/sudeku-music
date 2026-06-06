@@ -1,5 +1,5 @@
 const { normalizeText } = require('./vectorMemory');
-const aiConfig = require('../config/ai');
+const aiConfig = require('./aiConfig');
 const { OllamaClient } = require('./ollama');
 
 const ollama = new OllamaClient();

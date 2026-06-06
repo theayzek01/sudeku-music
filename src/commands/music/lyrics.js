@@ -24,7 +24,7 @@ module.exports = {
             color: 0xff3333,
             description: `${EMOJIS.cross} **Şu an çalan bir şarkı yok! Lütfen bir şarkı adı belirtin.**`
           }],
-          ephemeral: true
+          flags: 64
         });
       }
       // Clean up title (remove official video, lyrics, etc.)

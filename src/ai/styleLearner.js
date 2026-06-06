@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { ChannelType } = require('discord.js');
-const aiConfig = require('../config/ai');
+const aiConfig = require('./aiConfig');
 const { readJson, writeJsonAtomic } = require('./store');
 const { embed } = require('./vectorMemory');
 

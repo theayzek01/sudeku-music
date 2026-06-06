@@ -1,3 +1,5 @@
+const TARGET_GUILD_ID = process.env.EMOJI_GUILD_ID || '1442997310735913053';
+
 const EMOJIS = {
   // ─── Temel UI ───────────────────────────────────────────────
   tick: '<:kansertik:1500939716961505372>',
@@ -220,219 +222,31 @@ const EMOJIS = {
   nbr: '<:nbr:1499027835069792276>',
 };
 
-const FALLBACKS = {
-  tick: '✅',
-  cross: '❌',
-  loading: '🔄',
-  verify: '✔️',
-  info: 'ℹ️',
-  warn: '⚠️',
-  gear: '⚙️',
-  status: '📶',
-  exit: '🚪',
-  enter: '📥',
-  wifi: '📶',
-  wrong: '❌',
-  ok: '✔️',
-
-  play: '▶️',
-  pause: '⏸️',
-  stop: '⏹️',
-  skip: '⏭️',
-  prev: '⏮️',
-  rewind: '⏪',
-  fastforward: '⏩',
-  loop: '🔁',
-  volume: '🔊',
-  volumeMute: '🔇',
-  fullscreenEnter: '↗️',
-  fullscreenExit: '↙️',
-  pip: '📺',
-  note: '🎵',
-  spotify: '🎵',
-  youtube: '📺',
-  guitar: '🎸',
-  stream: '📡',
-
-  voice: '🔊',
-  vc: '🔊',
-  vcBusy: '🔊',
-  vcGold: '🔊',
-  vcDeaf: '🔇',
-  mute: '🔇',
-  chatMute: '🔇',
-  chatMuted: '🔇',
-  textChannel: '💬',
-
-  barFill: '▰',
-  barFillEnd: '▰',
-  barFillStart: '▰',
-  barEmpty: '▱',
-  barEmptyEnd: '▱',
-
-  star: '⭐',
-  starBlue: '⭐',
-  starGrey: '⭐',
-  stars: '⭐',
-  crown: '👑',
-  crownGold: '👑',
-  crownGoldB: '👑',
-  crownGrey: '👑',
-  purpleCrown: '👑',
-  viegoCrown: '👑',
-  tac: '👑',
-  tac4: '👑',
-  tacD: '👑',
-  goldCrown: '👑',
-  vip: '⭐',
-  vips: '⭐',
-  won: '🏆',
-  boost: '⚡',
-  nitro: '⚡',
-  owner: '👑',
-
-  ban: '🚫',
-  jailed: '🚫',
-  jail: '🚫',
-  moderator: '🛡️',
-  admin: '🛡️',
-  shield: '🛡️',
-  hunter: '🏹',
-  so: '🛡️',
-  stts: '📊',
-  swm: '🛡️',
-  stfw: '🛡️',
-  stf: '🛡️',
-  inv: '🎟️',
-  live: '🔴',
-
-  coin: '🪙',
-  coinStatic: '🪙',
-  money: '🪙',
-  moneyW: '🪙',
-  kese: '💰',
-  dolar: '💵',
-  dolarB: '💵',
-
-  ticket: '🎫',
-  support: '🎫',
-
-  giveaway: '🎁',
-  gift: '🎁',
-  giftKanser: '🎁',
-
-  diamond: '💎',
-  dia: '💎',
-  chat: '💬',
-  dm: '💬',
-  arrow: '➡️',
-  arrowss: '➡️',
-  arrowW: '➡️',
-  arrowB: '➡️',
-  flameRed: '🔥',
-  flamePurple: '🔥',
-  flameW: '🔥',
-  flameGrey: '🔥',
-  flameB: '🔥',
-  moon: '🌙',
-  heart: '❤️',
-  heartB: '❤️',
-  heartBW: '❤️',
-  heartBW3: '❤️',
-  heartBW5: '❤️',
-  heartsB: '❤️',
-  heartsW: '❤️',
-  heartsS: '❤️',
-  spheart: '❤️',
-  cake: '🎂',
-  kitty: '🐱',
-  cat: '🐱',
-  butterfly: '🦋',
-  butterflyB: '🦋',
-  butterflyS: '🦋',
-  cloud: '☁️',
-  snow: '❄️',
-  sparkle: '✨',
-  sparkB: '✨',
-  infinity: '♾️',
-  helloSurf: '👋',
-  elfpad: '🧝',
-  helo: '👋',
-  lovehii: '👋',
-  hac: '✝️',
-  msg: '💬',
-  discord: '💬',
-  loadin: '🔄',
-  taff: '✨',
-  batw: '🦇',
-  E: '📧',
-  K: '🔑',
-  erk: '♂️',
-  kz: '♀️',
-
-  ranker: '🏆',
-  epic: '🏆',
-  legend: '🏆',
-  gizemli: '🔮',
-  tcrtown: '🏙️',
-  cooking: '🍳',
-
-  akrep: '♏',
-  aslan: '♌',
-  balik: '♓',
-  basak: '♍',
-  boga: '♉',
-  ikizler: '♊',
-  koc: '♈',
-  kova: '♒',
-  oglak: '♑',
-  terazi: '♎',
-  yay: '♐',
-  yengec: '♋',
-
-  valorant: '🎮',
-  lol: '🎮',
-  cs2: '🎮',
-  gta5: '🎮',
-  fortnite: '🎮',
-  pubg: '🎮',
-  roblox: '🎮',
-  blox: '🎮',
-  minecraft: '🎮',
-  dbd: '🎮',
-  brawlhalla: '🎮',
-  logoBS: '🎮',
-  zula: '🎮',
-  dev: '💻',
-  dlopment: '💻',
-  yt: '📺',
-  angpun: '👺',
-
-  ariz: '🔧',
-  desg: '🎨',
-  exxen: '📺',
-
-  n0: '0️⃣',
-  n1: '1️⃣',
-  n2: '2️⃣',
-  n3: '3️⃣',
-  n4: '4️⃣',
-  n5: '5️⃣',
-  n6: '6️⃣',
-  n7: '7️⃣',
-  n8: '8️⃣',
-  n9: '9️⃣',
-
-  soru: '❓',
-  nbr: '❓',
-};
-
 let discordClient = null;
+let guildEmojiCache = null;
 
-// Add init function
+function findCachedEmoji(name, id) {
+  if (!guildEmojiCache) return null;
+  if (id && guildEmojiCache.has(id)) return guildEmojiCache.get(id);
+  if (name) {
+    const found = guildEmojiCache.find(e => e.name?.toLowerCase() === String(name).toLowerCase());
+    if (found) return found;
+  }
+  return null;
+}
+
 Object.defineProperty(EMOJIS, 'init', {
-  value: (client) => {
+  value: async (client, guildId = TARGET_GUILD_ID) => {
     discordClient = client;
+    try {
+      const guild = await client.guilds.fetch(guildId).catch(() => client.guilds.cache.get(guildId));
+      if (guild) {
+        guildEmojiCache = await guild.emojis.fetch().catch(() => guild.emojis.cache);
+      }
+    } catch {
+      guildEmojiCache = null;
+    }
+    return guildEmojiCache;
   },
   writable: false,
   configurable: false,
@@ -458,22 +272,15 @@ const proxy = new Proxy(EMOJIS, {
 
     const [, animated, name, id] = match;
 
-    if (discordClient) {
-      // 1. Check if the emoji is directly available in client's emoji cache
-      if (discordClient.emojis.cache.has(id)) {
-        return val;
-      }
-      // 2. Try to find an emoji with the same name case-insensitively in the cache
-      const found = discordClient.emojis.cache.find(
-        e => e.name.toLowerCase() === name.toLowerCase()
-      );
-      if (found) {
-        return found.toString();
+    if (!guildEmojiCache && discordClient) {
+      const cachedGuild = discordClient.guilds.cache.get(TARGET_GUILD_ID);
+      if (cachedGuild) {
+        guildEmojiCache = cachedGuild.emojis.cache;
       }
     }
 
-    // 3. Fallback to unicode
-    return FALLBACKS[prop] || FALLBACKS[name] || '⭐';
+    const found = findCachedEmoji(name, id);
+    return found ? found.toString() : '';
   }
 });
 

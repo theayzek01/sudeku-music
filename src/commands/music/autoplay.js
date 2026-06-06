@@ -16,7 +16,7 @@ module.exports = {
           color: 0xff3333,
           description: `${EMOJIS.cross} **Aktif bir oynatıcı bulunamadı!**`
         }],
-        ephemeral: true
+        flags: 64
       });
     }
 

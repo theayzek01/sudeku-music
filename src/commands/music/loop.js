@@ -26,7 +26,7 @@ module.exports = {
           color: 0xff3333,
           description: `${EMOJIS.cross} **Aktif bir çalma oturumu yok!**`
         }],
-        ephemeral: true
+        flags: 64
       });
     }
 

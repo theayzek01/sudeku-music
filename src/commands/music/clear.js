@@ -16,7 +16,7 @@ module.exports = {
           color: 0xff3333,
           description: `${EMOJIS.cross} **Sırada temizlenecek şarkı bulunmuyor.**`
         }],
-        ephemeral: true
+        flags: 64
       });
     }
 

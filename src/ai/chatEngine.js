@@ -1,6 +1,6 @@
 const path = require('path');
 const { readJson, writeJsonAtomic } = require('./store');
-const aiConfig = require('../config/ai');
+const aiConfig = require('./aiConfig');
 const { OllamaClient } = require('./ollama');
 const { PersonaEngine } = require('./persona');
 const { VectorMemory } = require('./vectorMemory');
@@ -38,7 +38,7 @@ function analyzeIntent(content) {
 /**
  * Build a compact context string respecting token budget.
  */
-function compactContext({ memoryItems, styleExamples, rel, adaptive, culture, responsePlan }) {
+function compactContext({ memoryItems, styleExamples, rel, adaptive, culture, responsePlan, style }) {
   const beliefs = rel.coreBeliefs && rel.coreBeliefs.length
     ? rel.coreBeliefs.slice(0, 5).map(b => `- ${b}`).join('\n')
     : 'belirgin inanç yok';
@@ -56,6 +56,7 @@ function compactContext({ memoryItems, styleExamples, rel, adaptive, culture, re
     `KULLANICI: ${rel.userName} (${rel.userId}) | İLİŞKİ: ${rel.level} (${rel.affinity}/100)`,
     `İnançlar:\n${beliefs}`,
     `Hafıza:\n${memBlock}`,
+    style?.candidateEmojis?.length ? `Emoji havuzu: ${style.candidateEmojis.slice(0, 6).join(' ')}` : null,
     styleBlock && `Stil örnekleri:\n${styleBlock}`,
     `\n${mindCore.prompt()}`,
     `\nKültür: ${culture}`,
@@ -133,12 +134,13 @@ class ChatEngine {
     const styleExamples = this.persona.searchExamples(content, isShort ? 3 : 7);
     // 4️⃣ Gather auxiliary data
     const rel = relationshipEngine.getRelationship(userId, userName);
-    const adaptive = adaptiveState.getContext({ guildId, channelId, userId, guild });
+    const adaptive = adaptiveState.styleContext({ guildId, channelId, userId, guild });
+    const style = adaptive;
     const culture = channelCulture.getContext(channelId);
     const responsePlan = this.persona.planResponse(content, rel);
     const staticSystemPrompt = this.persona.systemPrompt();
     // 5️⃣ Build compact dynamic content
-    const dynamicContent = compactContext({ memoryItems, styleExamples, rel, adaptive, culture, responsePlan });
+    const dynamicContent = compactContext({ memoryItems, styleExamples, rel, adaptive, culture, responsePlan, style });
     // 6️⃣ Assemble final message list
     const messages = [
       { role: 'system', content: staticSystemPrompt },
@@ -177,16 +179,16 @@ class ChatEngine {
       this.pushHistory(channelId, userId, 'user', clean);
       const rel = relationshipEngine.getRelationship(userId, userName);
       const userWords = clean.split(/\s+/).filter(Boolean).length;
-      let dynamicPredict = 280;
+      let dynamicPredict = 180;
       if (clean.includes('*') || /(ahh|ohh|seviş|istiyorum|yala|sürt|kucağıma|şehvet|inle|tahrik|soyun|çıplak)/i.test(clean)) {
-        dynamicPredict = 450;
+        dynamicPredict = 240;
       } else if (userWords <= 4) {
-        dynamicPredict = 140;
+        dynamicPredict = 96;
       } else if (userWords <= 10) {
-        dynamicPredict = 220;
+        dynamicPredict = 140;
       }
       let answer = await this.ollama.chat(messages, { numPredict: dynamicPredict });
-      const styleBefore = adaptiveState.styleContext({ guildId, channelId, userId, guild });
+      const styleBefore = style;
       answer = stylePostprocess(clampDiscord(answer), {
         userText: clean,
         avgLen: styleBefore.avgLen,
@@ -204,7 +206,6 @@ class ChatEngine {
       this.memory.save();
       mindCore.save();
       adaptiveState.save();
-      const style = adaptiveState.styleContext({ guildId, channelId, userId, guild });
       const actions = adaptiveState.decideActions({ text: `${clean}\n${answer}`, guild, style });
       if (!cfg.react) actions.react = null;
       if (!cfg.gifs) actions.gifQuery = null;
