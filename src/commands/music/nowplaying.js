@@ -1,11 +1,38 @@
-const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 const EMOJIS = require('../../utils/emojis');
-const { generateNowPlayingCard } = require('../../player/canvasGenerator');
+
+function buildNowPlayingEmbed(track, playbackTimeMs = 0) {
+  const current = Math.floor(playbackTimeMs / 1000);
+  const total = track.durationMs ? Math.floor(track.durationMs / 1000) : 0;
+  const currentMin = Math.floor(current / 60);
+  const currentSec = String(current % 60).padStart(2, '0');
+  const totalMin = Math.floor(total / 60);
+  const totalSec = String(total % 60).padStart(2, '0');
+
+  const embed = {
+      color: 0x8b5cf6,
+      title: 'Şu An Çalıyor',
+      description: [
+        `${EMOJIS.note} [**${track.title}**](${track.url || track.spotifyUrl})`,
+        '',
+        `**Süre:** \`${track.duration || `${totalMin}:${totalSec}`}\``,
+        `**İsteyen:** <@${track.requester.id}>`,
+        `**Zaman:** \`${currentMin}:${currentSec} / ${totalMin}:${totalSec}\``
+      ].join('\n'),
+      footer: { text: 'Sudeku Music' }
+  };
+
+  if (track.thumbnail) {
+    embed.thumbnail = { url: track.thumbnail };
+  }
+
+  return { embeds: [embed] };
+}
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('nowplaying')
-    .setDescription('Şu an çalan şarkıyı görsel kart ile gösterir.'),
+    .setDescription('Şu an çalan şarkıyı gösterir.'),
   aliases: ['np', 'calan'],
   category: 'music',
 
@@ -17,32 +44,11 @@ module.exports = {
           color: 0xff3333,
           description: `${EMOJIS.cross} **Şu an hiçbir şey çalmıyor.**`
         }],
-        ephemeral: true
+        flags: 64
       });
     }
 
-    await interaction.deferReply();
-    const track = queue.currentTrack;
-    const ct = queue.playbackTimeMs || 0;
-
-    try {
-      const canvasBuffer = await generateNowPlayingCard(track, track.requester.username, ct);
-      const attachment = new AttachmentBuilder(canvasBuffer, { name: 'nowplaying.png' });
-      return interaction.editReply({
-        files: [attachment]
-      });
-    } catch (err) {
-      console.error('[Nowplaying Command Canvas Error]', err);
-      // Fallback to text embed if canvas fails
-      return interaction.editReply({
-        embeds: [{
-          title: `Şu An Çalıyor`,
-          description: `${EMOJIS.note} [**${track.title}**](${track.url || track.spotifyUrl})\n\n**İsteyen:** <@${track.requester.id}>`,
-          thumbnail: { url: track.thumbnail },
-          color: 0x8b5cf6
-        }]
-      });
-    }
+    return interaction.reply(buildNowPlayingEmbed(queue.currentTrack, queue.playbackTimeMs || 0));
   },
 
   async run(message, args, client, prefix, playerManager) {
@@ -56,25 +62,6 @@ module.exports = {
       });
     }
 
-    const track = queue.currentTrack;
-    const ct = queue.playbackTimeMs || 0;
-
-    try {
-      const canvasBuffer = await generateNowPlayingCard(track, track.requester.username, ct);
-      const attachment = new AttachmentBuilder(canvasBuffer, { name: 'nowplaying.png' });
-      return message.reply({
-        files: [attachment]
-      });
-    } catch (err) {
-      console.error('[Nowplaying Command Canvas Error]', err);
-      return message.reply({
-        embeds: [{
-          title: `Şu An Çalıyor`,
-          description: `${EMOJIS.note} [**${track.title}**](${track.url || track.spotifyUrl})\n\n**İsteyen:** <@${track.requester.id}>`,
-          thumbnail: { url: track.thumbnail },
-          color: 0x8b5cf6
-        }]
-      });
-    }
+    return message.reply(buildNowPlayingEmbed(queue.currentTrack, queue.playbackTimeMs || 0));
   }
 };

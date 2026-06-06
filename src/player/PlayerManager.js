@@ -4,7 +4,6 @@ class PlayerManager {
   constructor(client) {
     this.client = client;
     this.queues = new Map();
-    this.dashboardWS = null; // Will be set when WebSockets server initializes
 
     // Listen to voice state updates to dynamically handle moves and disconnects
     this.client.on('voiceStateUpdate', (oldState, newState) => {
@@ -39,16 +38,6 @@ class PlayerManager {
 
   deleteQueue(guildId) {
     this.queues.delete(guildId);
-    if (this.dashboardWS) {
-      this.dashboardWS.broadcastGuildState(guildId, {
-        guildId,
-        destroyed: true
-      });
-    }
-  }
-
-  setDashboardWS(dashboardWS) {
-    this.dashboardWS = dashboardWS;
   }
 
   getAllQueuesState() {

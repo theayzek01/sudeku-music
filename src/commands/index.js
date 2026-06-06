@@ -1,33 +1,42 @@
-const fs = require('fs');
-const path = require('path');
-
 const commands = [];
 
-function loadCommands(dir) {
-  const files = fs.readdirSync(dir);
-  for (const file of files) {
-    const filePath = path.join(dir, file);
-    const stat = fs.statSync(filePath);
-    if (stat.isDirectory()) {
-      loadCommands(filePath);
-    } else if (file.endsWith('.js') && file !== 'index.js') {
-      try {
-        // Clear require cache to reload cleanly
-        delete require.cache[require.resolve(filePath)];
-        const cmd = require(filePath);
-        if (cmd && cmd.data && typeof cmd.data.name === 'string') {
-          // Category based on folder name
-          cmd.category = path.basename(dir);
-          commands.push(cmd);
-        }
-      } catch (err) {
-        console.error(`[Loader] Hata (${file}):`, err);
-      }
+function loadCommand(relativePath) {
+  const filePath = require.resolve(`./${relativePath}`);
+
+  try {
+    delete require.cache[filePath];
+    const cmd = require(filePath);
+    if (cmd && cmd.data && typeof cmd.data.name === 'string') {
+      commands.push(cmd);
     }
+  } catch (err) {
+    console.error(`[Loader] Hata (${relativePath}):`, err);
   }
 }
 
-loadCommands(__dirname);
+[
+  'music/play.js',
+  'music/pause.js',
+  'music/resume.js',
+  'music/skip.js',
+  'music/stop.js',
+  'music/queue.js',
+  'music/nowplaying.js',
+  'music/volume.js',
+  'music/loop.js',
+  'music/clear.js',
+  'music/shuffle.js',
+  'music/autoplay.js',
+  'music/seek.js',
+  'music/filter.js',
+  'music/lyrics.js',
+  'music/join.js',
+  'music/leave.js',
+  'music/search.js',
+  'utility/stats.js',
+  'utility/rank.js',
+  'utility/love.js'
+].forEach(loadCommand);
 
 function formatMs(ms) {
   if (!ms || ms < 0) return '00:00';

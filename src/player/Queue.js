@@ -8,68 +8,10 @@ const {
   VoiceConnectionDisconnectReason,
   NoSubscriberBehavior
 } = require('@discordjs/voice');
-const { AttachmentBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const play = require('play-dl');
-const { resolveSpotifyTrack, formatMs } = require('./search');
-const { generateNowPlayingCard } = require('./canvasGenerator');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
+const { resolveSpotifyTrack, formatMs, Track, searchYoutube } = require('./search');
+const { getFfmpegPath } = require('./ytDlp');
 const Database = require('../database');
-const https = require('https');
-const { exec, spawn } = require('child_process');
-const fs = require('fs');
-
-function getYtDlpCommand() {
-  const possiblePaths = [
-    'C:\\Users\\ozenc\\AppData\\Local\\Python\\pythoncore-3.14-64\\Scripts\\yt-dlp.exe',
-    process.env.YT_DLP_PATH
-  ];
-  for (const p of possiblePaths) {
-    if (p && fs.existsSync(p)) {
-      return `"${p}"`;
-    }
-  }
-  return 'yt-dlp';
-}
-function getStreamWithYtDlp(ytUrl) {
-  const ytDlpCmd = getYtDlpCommand().replace(/"/g, '');
-  const child = spawn(ytDlpCmd, [
-    '-f', 'bestaudio',
-    '--no-playlist',
-    '--buffer-size', '16K',
-    '-o', '-',
-    ytUrl
-  ], { stdio: ['ignore', 'pipe', 'ignore'] });
-
-  child.stdout.childProcess = child;
-  return child.stdout;
-}
-
-function getDirectUrlWithYtDlp(ytUrl) {
-  return new Promise((resolve, reject) => {
-    const ytDlpCmd = getYtDlpCommand();
-    const cmd = `${ytDlpCmd} -f bestaudio -g "${ytUrl}"`;
-    exec(cmd, (err, stdout, stderr) => {
-      if (err) return reject(err);
-      const url = stdout.trim();
-      if (!url) return reject(new Error("No URL returned from yt-dlp"));
-      resolve(url);
-    });
-  });
-}
-
-function getStreamFromUrl(directUrl) {
-  return new Promise((resolve, reject) => {
-    const req = https.get(directUrl, (res) => {
-      if (res.statusCode !== 200) {
-        reject(new Error(`Failed to get stream: HTTP ${res.statusCode}`));
-        return;
-      }
-      resolve(res);
-    });
-    req.on('error', (err) => {
-      reject(err);
-    });
-  });
-}
 
 const GLOBAL_EMOJIS = require('../utils/emojis');
 
@@ -126,6 +68,9 @@ class Queue {
     this.playbackInterval = null;
     this.disconnectTimeout = null;
     this.nowPlayingMessage = null;
+    this.voiceChannelStatus = null;
+
+    this.playGeneration = 0;
 
     this.initVoice();
   }
@@ -157,10 +102,15 @@ class Queue {
   }
 
   initVoice() {
+    const guild = this.client.guilds.cache.get(this.guildId);
+    if (!guild) {
+      throw new Error(`Guild not found in cache for ${this.guildId}`);
+    }
+
     this.connection = joinVoiceChannel({
       channelId: this.voiceChannelId,
       guildId: this.guildId,
-      adapterCreator: this.client.guilds.cache.get(this.guildId).voiceAdapterCreator
+      adapterCreator: guild.voiceAdapterCreator
     });
 
     this.player = createAudioPlayer({
@@ -234,11 +184,14 @@ class Queue {
           description: `${EMOJIS.cross} **Şarkı yürütülürken hata oluştu!** Sıradaki şarkıya geçiliyor.`
         }]
       });
-      this.playNext();
+      void this.playNext().catch(nextErr => {
+        console.error(`[Queue] playNext failed after player error in ${this.guildId}:`, nextErr);
+      });
     });
   }
 
     async playTrack(track, seekSeconds = 0) {
+    const generation = ++this.playGeneration;
     this.stopPlaybackTicker();
     if (seekSeconds === 0) {
       await this.disableOldMessageButtons();
@@ -249,18 +202,16 @@ class Queue {
     this.playbackTimeMs = seekSeconds * 1000;
 
     try {
-      let playUrl = track.url;
+      let playUrl = track.url || track.resolvedUrl;
 
-      // If it's Spotify, we resolve the search query to a YouTube stream
-      if (track.source === 'spotify' && !track.resolvedUrl) {
-        const resolved = await require('./search').resolveSpotifyTrack(track.title, "");
+      if (track.source === 'spotify' && (!playUrl || !playUrl.startsWith('http'))) {
+        const parts = track.title.split(' - ');
+        const resolved = await resolveSpotifyTrack(parts[0], parts.slice(1).join(' ') || '');
         if (!resolved) {
           throw new Error("Spotify track could not be resolved on YouTube.");
         }
         track.resolvedUrl = resolved;
         playUrl = resolved;
-      } else if (track.source === 'spotify') {
-        playUrl = track.resolvedUrl;
       }
 
       if (!playUrl || typeof playUrl !== 'string' || (!playUrl.startsWith('http://') && !playUrl.startsWith('https://'))) {
@@ -272,29 +223,17 @@ class Queue {
 
     if (!directUrl) {
       try {
-        console.log(`[Queue] play-dl ile stream aranıyor: ${playUrl}`);
-        const stream = await require('play-dl').stream(playUrl, { quality: 2, discordPlayerCompatible: true });
-        directUrl = stream.url;
-      } catch (playDlErr) {
-        console.warn(`[Queue] play-dl ile stream alınamadı, yt-dlp fallback kullanılıyor. Hata: ${playDlErr.message || playDlErr}`);
-        try {
-          console.log(`[Queue] yt-dlp ile doğrudan stream url alınıyor.`);
-          directUrl = await new Promise((resolve, reject) => {
-            const ytDlpCmd = require('path').join(process.env.YT_DLP_PATH || 'C:\\Users\\ozenc\\AppData\\Local\\Python\\pythoncore-3.14-64\\Scripts\\yt-dlp.exe');
-            const { exec } = require('child_process');
-            const cmd = `"${ytDlpCmd}" -f bestaudio -g "${playUrl}"`;
-            exec(cmd, (err, stdout) => {
-              if (err) return reject(err);
-              resolve(stdout.trim());
-            });
-          });
-        } catch (ytDlpErr) {
-          console.error(`[Queue] yt-dlp fallback de başarısız oldu!`, ytDlpErr);
-          throw new Error(`Yayın başlatılamadı (play-dl ve yt-dlp hatası): ${ytDlpErr.message}`);
-        }
+        directUrl = await ytDlp.getDirectAudioUrl(playUrl);
+      } catch (ytDlpErr) {
+        console.error('[Queue] yt-dlp stream URL alınamadı:', ytDlpErr.message || ytDlpErr);
+        throw new Error(`Yayın başlatılamadı: ${ytDlpErr.message}`);
       }
     } else {
       console.log(`[Queue] Ultra-Low Latency: playing using pre-fetched stream URL for track: ${track.title}`);
+    }
+
+    if (generation !== this.playGeneration) {
+      return;
     }
 
     const ffmpegArgs = [];
@@ -317,7 +256,10 @@ class Queue {
       ffmpegArgs.push('-af', this.filterString);
     }
 
-    const ffmpegPath = require('ffmpeg-static');
+    const ffmpegPath = getFfmpegPath();
+    if (!ffmpegPath) {
+      throw new Error('ffmpeg bulunamadı. Lütfen ffmpeg kurulu olsun veya ffmpeg-static paketini tamamlayın.');
+    }
     const prism = require('prism-media');
     const transcoder = new prism.FFmpeg({
       binary: ffmpegPath,
@@ -331,10 +273,15 @@ class Queue {
     });
 
     this.resource.volume.setVolume(this.volume / 100);
+
+    if (generation !== this.playGeneration) {
+      this.cleanupStreams();
+      return;
+    }
+
     this.player.play(this.resource);
 
-    // Start pre-fetching the next track in background
-    this.prefetchNextTrack();
+    await this.updateVoiceChannelStatus().catch(() => {});
 
       // Register track played in database
       if (seekSeconds === 0) {
@@ -350,9 +297,23 @@ class Queue {
         }
       }
 
-      // Announce the song in chat with beautiful canvas card & control buttons
-      try {
+      // Announce the song in chat with a lightweight embed & control buttons
       if (seekSeconds === 0 && this.textChannel) {
+        this.nowPlayingMessage = await this.textChannel.send({
+          embeds: [{
+            title: 'Şu An Çalıyor',
+            description: `${EMOJIS.note} [**${track.title}**](${track.url || track.spotifyUrl})\n\n**Süre:** \`${track.duration}\`\n**İsteyen:** <@${track.requester.id}>`,
+            color: 0x5a189a,
+            thumbnail: track.thumbnail ? { url: track.thumbnail } : undefined,
+            footer: { text: track.source === 'spotify' ? 'Spotify çözümlendi' : 'YouTube akışı' }
+          }],
+          components: this.getControlRows()
+        });
+      }
+
+      // Legacy fallback kept disabled to avoid duplicate/canvas work
+      try {
+      if (false && seekSeconds === 0 && this.textChannel) {
         try {
           const canvasBuffer = await generateNowPlayingCard(track, track.requester.username);
           const attachment = new AttachmentBuilder(canvasBuffer, { name: 'nowplaying.png' });
@@ -393,58 +354,9 @@ class Queue {
           }]
         });
       }
-      this.playNext();
-    }
-  }
-
-  async prefetchNextTrack() {
-    if (this.tracks.length === 0) return;
-    const nextTrack = this.tracks[0];
-    if (nextTrack.directUrl || nextTrack.prefetching) return;
-
-    nextTrack.prefetching = true;
-    try {
-      let playUrl = nextTrack.url;
-      if (nextTrack.source === 'spotify' && !nextTrack.resolvedUrl) {
-        const resolved = await require('./search').resolveSpotifyTrack(nextTrack.title, "");
-        if (resolved) {
-          nextTrack.resolvedUrl = resolved;
-          playUrl = resolved;
-        }
-      } else if (nextTrack.source === 'spotify') {
-        playUrl = nextTrack.resolvedUrl;
-      }
-
-      if (playUrl) {
-        console.log(`[Queue] Background pre-fetching stream URL for: ${nextTrack.title}`);
-        let directUrl = '';
-        try {
-          const stream = await require('play-dl').stream(playUrl, { quality: 2, discordPlayerCompatible: true });
-          directUrl = stream.url;
-        } catch (e) {
-          try {
-            const ytDlpCmd = getYtDlpCommand();
-            directUrl = await new Promise((resolve, reject) => {
-              const { exec } = require('child_process');
-              const cmd = `${ytDlpCmd} -f bestaudio -g "${playUrl}"`;
-              exec(cmd, (err, stdout) => {
-                if (err) return reject(err);
-                resolve(stdout.trim());
-              });
-            });
-          } catch (ytDlpErr) {
-            // failed
-          }
-        }
-        if (directUrl) {
-          nextTrack.directUrl = directUrl;
-          console.log(`[Queue] Successfully pre-fetched stream URL for: ${nextTrack.title}`);
-        }
-      }
-    } catch (err) {
-      console.warn(`[Queue] Pre-fetching failed for: ${nextTrack.title}`, err.message || err);
-    } finally {
-      nextTrack.prefetching = false;
+      void this.playNext().catch(nextErr => {
+        console.error(`[Queue] playNext failed after track error in ${this.guildId}:`, nextErr);
+      });
     }
   }
 
@@ -452,21 +364,25 @@ class Queue {
     const prevButton = new ButtonBuilder()
       .setCustomId('music_prev')
       .setEmoji(EMOJIS.arrowLeft)
+      .setLabel('Önceki')
       .setStyle(ButtonStyle.Secondary);
 
     const playPauseButton = new ButtonBuilder()
       .setCustomId('music_play_pause')
       .setEmoji(this.paused ? EMOJIS.play : EMOJIS.pause)
+      .setLabel(this.paused ? 'Devam' : 'Duraklat')
       .setStyle(ButtonStyle.Secondary);
 
     const skipButton = new ButtonBuilder()
       .setCustomId('music_skip')
       .setEmoji(EMOJIS.arrowRight)
+      .setLabel('İleri')
       .setStyle(ButtonStyle.Secondary);
 
     const stopButton = new ButtonBuilder()
       .setCustomId('music_stop')
       .setEmoji(EMOJIS.stop)
+      .setLabel('Durdur')
       .setStyle(ButtonStyle.Secondary);
 
     const row1 = new ActionRowBuilder().addComponents(prevButton, playPauseButton, skipButton, stopButton);
@@ -476,14 +392,14 @@ class Queue {
       .setCustomId('music_loop')
       .setEmoji(EMOJIS.loop)
       .setLabel(loopLabel)
-      .setStyle(ButtonStyle.Secondary);
+      .setStyle(this.loopMode === 0 ? ButtonStyle.Secondary : ButtonStyle.Primary);
 
     const autoplayLabel = `Oto-Oynat: ${this.autoplay ? 'Açık' : 'Kapalı'}`;
     const autoplayButton = new ButtonBuilder()
       .setCustomId('music_autoplay')
       .setEmoji(EMOJIS.autoplay)
       .setLabel(autoplayLabel)
-      .setStyle(ButtonStyle.Secondary);
+      .setStyle(this.autoplay ? ButtonStyle.Primary : ButtonStyle.Secondary);
 
     const row2 = new ActionRowBuilder().addComponents(loopButton, autoplayButton);
 
@@ -498,6 +414,42 @@ class Queue {
       } catch (err) {
         // Safe check
       }
+    }
+  }
+
+  async updateVoiceChannelStatus() {
+    const guild = this.client.guilds.cache.get(this.guildId);
+    const channel = guild?.channels.cache.get(this.voiceChannelId);
+    const me = guild?.members?.me || await guild?.members?.fetchMe?.().catch(() => null);
+
+    if (!channel || typeof channel.setStatus !== 'function') return;
+    if (!me?.permissions?.has(PermissionFlagsBits.ManageChannels)) return;
+    if (!this.currentTrack) return;
+
+    const statusText = `${EMOJIS.note} ${this.currentTrack.title}`.slice(0, 60);
+    if (this.voiceChannelStatus === statusText) return;
+
+    try {
+      await channel.setStatus(statusText);
+      this.voiceChannelStatus = statusText;
+    } catch {
+      // ignore permission/API failures
+    }
+  }
+
+  async clearVoiceChannelStatus() {
+    const guild = this.client.guilds.cache.get(this.guildId);
+    const channel = guild?.channels.cache.get(this.voiceChannelId);
+    const me = guild?.members?.me || await guild?.members?.fetchMe?.().catch(() => null);
+
+    if (!channel || typeof channel.setStatus !== 'function') return;
+    if (!me?.permissions?.has(PermissionFlagsBits.ManageChannels)) return;
+
+    try {
+      await channel.setStatus(null);
+      this.voiceChannelStatus = null;
+    } catch {
+      // ignore permission/API failures
     }
   }
 
@@ -528,13 +480,19 @@ class Queue {
 
     if (this.loopMode === 1 && this.currentTrack) {
       // Loop track
-      this.playTrack(this.currentTrack);
+      void this.playTrack(this.currentTrack).catch(err => {
+        console.error(`[Queue] Loop replay failed in ${this.guildId}:`, err);
+      });
     } else if (this.loopMode === 2 && this.currentTrack) {
       // Loop queue
       this.tracks.push(this.currentTrack);
-      this.playNext();
+      void this.playNext().catch(err => {
+        console.error(`[Queue] Loop queue advance failed in ${this.guildId}:`, err);
+      });
     } else {
-      this.playNext();
+      void this.playNext().catch(err => {
+        console.error(`[Queue] playNext failed in ${this.guildId}:`, err);
+      });
     }
   }
 
@@ -559,6 +517,7 @@ class Queue {
     if (this.tracks.length === 0) {
       await this.disableOldMessageButtons();
       this.currentTrack = null;
+      this.playbackTimeMs = 0;
       this.resource = null;
       this.broadcastState();
 
@@ -602,14 +561,16 @@ class Queue {
     }
 
     if (!this.currentTrack) {
-      this.playNext();
+      void this.playNext().catch(err => {
+        console.error(`[Queue] Initial playNext failed in ${this.guildId}:`, err);
+      });
     } else {
       this.broadcastState();
-      this.prefetchNextTrack();
     }
   }
 
   skip() {
+    this.playGeneration++;
     this.cleanupStreams();
     this.player.stop();
   }
@@ -623,11 +584,14 @@ class Queue {
   }
 
   stop() {
+    this.playGeneration++;
     this.tracks = [];
     this.currentTrack = null;
+    this.playbackTimeMs = 0;
     this.cleanupStreams();
     this.player.stop();
     this.disableOldMessageButtons();
+    void this.clearVoiceChannelStatus();
     this.broadcastState();
   }
 
@@ -664,17 +628,9 @@ class Queue {
       clearTimeout(this.disconnectTimeout);
       this.disconnectTimeout = null;
     }
-    let tickCount = 0;
-    this.playbackInterval = setInterval(async () => {
+    this.playbackInterval = setInterval(() => {
       if (this.resource && !this.paused) {
         this.playbackTimeMs += 1000;
-        // Broadcast updates to dashboard every 1 second
-        this.broadcastStateOnlyToWS();
-
-        tickCount++;
-        if (tickCount % 15 === 0) {
-          await this.updateNowPlayingEmbed();
-        }
       }
     }, 1000);
   }
@@ -755,38 +711,37 @@ class Queue {
       let query = '';
       if (lastTrack.source === 'spotify') {
         const parts = lastTrack.title.split(' - ');
-        query = parts[1] || parts[0];
+        query = parts.length > 1 ? `${parts[0]} ${parts.slice(1).join(' ')}` : lastTrack.title;
       } else {
         try {
-          const info = await play.video_basic_info(lastTrack.url);
-          query = info.video_details.channel?.name || lastTrack.title;
-        } catch (e) {
+          const info = await ytDlp.getVideoInfo(lastTrack.url || lastTrack.resolvedUrl);
+          query = info.channel || info.uploader || lastTrack.title;
+        } catch {
           query = lastTrack.title;
         }
       }
 
       if (!query) return null;
 
-      const searchResult = await play.search(query, { limit: 10 });
+      const searchResult = await searchYoutube(`${query} music`, 10, this.client.user);
       const historyUrls = this.history.map(t => t.url).filter(Boolean);
       const queueUrls = this.tracks.map(t => t.url).filter(Boolean);
       const excludeUrls = [lastTrack.url, lastTrack.resolvedUrl, ...historyUrls, ...queueUrls].filter(Boolean);
 
-      const candidate = searchResult.find(v => v.url && !excludeUrls.includes(v.url));
+      const candidate = searchResult.find(track => track.url && !excludeUrls.includes(track.url));
       if (candidate) {
-        const Track = lastTrack.constructor;
         return new Track({
           title: candidate.title,
           url: candidate.url,
-          duration: candidate.durationRaw || "0:00",
-          durationMs: candidate.durationInSec * 1000,
-          thumbnail: candidate.thumbnails[0]?.url || "",
+          duration: candidate.duration,
+          durationMs: candidate.durationMs,
+          thumbnail: candidate.thumbnail,
           requester: this.client.user,
           source: 'youtube'
         });
       }
     } catch (err) {
-      console.error("Autoplay track generation error:", err);
+      console.error('Autoplay track generation error:', err.message || err);
     }
     return null;
   }
@@ -795,6 +750,7 @@ class Queue {
     this.stopPlaybackTicker();
     this.disableOldMessageButtons();
     this.cleanupStreams();
+    void this.clearVoiceChannelStatus();
     try {
       this.player.stop();
       this.connection.destroy();
@@ -840,31 +796,7 @@ class Queue {
   }
 
   broadcastState() {
-    // Send state to dashboard WebSocket
-    if (this.playerManager.dashboardWS) {
-      this.playerManager.dashboardWS.broadcastGuildState(this.guildId, this.getState());
-    }
-  }
-
-  broadcastStateOnlyToWS() {
-    if (this.playerManager.dashboardWS) {
-      this.playerManager.dashboardWS.broadcastGuildState(this.guildId, {
-        guildId: this.guildId,
-        playbackTimeMs: this.playbackTimeMs,
-        progressBar: this.getProgressBar(15),
-        currentTrack: this.currentTrack ? {
-          title: this.currentTrack.title,
-          url: this.currentTrack.url || this.currentTrack.spotifyUrl,
-          duration: this.currentTrack.duration,
-          durationMs: this.currentTrack.durationMs,
-          thumbnail: this.currentTrack.thumbnail,
-          requester: this.currentTrack.requester.username,
-          source: this.currentTrack.source,
-          playbackTimeMs: this.playbackTimeMs,
-          progressBar: this.getProgressBar(15)
-        } : null
-      });
-    }
+    return;
   }
 
   async seek(seconds) {
@@ -875,18 +807,25 @@ class Queue {
 
   async setFilter(filterName) {
     const FILTERS = {
-      bassboost: 'bass=g=15:f=110:w=0.6',
-      nightcore: 'asetrate=48000*1.25,aresample=48000',
+      clean: 'highpass=f=80,lowpass=f=16000,volume=1.0',
+      clarity: 'highpass=f=120,lowpass=f=15000,equalizer=f=3200:t=q:w=1:g=3,volume=1.08',
+      bassboost: 'bass=g=14:f=100:w=0.65,volume=1.05',
+      deepbass: 'bass=g=20:f=75:w=0.55,volume=1.08',
+      vocalboost: 'highpass=f=120,lowpass=f=14000,equalizer=f=3200:t=q:w=1:g=5,volume=1.12',
+      vocalcut: 'stereotools=mlev=0.05',
+      radio: 'highpass=f=250,lowpass=f=3500,acompressor=threshold=-18dB:ratio=3:attack=5:release=80,volume=1.1',
+      nightcore: 'asetrate=48000*1.22,aresample=48000,atempo=1.01',
+      vaporwave: 'asetrate=48000*0.82,aresample=48000',
       '8d': 'apulsator=hz=0.08',
-      vaporwave: 'asetrate=48000*0.8,aresample=48000',
-      karaoke: 'stereotools=mlev=0.03',
-      speedup: 'atempo=1.5',
-      slowmo: 'atempo=0.75'
+      echo: 'aecho=0.8:0.9:60:0.35',
+      speedup: 'atempo=1.3',
+      slowmo: 'atempo=0.82'
     };
 
-    if (!filterName || filterName === 'none' || filterName === 'clear') {
+    if (!filterName || filterName === 'none' || filterName === 'clear' || filterName === 'normal') {
       this.filter = null;
       this.filterString = null;
+      this.playbackTimeMs = Math.floor(this.playbackTimeMs || 0);
     } else if (FILTERS[filterName]) {
       this.filter = filterName;
       this.filterString = FILTERS[filterName];

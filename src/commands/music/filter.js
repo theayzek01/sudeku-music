@@ -10,14 +10,20 @@ module.exports = {
         .setDescription('Uygulanacak filtre')
         .setRequired(true)
         .addChoices(
-          { name: 'Filtreyi Temizle (Normal)', value: 'none' },
-          { name: 'Bassboost (Aşırı Bass)', value: 'bassboost' },
-          { name: 'Nightcore (Hızlı & Tiz)', value: 'nightcore' },
-          { name: '8D (Kulaklıkta Dönen Ses)', value: '8d' },
-          { name: 'Vaporwave (Yavaş & Estetik)', value: 'vaporwave' },
-          { name: 'Karaoke (Vokali Kısar)', value: 'karaoke' },
-          { name: 'Speedup (1.5x Hız)', value: 'speedup' },
-          { name: 'Slowmo (0.75x Hız)', value: 'slowmo' }
+          { name: 'Normal (Temiz)', value: 'none' },
+          { name: 'Temiz Ses', value: 'clean' },
+          { name: 'Netlik', value: 'clarity' },
+          { name: 'Bassboost', value: 'bassboost' },
+          { name: 'Derin Bass', value: 'deepbass' },
+          { name: 'Vokal Boost', value: 'vocalboost' },
+          { name: 'Vokal Kısma', value: 'vocalcut' },
+          { name: 'Radio', value: 'radio' },
+          { name: 'Nightcore', value: 'nightcore' },
+          { name: 'Vaporwave', value: 'vaporwave' },
+          { name: '8D', value: '8d' },
+          { name: 'Echo', value: 'echo' },
+          { name: 'Speedup', value: 'speedup' },
+          { name: 'Slowmo', value: 'slowmo' }
         )
     ),
   aliases: ['filtre', 'efekt'],
@@ -31,7 +37,7 @@ module.exports = {
           color: 0xff3333,
           description: `${EMOJIS.cross} **Aktif çalan bir şarkı yok!**`
         }],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -44,7 +50,7 @@ module.exports = {
       return interaction.editReply({ content: `${EMOJIS.cross} Geçersiz filtre seçeneği.` });
     }
 
-    const desc = filterVal === 'none' ? 'Tüm filtreler temizlendi.' : `\`${filterVal}\` filtresi uygulandı.`;
+    const desc = filterVal === 'none' || filterVal === 'normal' ? 'Tüm filtreler temizlendi.' : `\`${filterVal}\` filtresi uygulandı.`;
     return interaction.editReply({
       embeds: [{
         color: 0x8b5cf6,
@@ -65,18 +71,24 @@ module.exports = {
     }
 
     const filterVal = args[0] ? args[0].toLowerCase() : null;
-    const valid = ['none', 'clear', 'bassboost', 'nightcore', '8d', 'vaporwave', 'karaoke', 'speedup', 'slowmo'];
+    const valid = ['none', 'clear', 'normal', 'clean', 'clarity', 'bassboost', 'deepbass', 'vocalboost', 'vocalcut', 'radio', 'nightcore', 'vaporwave', '8d', 'echo', 'speedup', 'slowmo'];
     
     if (!filterVal || !valid.includes(filterVal)) {
       return message.reply({
         embeds: [{
           title: `${EMOJIS.note} Ses Filtreleri`,
           description: `Kullanabileceğin filtreler:\n` +
+            `• \`${prefix}filter clean\`\n` +
+            `• \`${prefix}filter clarity\`\n` +
             `• \`${prefix}filter bassboost\`\n` +
+            `• \`${prefix}filter deepbass\`\n` +
+            `• \`${prefix}filter vocalboost\`\n` +
+            `• \`${prefix}filter vocalcut\`\n` +
+            `• \`${prefix}filter radio\`\n` +
             `• \`${prefix}filter nightcore\`\n` +
-            `• \`${prefix}filter 8d\`\n` +
             `• \`${prefix}filter vaporwave\`\n` +
-            `• \`${prefix}filter karaoke\`\n` +
+            `• \`${prefix}filter 8d\`\n` +
+            `• \`${prefix}filter echo\`\n` +
             `• \`${prefix}filter speedup\`\n` +
             `• \`${prefix}filter slowmo\`\n` +
             `• \`${prefix}filter clear\` (Filtreleri kapatır)`,
@@ -85,7 +97,7 @@ module.exports = {
       });
     }
 
-    const mappedVal = filterVal === 'clear' ? 'none' : filterVal;
+    const mappedVal = (filterVal === 'clear' || filterVal === 'normal') ? 'none' : filterVal;
     const loadingMsg = await message.reply({ content: `${EMOJIS.loading} Filtre uygulanıyor (şarkı sarılıyor)...` });
     
     await queue.setFilter(mappedVal);
