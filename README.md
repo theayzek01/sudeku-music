@@ -1,103 +1,179 @@
-# <img src="https://api.iconify.design/lucide/music.svg?color=%235865F2" width="28" height="28" valign="middle" /> Sudeku Music - Premium Discord Music Bot
+# Sudeku Music
+
+Discord sunucuları için müzik odaklı, slash komutlu ve kendi kendini toparlamaya çalışan bir bot.
+
+YouTube tarafında `yt-dlp`, ses tarafında `ffmpeg-static`, Discord tarafında `discord.js v14` kullanır. Spotify linklerini de YouTube üzerinden çözüp sıraya alabilir. İstersen mention/DM üzerinden AI sohbet özelliği de çalışır.
 
 <p align="center">
-  <img src="assets/sudekubanner.png" alt="Sudeku Music Banner" width="100%">
+  <img src="assets/sudekubanner.png" alt="Sudeku Music" width="100%">
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node.js-v18+-green?style=for-the-badge&logo=node.js" alt="Node Version">
-  <img src="https://img.shields.io/badge/Discord.js-v14-blue?style=for-the-badge&logo=discord" alt="DiscordJS Version">
-   <img src="https://img.shields.io/badge/License-MIT-red?style=for-the-badge" alt="License">
-</p>
+## Neler var?
 
----
+- YouTube arama, YouTube linki ve Spotify linki ile çalma
+- Sıra sistemi, geçmiş, önceki şarkı, karıştırma, döngü ve autoplay
+- Butonlu oynatma kontrolü: duraklat, devam et, geç, önceki, durdur
+- Ses filtreleri: bassboost, nightcore, vaporwave, 8D, echo ve diğerleri
+- Şarkı sözü arama
+- Rank, avatar, server info, istatistik ve love gibi yardımcı komutlar
+- Slash komutları ve `a.` / `a!` prefix desteği
+- AI sohbet: DM veya bot mention ile cevap verir
+- SQLite tabanlı XP, voice time ve kullanım verisi
+- `yt-dlp` ve `ffmpeg` runtime kontrolü
 
-## <img src="https://api.iconify.design/lucide/sparkles.svg?color=%23FFD700" width="22" height="22" valign="middle" /> Özellikler
+## Kurulum
 
-Sudeku Music, modern Discord toplulukları için geliştirilmiş, hızlı, sade ve dayanıklı bir müzik botudur.
+Gerekenler:
 
-* <img src="https://api.iconify.design/lucide/headphones.svg?color=%231DB954" width="18" height="18" valign="middle" /> **Yüksek Kaliteli Ses:** En düşük gecikme ve en yüksek kalitede ses deneyimi.
-* <img src="https://api.iconify.design/lucide/sliders.svg?color=%23FF8C00" width="18" height="18" valign="middle" /> **Zengin Buton Kontrolleri:** Şarkı geçişleri, duraklatma, döngü ve otomatik oynatma gibi özellikleri doğrudan mesaj butonlarıyla kontrol edin.
-* <img src="https://api.iconify.design/lucide/shuffle.svg?color=%239400D3" width="18" height="18" valign="middle" /> **Akıllı Otomatik Oynatma (Autoplay):** Sıra bittiğinde son çalan şarkıya benzer şarkıları otomatik bularak kesintisiz çalma keyfi sunar.
-* <img src="https://api.iconify.design/lucide/refresh-cw.svg?color=%23FF4500" width="18" height="18" valign="middle" /> **Çift Katmanlı Arama Mekanizması:** `play-dl` temelli, otomatik `yt-dlp` fallback ve indirme desteği olan dayanıklı altyapı.
-* <img src="https://api.iconify.design/lucide/terminal.svg?color=%2300FF00" width="18" height="18" valign="middle" /> **Slash Komutları:** Discord'un en yeni Slash komutları ile tam uyumlu yapı.
+- Node.js 18 veya üstü
+- Discord bot token
+- Discord Developer Portal'da `Message Content Intent` açık olmalı
 
----
-
-## <img src="https://api.iconify.design/lucide/wrench.svg?color=%23A9A9A9" width="22" height="22" valign="middle" /> Kurulum Rehberi
-
-Projeyi kendi sunucunuzda çalıştırmak için aşağıdaki adımları takip edebilirsiniz.
-
-### Gereksinimler
-* **Node.js v18** veya üzeri
-* **FFmpeg** (kurulu olmalı veya PATH üzerinde bulunmalı)
-
-### 1. Dosyaları İndirin ve Bağımlılıkları Yükleyin
+Bağımlılıkları yükle:
 
 ```bash
-# Bağımlılıkları yükleyin
 npm install
 ```
 
-### 2. Yapılandırma Dosyasını Hazırlayın
-
-Proje kök dizininde `sudekuenv.env` ya da `.env` oluşturun ve aşağıdaki alanları doldurun:
+`.env` veya `sudekuenv.env` dosyası oluştur:
 
 ```env
-DISCORD_TOKEN=YOUR_DISCORD_BOT_TOKEN
-CLIENT_ID=YOUR_DISCORD_CLIENT_ID
-PORT=3000
+TOKEN=discord_bot_tokenin
 ```
 
-> **Not:** Bot Token'ınızı ve Client ID'nizi [Discord Developer Portal](https://discord.com/developers/applications) üzerinden temin edebilirsiniz. Botunuza **Privileged Gateway Intents** kısmından `Message Content Intent` ve `Guild Members Intent` yetkilerini vermeyi unutmayın.
+Kod `Token` adını da kabul eder:
 
-### 3. Botu Başlatın
+```env
+Token=discord_bot_tokenin
+```
 
-Projeyi başlatmak için aşağıdaki komutlardan birini kullanabilirsiniz:
+Botu başlat:
 
 ```bash
-# Node ile doğrudan çalıştırma
-node src/index.js
-
-# Windows için baslat.bat dosyasını kullanabilirsiniz
-baslat.bat
+npm start
 ```
 
-> İlk çalıştırmada bot, uygunysa `yt-dlp`'yi otomatik indirir. `ffmpeg` yine sistemde kurulu veya PATH üzerinde olmalıdır.
+Windows'ta istersen `baslat.bat` ile de başlatabilirsin.
 
----
+## Opsiyonel ayarlar
 
-## <img src="https://api.iconify.design/lucide/gamepad-2.svg?color=%23FF1493" width="22" height="22" valign="middle" /> Slash Komutları
+Spotify API bilgileri yoksa bot yine çalışır. Spotify linkleri için embed/fallback çözümünü dener.
 
-| Komut | Açıklama |
-| :--- | :--- |
-| `/play` | YouTube, Spotify veya arama terimi girerek ses kanalında müzik çalar. |
-| `/skip` | Çalmakta olan şarkıyı geçer. |
-| `/pause` | Müziği duraklatır. |
-| `/resume` | Duraklatılmış müziği devam ettirir. |
-| `/stop` | Oynatıcıyı durdurur, sırayı temizler ve kanaldan ayrılır. |
-| `/queue` | Geçerli müzik sırasını listeler. |
-| `/nowplaying` | O an çalan şarkının detaylarını minimal embed ile gösterir. |
-| `/join` | Botu mevcut ses kanalına alır. |
+```env
+SPOTIFY_CLIENT_ID=
+SPOTIFY_CLIENT_SECRET=
+SPOTIFY_REFRESH_TOKEN=
+SPOTIFY_MARKET=TR
+```
+
+AI için OpenRouter kullan:
+
+```env
+AI_PROVIDER=openrouter
+OPENROUTER_API_KEY=...
+OPENROUTER_API_KEY_2=...
+OPENROUTER_API_KEY_3=...
+OPENROUTER_MODEL=openai/gpt-oss-20b:free
+```
+
+Birden fazla key varsa bot sırayla dener; kota/rate limit veya key hatasında otomatik sonraki keye geçer. İstersen tek satırda `OPENROUTER_API_KEYS=key1,key2,key3` formatı da çalışır.
+
+OpenAI uyumlu başka bir endpoint kullanmak istersen:
+
+```env
+AI_PROVIDER=openai
+OPENAI_BASE_URL=https://openrouter.ai/api/v1
+OPENAI_API_KEY=...
+OPENAI_MODEL=openai/gpt-oss-20b:free
+```
+
+Elle binary yolu vermek istersen:
+
+```env
+YT_DLP_PATH=C:\path\to\yt-dlp.exe
+FFMPEG_PATH=C:\path\to\ffmpeg.exe
+```
+
+## Komutlar
+
+Müzik:
+
+| Komut | Ne yapar? |
+| --- | --- |
+| `/play` | Şarkı/link arar ve sıraya ekler. |
+| `/search` | Sonuçları butonlarla gezdirip seçtirir. |
+| `/queue` | Sırayı gösterir. |
+| `/nowplaying` | Çalan şarkıyı gösterir. |
+| `/skip` | Sonraki şarkıya geçer. |
+| `/pause` | Çalmayı duraklatır. |
+| `/resume` | Devam ettirir. |
+| `/stop` | Sırayı temizler ve oynatıcıyı durdurur. |
+| `/join` | Botu ses kanalına alır. |
 | `/leave` | Botu ses kanalından çıkarır. |
-| `/search` | Şarkı arar, sonuçları oklarla gezdirir ve sıraya ekler. |
-| `/volume` | Ses seviyesini ayarlar (0 - 100). |
-| `/loop` | Döngü modunu değiştirir (Kapalı, Şarkı, Sıra). |
-| `/shuffle` | Sıradaki şarkıları karıştırır. |
-| `/clear` | Sıradaki tüm şarkıları temizler. |
+| `/volume` | Ses seviyesini ayarlar. |
+| `/loop` | Döngü modunu değiştirir. |
+| `/autoplay` | Otomatik çalmayı açar/kapatır. |
+| `/shuffle` | Sırayı karıştırır. |
+| `/clear` | Sırayı temizler. |
+| `/seek` | Şarkıyı belirli saniyeye sarar. |
 | `/filter` | Ses filtresi uygular. |
-| `/stats` | Botun sistem kullanımını ve istatistiklerini gösterir. |
-| `/rank` | Kullanıcının seviyesini gösterir. |
-| `/love` | İki kullanıcı arasındaki aşk uyumunu gösterir. |
+| `/lyrics` | Şarkı sözlerini arar. |
 
----
+Yardımcı komutlar:
 
-## <img src="https://api.iconify.design/lucide/file-text.svg?color=%23708090" width="22" height="22" valign="middle" /> Lisans
+| Komut | Ne yapar? |
+| --- | --- |
+| `/help` | Komut listesini gösterir. |
+| `/rank` | Kullanıcının seviye kartını gösterir. |
+| `/stats` | Bot ve sistem durumunu gösterir. |
+| `/avatar` | Kullanıcı avatarını gösterir. |
+| `/serverinfo` | Sunucu bilgisini gösterir. |
+| `/love` | İki kullanıcı için uyum kartı üretir. |
 
-Bu proje **MIT** lisansı altında lisanslanmıştır. Detaylar için kaynak kodları inceleyebilirsiniz.
+Prefix komutları da var:
 
----
+```text
+a.play şarkı adı
+a.queue
+a.skip
+a.filter bassboost
+```
 
-<p align="center">
-  Geliştirici ve Topluluklar için Sevgiyle Tasarlandı. 🌌
-</p>
+## Bakım komutları
+
+Syntax kontrolü:
+
+```bash
+npm test
+```
+
+Aynı kontrol için:
+
+```bash
+npm run check
+```
+
+Tüm runtime verisini sıfırla:
+
+```bash
+npm run reset:data
+```
+
+Bu komut AI hafızasını, kısa geçmişi, adaptive state dosyasını ve SQLite veritabanını temizler. `data/dataset.json` ve `data/persona-report.md` korunur.
+
+## Sorun giderme
+
+`Token tanımlanmamış` hatası alırsan `.env` veya `sudekuenv.env` içinde `TOKEN` ya da `Token` olduğundan emin ol.
+
+`Yayın başlatılamadı` hatası genelde `yt-dlp` veya YouTube tarafındaki geçici erişim sorunundan gelir. `npm start` logunda `yt-dlp hazır` ve `ffmpeg` satırlarını kontrol et.
+
+Slash komutları hemen görünmezse Discord'un global komut yayılımını bekle. Bot her açılışta global komutları yeniden kaydeder.
+
+AI cevapları sürekli fallback dönüyorsa OpenRouter/OpenAI API key veya model adını kontrol et. AI kapalı kalsa bile müzik sistemi çalışır.
+
+## Notlar
+
+- Veritabanı dosyası: `sudeku.db`
+- Runtime AI verileri: `data/bot-memory.json`, `data/short-history.json`, `data/adaptive-state.json`, `data/mind-core.json`
+- Slash komutları global kaydedilir
+- Lisans bilgisi `package.json` içinde `ISC` olarak duruyor

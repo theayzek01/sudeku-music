@@ -1,7 +1,7 @@
 const path = require('path');
 const { readJson, writeJsonAtomic } = require('./store');
 const aiConfig = require('./aiConfig');
-const { OllamaClient } = require('./ollama');
+const { OpenRouterClient } = require('./openRouter');
 const { PersonaEngine } = require('./persona');
 const { VectorMemory } = require('./vectorMemory');
 const adaptiveState = require('./adaptiveState');
@@ -25,6 +25,12 @@ function hasCrisis(text) {
   return /intihar|kendimi öldür|ölmek ist|yaşamak istem|yasamak istem|kendime zarar|bilek|kriz|dayanamıyorum|dayanamiyorum/i.test(text || '');
 }
 
+function formatBelief(belief) {
+  if (typeof belief === 'string') return belief.trim();
+  if (belief && typeof belief === 'object') return String(belief.text || belief.summary || '').trim();
+  return '';
+}
+
 /**
  * Helper to decide how many memory items to fetch based on message length & intent.
  */
@@ -39,8 +45,9 @@ function analyzeIntent(content) {
  * Build a compact context string respecting token budget.
  */
 function compactContext({ memoryItems, styleExamples, rel, adaptive, culture, responsePlan, style }) {
-  const beliefs = rel.coreBeliefs && rel.coreBeliefs.length
-    ? rel.coreBeliefs.slice(0, 5).map(b => `- ${b}`).join('\n')
+  const beliefRows = (rel.coreBeliefs || []).map(formatBelief).filter(Boolean);
+  const beliefs = beliefRows.length
+    ? beliefRows.slice(0, 5).map(b => `- ${b}`).join('\n')
     : 'belirgin inanç yok';
 
   const memBlock = memoryItems.length
@@ -69,9 +76,10 @@ function compactContext({ memoryItems, styleExamples, rel, adaptive, culture, re
 
 class ChatEngine {
   constructor() {
-    this.ollama = new OllamaClient();
+    this.ai = new OpenRouterClient();
     this.persona = new PersonaEngine();
     this.memory = new VectorMemory();
+    relationshipEngine.setMemory(this.memory);
     this.shortHistoryFile = path.join(path.dirname(aiConfig.data.memoryPath), 'short-history.json');
     this.shortHistory = new Map(Object.entries(readJson(this.shortHistoryFile, {})));
     this.inFlight = new Set();
@@ -121,7 +129,7 @@ class ChatEngine {
   }
 
   /**
-   * Build the full message list for Ollama.
+   * Build the full message list for the OpenRouter request.
    */
   buildMessages({ userId, userName, channelId, guildId, guild, content }) {
     // 1️⃣ Intent analysis for budgeting
@@ -136,8 +144,8 @@ class ChatEngine {
     const rel = relationshipEngine.getRelationship(userId, userName);
     const adaptive = adaptiveState.styleContext({ guildId, channelId, userId, guild });
     const style = adaptive;
-    const culture = channelCulture.getContext(channelId);
-    const responsePlan = this.persona.planResponse(content, rel);
+    const culture = channelCulture.context(channelId);
+    const responsePlan = plan({ text: content, style, userId, channelId });
     const staticSystemPrompt = this.persona.systemPrompt();
     // 5️⃣ Build compact dynamic content
     const dynamicContent = compactContext({ memoryItems, styleExamples, rel, adaptive, culture, responsePlan, style });
@@ -176,6 +184,7 @@ class ChatEngine {
       relationshipEngine.processMessageForRelationship(userId, userName, clean);
       mindCore.observe({ text: clean, author: userName, guildId: guildId || 'dm' });
       const messages = this.buildMessages({ userId, userName, channelId, guildId, guild, content: clean });
+      const style = adaptiveState.styleContext({ guildId, channelId, userId, guild });
       this.pushHistory(channelId, userId, 'user', clean);
       const rel = relationshipEngine.getRelationship(userId, userName);
       const userWords = clean.split(/\s+/).filter(Boolean).length;
@@ -187,7 +196,7 @@ class ChatEngine {
       } else if (userWords <= 10) {
         dynamicPredict = 140;
       }
-      let answer = await this.ollama.chat(messages, { numPredict: dynamicPredict });
+      let answer = await this.ai.chat(messages, { numPredict: dynamicPredict });
       const styleBefore = style;
       answer = stylePostprocess(clampDiscord(answer), {
         userText: clean,
@@ -207,7 +216,10 @@ class ChatEngine {
       mindCore.save();
       adaptiveState.save();
       const actions = adaptiveState.decideActions({ text: `${clean}\n${answer}`, guild, style });
-      if (!cfg.react) actions.react = null;
+      if (!cfg.react) {
+        actions.react = null;
+        actions.useEmoji = null;
+      }
       if (!cfg.gifs) actions.gifQuery = null;
       if (actions.useEmoji && answer.length < aiConfig.chat.maxDiscordReplyLength - actions.useEmoji.length - 2 && !answer.includes(actions.useEmoji)) {
         answer = stylePostprocess(answer, {
@@ -223,7 +235,7 @@ class ChatEngine {
     } catch (error) {
       console.error('[AI CHAT ERROR]', error);
       metrics.error('ai-chat', error);
-      const fallback = 'of şu an model tarafı takıldı gibi ama mesajını gördüm tekrar yazarsan denerim';
+      const fallback = 'bi an kaçırdım ya tekrar yazsana';
       this.pushHistory(channelId, userId, 'assistant', fallback);
       return { content: fallback, actions: {}, mood: null };
     } finally {
@@ -245,7 +257,7 @@ class ChatEngine {
   }
 
   stats(userId) { return this.memory.stats(userId); }
-  health() { return this.ollama.health(); }
+  health() { return this.ai.health(); }
 }
 
 module.exports = new ChatEngine();

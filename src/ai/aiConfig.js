@@ -2,30 +2,57 @@ const path = require('path');
 
 const rootDir = process.cwd();
 const defaultName = ['su', 'de', 'ku'].join('');
+const requestedProvider = String(process.env.AI_PROVIDER || 'openrouter').toLowerCase();
+
+function splitEnvList(value) {
+  return String(value || '')
+    .split(/[\s,]+/)
+    .map(x => x.trim())
+    .filter(Boolean);
+}
+
+function numberedEnv(prefix) {
+  const keys = [];
+  for (let i = 2; i <= 10; i++) keys.push(...splitEnvList(process.env[`${prefix}_${i}`]));
+  return keys;
+}
+
+function unique(values) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+const openRouterApiKeys = unique([
+  ...splitEnvList(process.env.OPENROUTER_API_KEY),
+  ...splitEnvList(process.env.OPENROUTER_API_KEYS),
+  ...numberedEnv('OPENROUTER_API_KEY'),
+  ...splitEnvList(process.env.AI_API_KEY),
+  ...splitEnvList(process.env.AI_API_KEYS),
+]);
+
+const openAiApiKeys = unique([
+  ...splitEnvList(process.env.OPENAI_API_KEY),
+  ...splitEnvList(process.env.OPENAI_API_KEYS),
+  ...numberedEnv('OPENAI_API_KEY'),
+  ...splitEnvList(process.env.AI_API_KEY),
+  ...splitEnvList(process.env.AI_API_KEYS),
+]);
+
+const apiKeys = requestedProvider === 'openai'
+  ? unique([...openAiApiKeys, ...openRouterApiKeys])
+  : unique([...openRouterApiKeys, ...openAiApiKeys]);
 
 module.exports = {
   botName: process.env.BOT_NAME || defaultName,
-  provider: process.env.AI_PROVIDER || (process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY ? 'openai' : 'ollama'),
-  ollama: {
-    baseUrl: process.env.OLLAMA_BASE_URL || 'http://127.0.0.1:11434',
-    model: process.env.OLLAMA_MODEL || process.env.OPENAI_MODEL || 'openai/gpt-oss-20b:free',
-    timeoutMs: Number(process.env.OLLAMA_TIMEOUT_MS || 120000),
-    numPredict: Number(process.env.OLLAMA_NUM_PREDICT || 88),
-    temperature: Number(process.env.OLLAMA_TEMPERATURE || 0.7),
-    topP: Number(process.env.OLLAMA_TOP_P || 0.9),
-    repeatPenalty: Number(process.env.OLLAMA_REPEAT_PENALTY || 1.12),
-    numCtx: Number(process.env.OLLAMA_NUM_CTX || 4096),
-  },
+  provider: requestedProvider === 'openai' ? 'openai' : 'openrouter',
   openai: {
     baseUrl: process.env.OPENAI_BASE_URL || process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1',
-    apiKey: process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY || process.env.AI_API_KEY || '',
-    model: process.env.OPENAI_MODEL || process.env.OPENROUTER_MODEL || process.env.OLLAMA_MODEL || 'openai/gpt-oss-20b:free',
+    apiKey: apiKeys[0] || '',
+    apiKeys,
+    model: process.env.OPENAI_MODEL || process.env.OPENROUTER_MODEL || 'openai/gpt-oss-20b:free',
     timeoutMs: Number(process.env.OPENAI_TIMEOUT_MS || 120000),
-    temperature: Number(process.env.OPENAI_TEMPERATURE || process.env.OLLAMA_TEMPERATURE || 0.7),
-    topP: Number(process.env.OPENAI_TOP_P || process.env.OLLAMA_TOP_P || 0.9),
-    repeatPenalty: Number(process.env.OPENAI_REPEAT_PENALTY || process.env.OLLAMA_REPEAT_PENALTY || 1.12),
-    numCtx: Number(process.env.OPENAI_NUM_CTX || process.env.OLLAMA_NUM_CTX || 4096),
-    numPredict: Number(process.env.OPENAI_NUM_PREDICT || process.env.OLLAMA_NUM_PREDICT || 88),
+    temperature: Number(process.env.OPENAI_TEMPERATURE || 0.7),
+    topP: Number(process.env.OPENAI_TOP_P || 0.9),
+    numPredict: Number(process.env.OPENAI_NUM_PREDICT || 180),
   },
   data: {
     datasetPath: process.env.DATASET_PATH || path.join(rootDir, 'data', 'dataset.json'),

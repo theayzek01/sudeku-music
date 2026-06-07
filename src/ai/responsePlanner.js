@@ -7,6 +7,8 @@ function hash01(seed) {
 
 function intentOf(text) {
   const clean = normalizeText(text);
+  if (/^(selam|sa|sea|slm|merhaba|mrb)\b/i.test(clean)) return 'greeting';
+  if (/\b(naber|napıyon|napion|nasılsın|nasilsin|napiyon|napıyosun|napiosun)\b/i.test(clean)) return 'greeting';
   if (/seviş|öp|ıslak|yatak|istiyorum|dokun|soyun|çıplak|sex|seks|am|göt|meme|yala|sürt|kucağıma|okşa|arzul|dudak|vücut|tenin|hot|nude|porno|erot/i.test(clean)) return 'erotic';
   if (/\?$|ne|nasıl|nasil|neden|kim|hangi|mi\b|mı\b|mu\b|mü\b/i.test(text)) return 'question';
   if (/üzgün|kotü|kötü|yoruldum|bıktım|yalnız|aglı|ağlı|kriz|olmuyor/i.test(clean)) return 'support';
@@ -20,9 +22,10 @@ function plan({ text, style, userId, channelId }) {
   const intent = intentOf(text);
   const seed = `${userId}:${channelId}:${text}:${Math.floor(Date.now() / 180000)}`;
   const r = hash01(seed);
-  const length = intent === 'support' ? (r < 0.5 ? 'short' : 'medium') : r < 0.9 ? 'short' : 'very_short';
+  const length = intent === 'support' ? (r < 0.5 ? 'short' : 'medium') : intent === 'greeting' ? 'very_short' : r < 0.9 ? 'short' : 'very_short';
   const formats = ['plain', 'dry_short', 'soft_take', 'quiet', 'teasing'];
   let format = formats[Math.floor(hash01(seed + ':fmt') * formats.length)] || 'plain';
+  if (intent === 'greeting') format = r < 0.7 ? 'plain' : 'dry_short';
   if (intent === 'support') format = r < 0.75 ? 'soft_take' : 'quiet';
   if (intent === 'question') format = r < 0.7 ? 'plain' : 'dry_short';
   const punctuation = r < 0.75 ? 'low' : 'normal';
@@ -39,9 +42,10 @@ function promptForPlan(plan) {
     `- noktalama: ${plan.punctuation}`,
     `- ruh hali: ${plan.mood}`,
     plan.emoji ? `- uygunsa şu ortam emojisini doğal kullan: ${plan.emoji}` : '- emoji zorunlu değil',
+    plan.intent === 'greeting' ? '- kısa selam/naber ise sadece doğal karşılık ver; alakasız saat/gün sorusu açma' : null,
     '- bu plana uy ama mekanik görünme',
     '- ortam kelimelerini birebir doldurma; kanal havasını ritim ve kısalıkla yakala',
-  ].join('\n');
+  ].filter(Boolean).join('\n');
 }
 
 module.exports = { plan, promptForPlan, intentOf };

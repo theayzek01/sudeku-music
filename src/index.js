@@ -8,12 +8,30 @@ const { commands } = require('./commands');
 const EMOJIS = require('./utils/emojis');
 const { ensureYtDlp, getFfmpegPath } = require('./player/ytDlp');
 const chatEngine = require('./ai/chatEngine');
+const guildConfig = require('./ai/guildConfig');
+const aiConfig = require('./ai/aiConfig');
 
 const TOKEN = process.env.Token || process.env.TOKEN;
 
 function isPermissionError(error) {
   return [50001, 50013].includes(error?.code)
     || /missing permissions|missing access|forbidden/i.test(error?.message || '');
+}
+
+async function withTyping(channel, task) {
+  let typingTimer = null;
+
+  if (typeof channel?.sendTyping === 'function') {
+    await channel.sendTyping().catch(() => {});
+    typingTimer = setInterval(() => channel.sendTyping().catch(() => {}), 8000);
+    if (typeof typingTimer.unref === 'function') typingTimer.unref();
+  }
+
+  try {
+    return await task();
+  } finally {
+    if (typingTimer) clearInterval(typingTimer);
+  }
 }
 
 if (!TOKEN) {
@@ -85,6 +103,7 @@ client.once(Events.ClientReady, async (readyClient) => {
 
   const ffmpegPath = getFfmpegPath();
   console.log(`[Runtime] ffmpeg: ${ffmpegPath || 'bulunamadı (ffmpeg-static/PATH kontrol edin)'}`);
+  console.log(`[Runtime] AI: ${aiConfig.provider} / ${aiConfig.openai.model} / key: ${aiConfig.openai.apiKeys.length || 0} adet`);
 
   // Register slash commands
   try {
@@ -121,6 +140,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
     const command = commands.find(c => c.data.name === interaction.commandName);
     if (!command) return;
 
+    if (command.category === 'music' && !interaction.inGuild()) {
+      return interaction.reply({ content: 'Müzik komutları sadece sunucularda kullanılabilir.', flags: 64 });
+    }
+
     try {
       await command.execute(interaction, playerManager);
     } catch (error) {
@@ -146,13 +169,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
         return;
       }
 
+      if (!interaction.inGuild()) {
+        return interaction.reply({ content: 'Bu buton sadece sunucuda kullanılabilir.', flags: 64 });
+      }
+
       // Music Buttons
       const queue = playerManager.getQueue(interaction.guildId);
       if (!queue) {
         return interaction.reply({ content: 'Aktif bir müzik oynatıcısı bulunamadı.', flags: 64 });
       }
 
-      const memberVoice = interaction.member.voice.channel;
+      const memberVoice = interaction.member?.voice?.channel;
       if (!memberVoice || memberVoice.id !== queue.voiceChannelId) {
         return interaction.reply({ content: 'Bu butonları kullanabilmek için bot ile aynı ses kanalında olmalısınız!', flags: 64 });
       }
@@ -218,6 +245,14 @@ const xpCooldowns = new Set();
 client.on(Events.MessageCreate, async (message) => {
   if (message.author.bot) return;
 
+  try {
+    if (guildConfig.get(message.guildId || 'dm').learn !== false) {
+      chatEngine.observe(message);
+    }
+  } catch (error) {
+    console.error('[AI Observe Error]', error);
+  }
+
   const isDM = !message.guild;
   const isMentioned = !isDM && (message.mentions?.users?.has?.(client.user.id) || new RegExp(`^<@!?${client.user.id}>`).test(message.content));
 
@@ -226,14 +261,14 @@ client.on(Events.MessageCreate, async (message) => {
       const cleanContent = message.content
         .replace(new RegExp(`<@!?${client.user.id}>`, 'g'), '')
         .trim();
-      const result = await chatEngine.replyRich({
+      const result = await withTyping(message.channel, () => chatEngine.replyRich({
         userId: message.author.id,
         userName: message.author.username,
         channelId: message.channelId,
         guildId: message.guildId || 'dm',
         guild: message.guild || null,
         content: cleanContent || message.content,
-      });
+      }));
 
       const reply = await message.reply({ content: result.content, allowedMentions: { repliedUser: false } });
       if (Array.isArray(result.actions?.react)) {
@@ -296,7 +331,7 @@ client.on(Events.MessageCreate, async (message) => {
 
   try {
     if (typeof command.run === 'function') {
-      await command.run(message, args, client, prefix);
+      await command.run(message, args, client, prefix, playerManager);
     } else {
       message.reply(`${EMOJIS.cross} Bu komut şu an prefix ile çalıştırılamıyor.`);
     }
