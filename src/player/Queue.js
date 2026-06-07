@@ -10,7 +10,8 @@ const {
 } = require('@discordjs/voice');
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const { resolveSpotifyTrack, formatMs, Track, searchYoutube } = require('./search');
-const { getFfmpegPath } = require('./ytDlp');
+const ytDlp = require('./ytDlp');
+const { getFfmpegPath } = ytDlp;
 const Database = require('../database');
 
 const GLOBAL_EMOJIS = require('../utils/emojis');
@@ -42,7 +43,8 @@ const EMOJIS = {
   get pause() { return GLOBAL_EMOJIS.pause; },
   get stop() { return GLOBAL_EMOJIS.stop; },
   get loop() { return GLOBAL_EMOJIS.loop; },
-  get autoplay() { return GLOBAL_EMOJIS.pip; }
+  get autoplay() { return GLOBAL_EMOJIS.pip; },
+  get sparkle() { return GLOBAL_EMOJIS.sparkle; }
 };
 
 class Queue {
@@ -75,6 +77,8 @@ class Queue {
     this.voiceChannelStatus = null;
 
     this.playGeneration = 0;
+    this.destroyed = false;
+    this.ignoreNextIdle = false;
 
     this.initVoice();
   }
@@ -103,6 +107,14 @@ class Queue {
       }
       this.resource = null;
     }
+  }
+
+  suppressNextIdle() {
+    this.ignoreNextIdle = true;
+    const timer = setTimeout(() => {
+      this.ignoreNextIdle = false;
+    }, 1500);
+    if (typeof timer.unref === 'function') timer.unref();
   }
 
   initVoice() {
@@ -163,6 +175,11 @@ class Queue {
 
     // Set up player event listeners
     this.player.on(AudioPlayerStatus.Idle, () => {
+      if (this.destroyed) return;
+      if (this.ignoreNextIdle) {
+        this.ignoreNextIdle = false;
+        return;
+      }
       this.handleTrackEnd();
     });
 
@@ -182,19 +199,22 @@ class Queue {
 
     this.player.on('error', (err) => {
       console.error(`Player Error in guild ${this.guildId}:`, err);
-      this.textChannel?.send({
-        embeds: [{
-          color: 0xff3333,
-          description: `${EMOJIS.cross} **Şarkı yürütülürken hata oluştu!** Sıradaki şarkıya geçiliyor.`
-        }]
-      });
+      if (this.textChannel) {
+        void this.textChannel.send({
+          embeds: [{
+            color: 0xff3333,
+            description: `${EMOJIS.cross} **Şarkı yürütülürken hata oluştu!** Sıradaki şarkıya geçiliyor.`
+          }]
+        }).catch(() => {});
+      }
       void this.playNext().catch(nextErr => {
         console.error(`[Queue] playNext failed after player error in ${this.guildId}:`, nextErr);
       });
     });
   }
 
-    async playTrack(track, seekSeconds = 0) {
+  async playTrack(track, seekSeconds = 0) {
+    if (this.destroyed) return;
     const generation = ++this.playGeneration;
     this.stopPlaybackTicker();
     if (seekSeconds === 0) {
@@ -229,8 +249,9 @@ class Queue {
       try {
         directUrl = await ytDlp.getDirectAudioUrl(playUrl);
       } catch (ytDlpErr) {
-        console.error('[Queue] yt-dlp stream URL alınamadı:', ytDlpErr.message || ytDlpErr);
-        throw new Error(`Yayın başlatılamadı: ${ytDlpErr.message}`);
+        const detail = ytDlpErr?.message || String(ytDlpErr);
+        console.error('[Queue] yt-dlp stream URL alınamadı:', detail);
+        throw new Error(`Yayın başlatılamadı: ${detail}`);
       }
     } else {
       console.log(`[Queue] Ultra-Low Latency: playing using pre-fetched stream URL for track: ${track.title}`);
@@ -303,60 +324,34 @@ class Queue {
 
       // Announce the song in chat with a lightweight embed & control buttons
       if (seekSeconds === 0 && this.textChannel) {
-        this.nowPlayingMessage = await this.textChannel.send({
-          embeds: [{
-            title: 'Şu An Çalıyor',
-            description: `${EMOJIS.note} [**${track.title}**](${track.url || track.spotifyUrl})\n\n**Süre:** \`${track.duration}\`\n**İsteyen:** <@${track.requester.id}>`,
-            color: 0x5a189a,
-            thumbnail: track.thumbnail ? { url: track.thumbnail } : undefined,
-            footer: { text: track.source === 'spotify' ? 'Spotify çözümlendi' : 'YouTube akışı' }
-          }],
-          components: this.getControlRows()
-        });
-      }
-
-      // Legacy fallback kept disabled to avoid duplicate/canvas work
-      try {
-      if (false && seekSeconds === 0 && this.textChannel) {
         try {
-          const canvasBuffer = await generateNowPlayingCard(track, track.requester.username);
-          const attachment = new AttachmentBuilder(canvasBuffer, { name: 'nowplaying.png' });
-          const rows = this.getControlRows();
-
-          this.nowPlayingMessage = await this.textChannel.send({
-            files: [attachment],
-            components: rows
-          });
-        } catch (err2) {
-          // Fallback to text embed
-          throw err2;
-        }
-      }
-    } catch (canvasErr) {
-          console.error("Canvas sending failed, sending basic embed:", canvasErr);
-          const sourceIcon = track.source === 'spotify' ? EMOJIS.spotify : EMOJIS.youtube;
           this.nowPlayingMessage = await this.textChannel.send({
             embeds: [{
-              title: `Şu An Çalıyor`,
-              description: `${EMOJIS.note} [**${track.title}**](${track.url || track.spotifyUrl})\\n\\n**Süre:** \`${track.duration}\` | **İsteyen:** <@${track.requester.id}>`,
-              thumbnail: { url: track.thumbnail },
-              color: 0x5a189a
+              title: 'Şu An Çalıyor',
+              description: `${EMOJIS.note} [**${track.title}**](${track.url || track.spotifyUrl})\n\n**Süre:** \`${track.duration}\`\n**İsteyen:** <@${track.requester.id}>`,
+              color: 0x5a189a,
+              thumbnail: track.thumbnail ? { url: track.thumbnail } : undefined,
+              footer: { text: track.source === 'spotify' ? 'Spotify çözümlendi' : 'YouTube akışı' }
             }],
             components: this.getControlRows()
           });
+        } catch (sendErr) {
+          console.warn('[Queue] Şu an çalıyor mesajı gönderilemedi:', sendErr.message || sendErr);
         }
+      }
     this.broadcastState();
+    this.playerManager?.updateActivity();
     } catch (err) {
       console.error(`Error playing track in guild ${this.guildId}:`, err);
       console.error("Track details:", JSON.stringify(track, null, 2));
       this.cleanupStreams();
       if (this.textChannel) {
-        this.textChannel.send({
+        void this.textChannel.send({
           embeds: [{
             color: 0xff3333,
             description: `${EMOJIS.cross} [**${track.title}**](${track.url || track.spotifyUrl}) oynatılamadı. Hata: \`${err.message}\``
           }]
-        });
+        }).catch(() => {});
       }
       void this.playNext().catch(nextErr => {
         console.error(`[Queue] playNext failed after track error in ${this.guildId}:`, nextErr);
@@ -476,6 +471,7 @@ class Queue {
   }
 
   handleTrackEnd() {
+    if (this.destroyed) return;
     this.stopPlaybackTicker();
 
     if (this.currentTrack) {
@@ -501,17 +497,18 @@ class Queue {
   }
 
   async playNext() {
+    if (this.destroyed) return;
     if (this.tracks.length === 0) {
       if (this.autoplay && this.currentTrack) {
         const autoplayTrack = await this.getAutoplayTrack(this.currentTrack);
         if (autoplayTrack) {
           if (this.textChannel) {
-          this.textChannel.send({
+          void this.textChannel.send({
             embeds: [{
                 description: `${EMOJIS.sparkle} **Otomatik Oynatma:** [**${autoplayTrack.title}**](${autoplayTrack.url}) sıraya eklendi.`,
                 color: 0x5a189a
               }]
-            });
+            }).catch(() => {});
           }
           this.tracks.push(autoplayTrack);
         }
@@ -524,17 +521,23 @@ class Queue {
       this.playbackTimeMs = 0;
       this.resource = null;
       this.broadcastState();
+      this.playerManager?.updateActivity();
+
+      if (this.disconnectTimeout) {
+        clearTimeout(this.disconnectTimeout);
+        this.disconnectTimeout = null;
+      }
 
       // Auto-disconnect timeout of 3 minutes
       this.disconnectTimeout = setTimeout(() => {
         if (!this.currentTrack && this.tracks.length === 0) {
           if (this.textChannel) {
-            this.textChannel.send({
+            void this.textChannel.send({
               embeds: [{
                 description: `${EMOJIS.moon} **Sırada şarkı kalmadığı için kanaldan ayrıldım.**`,
                 color: 0x121214
               }]
-            });
+            }).catch(() => {});
           }
           this.destroy();
         }
@@ -553,6 +556,7 @@ class Queue {
     if (this.currentTrack) {
       this.tracks.unshift(this.currentTrack);
     }
+    this.suppressNextIdle();
     await this.playTrack(prev);
     return true;
   }
@@ -592,11 +596,17 @@ class Queue {
     this.tracks = [];
     this.currentTrack = null;
     this.playbackTimeMs = 0;
+    this.suppressNextIdle();
+    if (this.disconnectTimeout) {
+      clearTimeout(this.disconnectTimeout);
+      this.disconnectTimeout = null;
+    }
     this.cleanupStreams();
     this.player.stop();
     this.disableOldMessageButtons();
     void this.clearVoiceChannelStatus();
     this.broadcastState();
+    this.playerManager?.updateActivity();
   }
 
   setVolume(vol) {
@@ -751,6 +761,16 @@ class Queue {
   }
 
   destroy() {
+    if (this.destroyed) return;
+    this.destroyed = true;
+    this.playGeneration++;
+    if (this.disconnectTimeout) {
+      clearTimeout(this.disconnectTimeout);
+      this.disconnectTimeout = null;
+    }
+    this.tracks = [];
+    this.currentTrack = null;
+    this.playbackTimeMs = 0;
     this.stopPlaybackTicker();
     this.disableOldMessageButtons();
     this.cleanupStreams();
@@ -805,6 +825,7 @@ class Queue {
 
   async seek(seconds) {
     if (!this.currentTrack) return false;
+    this.suppressNextIdle();
     await this.playTrack(this.currentTrack, seconds);
     return true;
   }
@@ -839,6 +860,7 @@ class Queue {
 
     if (this.currentTrack) {
       const currentSecond = Math.floor(this.playbackTimeMs / 1000);
+      this.suppressNextIdle();
       await this.playTrack(this.currentTrack, currentSecond);
     }
     return true;
